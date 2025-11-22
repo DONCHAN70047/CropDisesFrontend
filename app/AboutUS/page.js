@@ -1,5 +1,5 @@
 import React from "react";
-import "./AboutUs.css"; 
+import '../css/AboutUs.css'
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 // import ConsultAboutUS from "/ConsultAboutUS.webp";  // INVALID ADDRESS - (STORE STATIC IMAGES LOCALLY)

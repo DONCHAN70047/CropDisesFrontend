@@ -1,10 +1,11 @@
 'use client'
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import "./Login.css";
+import "../css/Login.css";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { loginUser } from "./actions";
+import Link from "next/link";
 
 const Login = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -126,7 +127,7 @@ const Login = () => {
 
               <p className="signup">
                 Don’t have an account?{" "}
-                <a href="/SignUP">Sign Up</a>
+                <Link href="/signup">Sign Up</Link>
               </p>
             </form>
           </div>

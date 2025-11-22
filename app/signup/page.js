@@ -1,12 +1,14 @@
+"use client"
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import "./SignUP.css";
+// import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
+import "../css/SignUP.css";
 
 const SignUP = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const handleAdminClick = () => {
-    navigate("/AdminSignUpFormPageLogin");
+    router.push("/AdminSignUpFormPageLogin");
   };
 
   return (

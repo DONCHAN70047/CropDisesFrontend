@@ -1,5 +1,6 @@
 // app/layout.jsx
 import "./globals.css";
+import { UserProvider } from "./utils/context/user_context";
 
 export const metadata = {
   title: "NBNK Web Service",
@@ -10,7 +11,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        {children}
+        <UserProvider>
+          {children}
+        </UserProvider>
       </body>
     </html>
   );
