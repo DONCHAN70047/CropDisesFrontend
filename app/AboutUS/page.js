@@ -1,13 +1,17 @@
+"use client";
 import React from "react";
-import "./AboutUs.css"; 
-import ConsultAboutUS from "/ConsultAboutUS.webp"; 
+import Header from "@/app/components/Header";
+import Footer from "@/app/components/Footer";
+import "./AboutUs.css";
+import ConsultAboutUS from "@/public/ConsultAboutUS.webp";
 
 const AboutUs = () => {
   return (
     <>
+      <Header />
 
       <section className="about-section">
-        {/* ---------- LEFT SIDE TEXT ---------- */}
+        {/* LEFT SIDE TEXT */}
         <div className="about-content">
           <h1>About Us</h1>
           <p className="intro">We are Smart Pay</p>
@@ -29,12 +33,13 @@ const AboutUs = () => {
           </p>
         </div>
 
-        {/* ---------- RIGHT SIDE IMAGE ---------- */}
+        {/* RIGHT SIDE IMAGE */}
         <div className="about-image">
-          <img src={ConsultAboutUS} alt="About Us Team" />
+          <img src={ConsultAboutUS.src} alt="About Us Team" />
         </div>
       </section>
 
+      <Footer />
     </>
   );
 };

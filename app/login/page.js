@@ -1,24 +1,30 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import "./Login.css";
-import Header from "../Components/Header";
-import Footer from "../Components/Footer";
+"use client";
 
-const Login = () => {
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+
+import "./Login.css"; 
+
+import Header from "@/app/components/Header";
+import Footer from "@/app/components/Footer";
+
+export default function Login() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
-  const navigate = useNavigate();
 
+  const router = useRouter();
 
+  
   useEffect(() => {
     const adminName = localStorage.getItem("adminName");
     if (adminName) {
-      navigate("/AdminDashboard");
+      router.push("/AdminDashboard");
     }
-  }, [navigate]);
+  }, [router]);
 
+  
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
@@ -30,7 +36,7 @@ const Login = () => {
 
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/api/login/`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/login/`,
         {
           method: "POST",
           headers: {
@@ -47,7 +53,7 @@ const Login = () => {
 
       if (response.ok) {
         localStorage.setItem("adminName", data.admin_name);
-        navigate("/AdminDashboard");
+        router.push("/AdminDashboard");
       } else {
         setError(data.error || "Invalid phone number or password");
       }
@@ -120,8 +126,7 @@ const Login = () => {
               <button type="submit">Login</button>
 
               <p className="signup">
-                Don’t have an account?{" "}
-                <a href="/SignUP">Sign Up</a>
+                Don’t have an account? <a href="/signup">Sign Up</a>
               </p>
             </form>
           </div>
@@ -131,6 +136,4 @@ const Login = () => {
       <Footer />
     </>
   );
-};
-
-export default Login;
+}
