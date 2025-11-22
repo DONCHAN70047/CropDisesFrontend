@@ -6,15 +6,23 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { loginUser } from "./actions";
 
-const Login = () => {
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+
+import "./Login.css"; 
+
+import Header from "@/app/components/Header";
+import Footer from "@/app/components/Footer";
+
+export default function Login() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
-  // const navigate = useNavigate();
 
-  const router = useRouter()
+  const router = useRouter();
 
+  
   useEffect(() => {
     const adminName = localStorage.getItem("adminName");
     if (adminName) {
@@ -22,6 +30,7 @@ const Login = () => {
     }
   }, [router]);
 
+  
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
@@ -32,27 +41,25 @@ const Login = () => {
     }
 
     try {
-      // const response = await fetch(
-      //   `${import.meta.env.VITE_BACKEND_URL}/api/login/`,
-      //   {
-      //     method: "POST",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },
-      //     body: JSON.stringify({
-      //       phone_number: phoneNumber,
-      //       password: password,
-      //     }),
-      //   }
-      // );
-
-      const response = await loginUser(phoneNumber, password);
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/login/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            phone_number: phoneNumber,
+            password: password,
+          }),
+        }
+      );
 
       const data = await response.json();
 
       if (response.ok) {
         localStorage.setItem("adminName", data.admin_name);
-        navigate("/AdminDashboard");
+        router.push("/AdminDashboard");
       } else {
         setError(data.error || "Invalid phone number or password");
       }
@@ -125,8 +132,7 @@ const Login = () => {
               <button type="submit">Login</button>
 
               <p className="signup">
-                Don’t have an account?{" "}
-                <a href="/SignUP">Sign Up</a>
+                Don’t have an account? <a href="/signup">Sign Up</a>
               </p>
             </form>
           </div>
@@ -136,6 +142,4 @@ const Login = () => {
       <Footer />
     </>
   );
-};
-
-export default Login;
+}
