@@ -1,15 +1,16 @@
 "use client";
 import React from "react";
-import Header from "@/app/components/Header";
-import Footer from "@/app/components/Footer";
-import "./AboutUs.css";
-import ConsultAboutUS from "@/public/ConsultAboutUS.webp";
+
+import '../css/AboutUs.css'
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+// import ConsultAboutUS from "/ConsultAboutUS.webp";  // INVALID ADDRESS - (STORE STATIC IMAGES LOCALLY)
+
 
 const AboutUs = () => {
   return (
     <>
       <Header />
-
       <section className="about-section">
         {/* LEFT SIDE TEXT */}
         <div className="about-content">
@@ -35,7 +36,7 @@ const AboutUs = () => {
 
         {/* RIGHT SIDE IMAGE */}
         <div className="about-image">
-          <img src={ConsultAboutUS.src} alt="About Us Team" />
+          {/* <img src={ConsultAboutUS} alt="About Us Team" /> */}
         </div>
       </section>
 

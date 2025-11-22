@@ -1,15 +1,21 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-
-// FIXED: Use correct relative paths
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 
 import "./page.css";
+import { useUserContext } from "./utils/context/user_context";
 
 export default function Home() {
   const carouselRef = useRef(null);
+
+  ///////////////////////////////
+
+  const {user} = useUserContext()
+  console.log(user)
+
+  ///////////////////////////////
 
   useEffect(() => {
     const scrollContainer = carouselRef.current;

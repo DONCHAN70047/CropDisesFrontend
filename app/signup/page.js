@@ -1,9 +1,10 @@
-"use client";
-
+"use client"
+import React from "react";
+// import { useNavigate } from "react-router-dom";
 import { useRouter } from "next/navigation";
-import "./SignUP.css"; 
+import "../css/SignUP.css";
 
-export default function SignUP() {
+const SignUP = () => {
   const router = useRouter();
 
   const handleAdminClick = () => {

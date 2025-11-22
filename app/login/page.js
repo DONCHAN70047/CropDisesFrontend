@@ -1,4 +1,11 @@
-"use client";
+'use client'
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import "../css/Login.css";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import { loginUser } from "./actions";
+import Link from "next/link";
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -13,8 +20,9 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+  // const navigate = useNavigate();
 
-  const router = useRouter();
+  const router = useRouter()
 
   
   useEffect(() => {
@@ -35,19 +43,21 @@ export default function Login() {
     }
 
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/login/`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            phone_number: phoneNumber,
-            password: password,
-          }),
-        }
-      );
+      // const response = await fetch(
+      //   `${import.meta.env.VITE_BACKEND_URL}/api/login/`,
+      //   {
+      //     method: "POST",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //     },
+      //     body: JSON.stringify({
+      //       phone_number: phoneNumber,
+      //       password: password,
+      //     }),
+      //   }
+      // );
+
+      const response = await loginUser(phoneNumber, password);
 
       const data = await response.json();
 
@@ -65,7 +75,7 @@ export default function Login() {
 
   return (
     <>
-      <Header />
+      <Header />  
 
       <div className="login-container">
         <div className="login-card">
@@ -126,7 +136,8 @@ export default function Login() {
               <button type="submit">Login</button>
 
               <p className="signup">
-                Don’t have an account? <a href="/signup">Sign Up</a>
+                Don’t have an account?{" "}
+                <Link href="/signup">Sign Up</Link>
               </p>
             </form>
           </div>
