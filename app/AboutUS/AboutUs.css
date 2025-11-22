@@ -1,0 +1,122 @@
+/* ================================
+   🌐 ABOUT US PAGE STYLING
+================================ */
+.about-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 80px 8%;
+  background-color: #ffffff;
+  color: #333;
+  flex-wrap: wrap;
+}
+
+/* ---------- LEFT SIDE TEXT ---------- */
+.about-content {
+  flex: 1;
+  min-width: 320px;
+  margin-right: 40px;
+}
+
+.about-content h1 {
+  font-size: 40px;
+  color: #5a1ec4;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.about-content .intro {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.about-content .sub-intro {
+  font-size: 18px;
+  font-style: italic;
+  color: #666;
+  margin-bottom: 25px;
+}
+
+.about-content .description {
+  font-size: 16px;
+  line-height: 1.8;
+  color: #444;
+  margin-bottom: 25px;
+  text-align: justify;
+}
+
+.about-content h2 {
+  font-size: 26px;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 10px;
+}
+
+.about-content .goal {
+  font-size: 16px;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* ---------- RIGHT SIDE IMAGE ---------- */
+.about-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 320px;
+}
+
+.about-image img {
+  width: 80%;
+  max-width: 480px;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.about-image img:hover {
+  transform: scale(1.03);
+}
+
+/* ---------- RESPONSIVE DESIGN ---------- */
+@media (max-width: 992px) {
+  .about-section {
+    flex-direction: column;
+    text-align: center;
+    padding: 60px 6%;
+  }
+
+  .about-content {
+    margin-right: 0;
+    margin-bottom: 40px;
+  }
+
+  .about-content h1 {
+    font-size: 34px;
+  }
+
+  .about-content .description {
+    text-align: center;
+  }
+
+  .about-image img {
+    width: 90%;
+  }
+}
+
+@media (max-width: 600px) {
+  .about-content h1 {
+    font-size: 28px;
+  }
+
+  .about-content .intro {
+    font-size: 18px;
+  }
+
+  .about-content .description {
+    font-size: 15px;
+  }
+}

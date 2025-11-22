@@ -1,0 +1,506 @@
+/* =====================================================
+   🌟 ESMART ADMIN DASHBOARD — CLEAN UNIFIED CSS
+   Single File • No Duplicates • Optimized
+===================================================== */
+
+/* Reset only inside dashboard */
+.dashboard-container * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Main container */
+.dashboard-container {
+  background: #f5f6fa;
+  color: #333;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* =====================================================
+   🟣 TOP NAVBAR
+===================================================== */
+.top-navbar {
+  background: linear-gradient(90deg, #55217a, #2d034b);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  height: 70px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  animation: fadeInSmooth 0.8s forwards;
+}
+
+/* topbar left */
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.logo-img {
+  height: 50px;
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.4));
+}
+
+/* Date box */
+.topbar-date {
+  font-size: 14px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+
+.date-left { font-weight: 500; }
+.date-right { font-size: 22px; font-weight: bold; }
+.year-small { font-size: 12px; opacity: 0.8; }
+
+/* topbar center */
+.topbar-center {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.balance-box {
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 12px;
+  padding: 10px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: 0.3s;
+}
+
+.balance-box:hover {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.wallet-big,
+.aeps-big {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/* topbar right */
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.notify-bell {
+  cursor: pointer;
+  transition: 0.3s;
+}
+.notify-bell:hover { transform: scale(1.1); }
+
+.user-info-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.user-pic {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+}
+
+.welcome-label { font-size: 11px; opacity: 0.8; }
+.user-name-bar { font-size: 18px; font-weight: bold; }
+
+/* =====================================================
+   🟣 LAYOUT (SIDEBAR + MAIN)
+===================================================== */
+.main-row {
+  display: flex;
+  height: calc(100vh - 70px);
+  overflow: hidden;
+}
+
+/* =====================================================
+   🟣 SIDEBAR
+===================================================== */
+.sidebar {
+  width: 240px;
+  background: linear-gradient(180deg, #19052e, #09000f);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px 0;
+  position: fixed;
+  top: 70px;
+  bottom: 0;
+  left: 0;
+
+  opacity: 0;
+  animation: slideInSidebar 0.9s ease forwards;
+}
+
+.sidebar-space { width: 240px; }
+
+/* Sidebar user section */
+.user-info {
+  text-align: center;
+  padding: 10px 0;
+}
+
+.user-info img {
+  height: 70px;
+  width: 70px;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  margin-bottom: 6px;
+}
+
+.user-name { font-weight: bold; font-size: 19px; }
+.user-role { font-size: 11px; opacity: 0.8; }
+
+/* Sidebar menu */
+.nav-menu { flex-grow: 1; margin-top: 15px; }
+.nav-menu ul { list-style: none; }
+
+.nav-menu li {
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 14px;
+  position: relative;
+  transition: 0.3s;
+}
+
+.nav-menu li:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.nav-menu li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 4px;
+  background: linear-gradient(180deg, #ff7b00, #ffdd00);
+  transform: scaleY(0);
+  transition: 0.3s;
+}
+
+.nav-menu li:hover::before {
+  transform: scaleY(1);
+}
+
+.section-title {
+  margin-top: 10px;
+  font-size: 12px;
+  opacity: 0.7;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding-top: 8px;
+}
+
+.logout-btn {
+  background: #ff5252;
+  color: white;
+  border: none;
+  margin: 10px 20px;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.3s;
+  box-shadow: 0 4px 10px rgba(255, 82, 82, 0.4);
+}
+
+.logout-btn:hover {
+  background: #ff3333;
+  box-shadow: 0 6px 14px rgba(255, 50, 50, 0.5);
+}
+
+/* =====================================================
+   🟣 MAIN CONTENT
+===================================================== */
+.main-content {
+  flex: 1;
+  margin-left:0px;
+  background: #ffffff;
+  padding: 20px;
+  overflow-y: auto;
+
+  opacity: 0;
+  animation: fadeInSmooth 0.8s 0.2s forwards;
+}
+
+/* Header inside dashboard */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  padding: 14px 25px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  margin-bottom: 15px;
+}
+
+.app-header img {
+  height: 60px;
+  margin-right: 20px;
+}
+
+.company-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.company-name { font-size: 15px; font-weight: 700; color: #820000; }
+.company-sub { font-size: 12px; color: #666; }
+
+/* =====================================================
+   🔁 MARQUEE
+===================================================== */
+.alert-marquee {
+  background: #ffefc3;
+  border-radius: 8px;
+  padding: 8px 0;
+  margin: 20px 0;
+  overflow: hidden;
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.marquee-text {
+  display: inline-block;
+  color: #980303;
+  font-weight: 600;
+  font-size: 14px;
+  padding-left: 100%;
+  animation: scrollText 14s linear infinite;
+  text-shadow: 0 0 8px rgba(255, 160, 0, 0.7);
+}
+
+@keyframes scrollText {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-100%); }
+}
+
+/* =====================================================
+   🧩 SERVICES
+===================================================== */
+.services-section {
+  background: #e3e3e5;
+  border-radius: 14px;
+  padding: 25px 30px;
+  margin-bottom: 35px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 30px;
+  justify-items: center;
+}
+
+.service-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 18px 10px;
+  width: 130px;
+  height: 130px;
+  text-align: center;
+  cursor: pointer;
+  border: 2px solid #e0d6ff;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+  transition: 0.4s;
+  position: relative;
+}
+
+.service-card:hover {
+  background: #efe9ff;
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 8px 18px rgba(75, 0, 130, 0.25);
+}
+
+.service-card img {
+  height: 45px;
+  width: 125px;
+  transition: 0.4s;
+}
+
+.service-card:hover img {
+  transform: scale(1.15);
+}
+
+.service-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    transparent 100%
+  );
+  transition: 0.5s;
+}
+
+.service-card:hover::after { left: 100%; }
+
+/* =====================================================
+   🟣 SIDEBAR — WITH SMOOTH SCROLL
+===================================================== */
+.sidebar {
+  width: 240px;
+  background: linear-gradient(180deg, #2e005f, #08000d);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0;
+  position: fixed;
+  top: 70px;
+  bottom: 0;
+  left: 0;
+
+  overflow-y: auto;            /* 🔥 Smooth scroll enabled */
+  scrollbar-width: thin;        /* Firefox */
+  scrollbar-color: #ffffff55 transparent; /* Firefox */
+
+  opacity: 0;
+  animation: slideInSidebar 0.9s ease forwards;
+}
+
+/* Custom Scrollbar - Chrome / Edge */
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: #ffffff55;
+  border-radius: 10px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: #ffffff88;
+}
+
+
+/* =====================================================
+   📊 SUMMARY + TRANSACTIONS
+===================================================== */
+.summary-transactions-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.today-business,
+.recent-transactions,
+.live-alerts {
+  flex: 1;
+  background: #fff;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+
+  opacity: 0;
+  animation: fadeInUp 0.7s forwards;
+}
+
+@keyframes fadeInUp {
+  from { transform: translateY(15px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+}
+
+.summary-box {
+  background: #f8f8ff;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  border: 1px solid #eee;
+  animation: popIn 0.6s forwards;
+  opacity: 0;
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Transactions list */
+.recent-transactions ul {
+  list-style: none;
+  font-size: 13px;
+}
+
+.recent-transactions li {
+  margin-bottom: 8px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #eee;
+}
+
+.recent-transactions small { color: #eb1515; }
+
+/* =====================================================
+   ANIMATIONS
+===================================================== */
+@keyframes fadeInSmooth {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInSidebar {
+  from { transform: translateX(-100%); opacity: 0; }
+  to   { transform: translateX(0); opacity: 1; }
+}
+
+/* =====================================================
+   📱 RESPONSIVE
+===================================================== */
+@media (max-width: 900px) {
+  .top-navbar {
+    flex-direction: column;
+    height: auto;
+    gap: 10px;
+  }
+
+  .main-row {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    flex-direction: row;
+    overflow-x: auto;
+    position: static;
+  }
+
+  .main-content {
+    margin-left: 0;
+  }
+
+  .app-header {
+    flex-direction: column;
+    text-align: left;
+    gap: 10px;
+  }
+}

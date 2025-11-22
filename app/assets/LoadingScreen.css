@@ -1,0 +1,43 @@
+/* Full-page overlay */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  background: rgba(255, 255, 255, 0.2); /* Transparent glass */
+  backdrop-filter: blur(12px);           /* Glossy blur effect */
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 9999; /* Always on top */
+}
+
+/* ₹ Spinner */
+.rupee-spinner {
+  font-size: 70px;
+  font-weight: 900;
+  color: #00c853;
+
+  animation: spin 1s linear infinite;
+  text-shadow: 0 0 15px rgba(0, 255, 100, 0.8),
+               0 0 30px rgba(0, 255, 100, 0.6);
+}
+
+/* Rotate Animation */
+@keyframes spin {
+  0%   { transform: rotate(0deg);   }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+  margin-top: 15px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(0,0,0,0.4);
+}
