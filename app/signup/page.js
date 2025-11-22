@@ -1,12 +1,13 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import "./SignUP.css";
+"use client";
 
-const SignUP = () => {
-  const navigate = useNavigate();
+import { useRouter } from "next/navigation";
+import "./SignUP.css"; 
+
+export default function SignUP() {
+  const router = useRouter();
 
   const handleAdminClick = () => {
-    navigate("/AdminSignUpFormPageLogin");
+    router.push("/AdminSignUpFormPageLogin");
   };
 
   return (
@@ -56,6 +57,4 @@ const SignUP = () => {
       </div>
     </div>
   );
-};
-
-export default SignUP;
+}

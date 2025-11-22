@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
+
+// FIXED: Use correct relative paths
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 import "./page.css";
 
@@ -11,19 +13,20 @@ export default function Home() {
 
   useEffect(() => {
     const scrollContainer = carouselRef.current;
+    if (!scrollContainer) return;
+
     const scrollSpeed = 1;
 
     const autoScroll = () => {
-      if (scrollContainer) {
-        scrollContainer.scrollLeft += scrollSpeed;
+      scrollContainer.scrollLeft += scrollSpeed;
 
-        if (
-          scrollContainer.scrollLeft >=
-          scrollContainer.scrollWidth - scrollContainer.clientWidth
-        ) {
-          scrollContainer.scrollLeft = 0;
-        }
+      if (
+        scrollContainer.scrollLeft >=
+        scrollContainer.scrollWidth - scrollContainer.clientWidth
+      ) {
+        scrollContainer.scrollLeft = 0;
       }
+
       requestAnimationFrame(autoScroll);
     };
 
@@ -62,7 +65,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SERVICES SECTION */}
+      {/* SERVICES */}
       <section className="services">
         <h2 className="services-title">BANKING & DIGITAL SERVICES</h2>
         <p className="services-desc">
