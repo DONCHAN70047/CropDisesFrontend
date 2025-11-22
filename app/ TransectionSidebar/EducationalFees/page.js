@@ -1,27 +1,18 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import DashboardHeaderSidebar from "../DashboardHeaderSidebar";
-import "./AllTransactions.css";
+import "./css/AllTransactions.css";
 
-const PPITransferTransactions = () => {
-  const navigate = useNavigate();
+export default function EducationalFees() {
+  const router = useRouter();
   const [adminName, setAdminName] = useState("");
   const today = new Date().toISOString().split("T")[0];
   const [showOverlay, setShowOverlay] = useState(false);
   const [dataVisible, setDataVisible] = useState(false);
   const [filteredData, setFilteredData] = useState([]);
-
-  useEffect(() => {
-    const name = localStorage.getItem("adminName");
-    if (!name) navigate("/Login");
-    else setAdminName(name);
-  }, [navigate]);
-
-  const handleLogout = () => {
-    localStorage.removeItem("adminName");
-    navigate("/Login");
-  };
 
   const [filters, setFilters] = useState({
     transactionNo: "",
@@ -31,14 +22,31 @@ const PPITransferTransactions = () => {
     toDate: today,
   });
 
+  const [limit, setLimit] = useState(25);
+
+  useEffect(() => {
+    const name = localStorage.getItem("adminName");
+    if (!name) {
+      router.push("/Login");
+    } else {
+      setAdminName(name);
+    }
+  }, [router]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("adminName");
+    router.push("/Login");
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     let newValue = value;
+
     if ((name === "fromDate" || name === "toDate") && value.trim() === "") {
       newValue = today;
     }
 
-    setFilters({ ...filters, [name]: newValue });
+    setFilters((prev) => ({ ...prev, [name]: newValue }));
 
     if (name === "transactionNo" && value.trim() === "") {
       setDataVisible(false);
@@ -89,7 +97,6 @@ const PPITransferTransactions = () => {
   };
 
   const [tableData] = useState(generateMockData());
-  const [limit, setLimit] = useState(25);
 
   const handleSearch = () => {
     const hasFilter =
@@ -100,19 +107,25 @@ const PPITransferTransactions = () => {
       filters.toDate !== today;
 
     if (!hasFilter) {
-      alert("⚠️ Please apply at least one filter before searching.");
+      alert("Please apply at least one filter before searching.");
       return;
     }
 
     setShowOverlay(true);
+
     setTimeout(() => {
       let filtered = tableData;
+
       if (filters.transactionNo)
         filtered = filtered.filter((r) =>
           r.TransactionNo.toLowerCase().includes(filters.transactionNo.toLowerCase())
         );
-      if (filters.status) filtered = filtered.filter((r) => r.Status === filters.status);
-      if (filters.type) filtered = filtered.filter((r) => r.TransType === filters.type);
+
+      if (filters.status)
+        filtered = filtered.filter((r) => r.Status === filters.status);
+
+      if (filters.type)
+        filtered = filtered.filter((r) => r.TransType === filters.type);
 
       setFilteredData(filtered);
       setDataVisible(true);
@@ -122,7 +135,7 @@ const PPITransferTransactions = () => {
 
   const handleExport = () => {
     if (!dataVisible || filteredData.length === 0) {
-      alert("⚠️ No data available to export. Please click 'Search' first.");
+      alert("No data available to export. Please search first.");
       return;
     }
 
@@ -132,9 +145,10 @@ const PPITransferTransactions = () => {
 
     const blob = new Blob([csvRows.join("\n")], { type: "text/csv" });
     const url = window.URL.createObjectURL(blob);
+
     const a = document.createElement("a");
     a.href = url;
-    a.download = "Money_Transfer_Transactions.csv";
+    a.download = "Money_Transfer_Transactions_From_SmartPay.csv";
     a.click();
   };
 
@@ -150,19 +164,31 @@ const PPITransferTransactions = () => {
   return (
     <div className="dashboard-container colorful-bg">
       <DashboardHeaderSidebar adminName={adminName} handleLogout={handleLogout} />
+
       <div className="main-row">
         <div className="sidebar-space" />
         <main className="main-content">
-          <motion.h2 className="money-title" initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}>
-             PPI Transfer Transactions
+
+          <motion.h2 
+            className="money-title"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            Educational Fees Transactions
           </motion.h2>
 
-          {/* 🔍 Filter Section */}
+          {/* Filter Section */}
           <motion.div className="card filter-card" whileHover={{ scale: 1.02 }}>
-            <h3>🔍 Search Filters</h3>
+            <h3>Search Filters</h3>
             <div className="search-box">
-              <input type="text" name="transactionNo" placeholder="Transaction No"
-                value={filters.transactionNo} onChange={handleChange} />
+              <input
+                type="text"
+                name="transactionNo"
+                placeholder="Transaction No"
+                value={filters.transactionNo}
+                onChange={handleChange}
+              />
+
               <select name="status" value={filters.status} onChange={handleChange}>
                 <option value="">- Status -</option>
                 <option value="Success">Success</option>
@@ -170,6 +196,7 @@ const PPITransferTransactions = () => {
                 <option value="Pending">Pending</option>
                 <option value="Refunded">Refunded</option>
               </select>
+
               <select name="type" value={filters.type} onChange={handleChange}>
                 <option value="">- Type -</option>
                 <option value="IMPS">IMPS</option>
@@ -177,27 +204,30 @@ const PPITransferTransactions = () => {
                 <option value="UPI">UPI</option>
                 <option value="CARD">Card</option>
               </select>
+
               <input type="date" name="fromDate" value={filters.fromDate} onChange={handleChange} />
               <input type="date" name="toDate" value={filters.toDate} onChange={handleChange} />
-              <select className="limit-select" value={limit} onChange={(e) => setLimit(+e.target.value)}>
+
+              <select value={limit} onChange={(e) => setLimit(+e.target.value)}>
                 <option value={10}>Show 10</option>
                 <option value={25}>Show 25</option>
                 <option value={50}>Show 50</option>
                 <option value={100}>Show 100</option>
               </select>
-              <button className="search-btn" onClick={handleSearch}>🔎 Search</button>
-              <button className="export-btn" onClick={handleExport}>📤 Export</button>
+
+              <button onClick={handleSearch}>Search</button>
+              <button onClick={handleExport}>Export</button>
             </div>
           </motion.div>
 
-          {/* 💰 Summary */}
+          {/* Summary */}
           <motion.div className="card summary-card-section">
             {summaryData.map((item, i) => (
               <motion.div
                 key={i}
                 className="summary-card"
                 style={{ background: item.color }}
-                whileHover={{ scale: 1.05, rotate: 1 }}
+                whileHover={{ scale: 1.05 }}
               >
                 <p>{item.title}</p>
                 <h3>₹ {(Math.random() * 50000).toFixed(2)}</h3>
@@ -205,46 +235,56 @@ const PPITransferTransactions = () => {
             ))}
           </motion.div>
 
-          {/* 📋 Table Section */}
-          <motion.div className="card table-card" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-          <br />  <br />
+          {/* Table */}
+          <motion.div className="card table-card">
             <div className="transaction-table-container">
-              <table className="transaction-table">
+              <table>
                 <thead>
-                  <tr>{tableHeaders.map((h, i) => <th key={i}>{h}</th>)}</tr>
+                  <tr>
+                    {tableHeaders.map((header, i) => (
+                      <th key={i}>{header}</th>
+                    ))}
+                  </tr>
                 </thead>
                 <tbody>
                   {dataVisible && filteredData.length > 0 ? (
                     filteredData.slice(0, limit).map((row, i) => (
-                      <motion.tr key={i} whileHover={{ scale: 1.01, backgroundColor: "#f1f8ff" }}>
-                        {Object.values(row).map((val, j) => <td key={j}>{val}</td>)}
-                      </motion.tr>
+                      <tr key={i}>
+                        {Object.values(row).map((val, j) => (
+                          <td key={j}>{val}</td>
+                        ))}
+                      </tr>
                     ))
                   ) : (
                     <tr>
-                      <td colSpan={tableHeaders.length} className="no-data"> No data found. Try searching!</td>
+                      <td colSpan={tableHeaders.length}>No data found. Try searching.</td>
                     </tr>
                   )}
                 </tbody>
               </table>
             </div>
           </motion.div>
+
         </main>
       </div>
 
-      {/* 🔄 Overlay */}
+      {/* Loading Overlay */}
       <AnimatePresence>
         {showOverlay && (
-          <motion.div className="export-overlay" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-            <motion.div className="export-popup" initial={{ scale: 0.8 }} animate={{ scale: 1 }}>
-              <h3>📊 Loading Data...</h3>
-              <p>Please wait while we load your transaction records.</p>
+          <motion.div
+            className="export-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div className="export-popup" initial={{ scale: 0.9 }} animate={{ scale: 1 }}>
+              <h3>Loading Data...</h3>
+              <p>Please wait while your data is loading.</p>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
+
     </div>
   );
-};
-
-export default PPITransferTransactions;
+}
