@@ -1,5 +1,7 @@
 "use client";
 import React from "react";
+// import ConsultAboutUS from "/ConsultAboutUS.webp";  // INVALID ADDRESS - (STORE STATIC IMAGES LOCALLY)
+=======
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
 import "./AboutUs.css";
