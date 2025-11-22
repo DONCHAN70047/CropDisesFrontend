@@ -1,29 +1,33 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
-import "./MoneyTransfer.css";
+import { useRouter } from "next/navigation";
 import DashboardHeaderSidebar from "../DashboardHeaderSidebar";
 import { motion } from "framer-motion";
+import "../css/MoneyTransfer.css";
 
-const MoneyTransfer3 = () => {
+export default function MoneyTransfer3() {
+  const router = useRouter();
   const [adminName, setAdminName] = useState("");
   const [adminPhoto, setAdminPhoto] = useState("");
-
-  const handleLogout = () => {
-    localStorage.removeItem("adminName");
-    localStorage.removeItem("adminPhoto");
-    window.location.href = "/Login";
-  };
 
   useEffect(() => {
     const name = localStorage.getItem("adminName");
     const photo = localStorage.getItem("adminPhoto");
 
     if (!name) {
-      window.location.href = "/Login";
+      router.replace("/Login"); // safer for auth redirect
     } else {
       setAdminName(name);
       setAdminPhoto(photo);
     }
-  }, []);
+  }, [router]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("adminName");
+    localStorage.removeItem("adminPhoto");
+    router.replace("/Login");
+  };
 
   return (
     <div className="dashboard-container colorful-bg">
@@ -36,8 +40,8 @@ const MoneyTransfer3 = () => {
       />
 
       <div className="main-row">
-        
-        {/* Fixed Sidebar Gap */}
+
+        {/* Sidebar Gap */}
         <div className="sidebar-space" />
 
         {/* MAIN CONTENT */}
@@ -49,7 +53,7 @@ const MoneyTransfer3 = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
           >
-             Money Transfer 3
+            Money Transfer 3
           </motion.h2>
 
           <motion.div
@@ -66,7 +70,7 @@ const MoneyTransfer3 = () => {
                 whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.3 }}
               >
-                <h3 className="mt-title">🔍 Search Sender Mobile No</h3>
+                <h3 className="mt-title">Search Sender Mobile No</h3>
 
                 <label className="mt-label">10 Digit Mobile No</label>
                 <input
@@ -84,7 +88,7 @@ const MoneyTransfer3 = () => {
                 whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.3 }}
               >
-                <h3 className="mt-title">🏦 Search Beneficiary Account No</h3>
+                <h3 className="mt-title">Search Beneficiary Account No</h3>
 
                 <label className="mt-label">Account No</label>
                 <input
@@ -103,6 +107,4 @@ const MoneyTransfer3 = () => {
       </div>
     </div>
   );
-};
-
-export default MoneyTransfer3;
+}
