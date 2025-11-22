@@ -1,23 +1,26 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+'use client'
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import "./Login.css";
-import Header from "../Components/Header";
-import Footer from "../Components/Footer";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import { loginUser } from "./actions";
 
 const Login = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
+  const router = useRouter()
 
   useEffect(() => {
     const adminName = localStorage.getItem("adminName");
     if (adminName) {
-      navigate("/AdminDashboard");
+      router.push("/AdminDashboard");
     }
-  }, [navigate]);
+  }, [router]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -29,19 +32,21 @@ const Login = () => {
     }
 
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/api/login/`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            phone_number: phoneNumber,
-            password: password,
-          }),
-        }
-      );
+      // const response = await fetch(
+      //   `${import.meta.env.VITE_BACKEND_URL}/api/login/`,
+      //   {
+      //     method: "POST",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //     },
+      //     body: JSON.stringify({
+      //       phone_number: phoneNumber,
+      //       password: password,
+      //     }),
+      //   }
+      // );
+
+      const response = await loginUser(phoneNumber, password);
 
       const data = await response.json();
 
@@ -59,7 +64,7 @@ const Login = () => {
 
   return (
     <>
-      <Header />
+      <Header />  
 
       <div className="login-container">
         <div className="login-card">
