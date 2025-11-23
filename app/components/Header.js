@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { FaBars, FaTimes } from "react-icons/fa";
+import '../page.css';
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);

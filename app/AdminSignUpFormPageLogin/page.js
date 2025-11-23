@@ -241,3 +241,4 @@ const AdminSignUpFormPageLogin = () => {
     </>
   );
 }
+export default AdminSignUpFormPageLogin;

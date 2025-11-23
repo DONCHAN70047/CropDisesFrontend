@@ -1,6 +1,6 @@
-"use client"
+"use client";
+
 import React from "react";
-// import { useNavigate } from "react-router-dom";
 import { useRouter } from "next/navigation";
 import "../css/SignUP.css";
 
@@ -23,12 +23,8 @@ const SignUP = () => {
           />
         </div>
         <div className="contact-info">
-          <p>
-            <strong>Call @</strong> XXX XXXX XXX
-          </p>
-          <p>
-            <strong>Email :</strong> info@nbnk.com
-          </p>
+          <p><strong>Call @</strong> XXX XXXX XXX</p>
+          <p><strong>Email :</strong> info@nbnk.com</p>
         </div>
       </div>
 
@@ -58,4 +54,6 @@ const SignUP = () => {
       </div>
     </div>
   );
-}
+};
+
+export default SignUP;

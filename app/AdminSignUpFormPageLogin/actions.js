@@ -69,7 +69,7 @@ export async function signUp(firstName, lastName, email, phoneNumber, password) 
             email: new_user.email,
             phone: new_user.phone,
             access: new_user.access,
-            userId: new_user._id
+            userId: new_user._id.toString()
         }})
 
     } catch (error) {
