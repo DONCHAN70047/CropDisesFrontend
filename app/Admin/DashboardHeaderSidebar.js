@@ -1,39 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import "./DashboardHeaderSidebar.css";
 
 const DashboardHeaderSidebar = ({ adminName, adminPhoto, handleLogout }) => {
+  const router = useRouter();
   const [isTransactionsOpen, setIsTransactionsOpen] = useState(true);
-  const [walletBalance, setWalletBalance] = useState("0.00");
-  const [aepsBalance, setAepsBalance] = useState("0.00");
-  const router = useRouter()
 
   const defaultImage = "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
   const finalPhoto = adminPhoto || defaultImage;
-
-  // Fetch Wallet Balance
-  const fetchBalance = async () => {
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/api/check-balance/`
-      );
-
-      const data = await response.json();
-
-      if (data.status === "success" && data.balance?.normal_balance) {
-        setWalletBalance(data.balance.normal_balance);
-      }
-    } catch (error) {
-      console.error("Balance Fetch Error:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchBalance();
-    const interval = setInterval(fetchBalance, 30000);
-    return () => clearInterval(interval);
-  }, []);
 
   return (
     <>
@@ -44,165 +19,91 @@ const DashboardHeaderSidebar = ({ adminName, adminPhoto, handleLogout }) => {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6 }}
       >
-        {/* Left Section */}
+        {/* Left */}
         <div className="topbar-left">
-          <motion.img
-            className="logo-img"
-            src="/EsmartPayLogo.png"
-            alt="Esmart Logo"
-            animate={{ rotate: [0, 5, -5, 0] }}
-            transition={{ repeat: Infinity, repeatDelay: 5, duration: 2 }}
-          />
-
+          <img className="logo-img" src="/EsmartPayLogo.png" />
           <div className="topbar-date">
-            <span className="date-left">
-              November <span className="year-small">2025</span>
-            </span>
+            <span className="date-left">November <span className="year-small">2025</span></span>
             <span className="date-right">12</span>
           </div>
         </div>
 
-        {/* Center Section */}
+        {/* Center */}
         <div className="topbar-center">
-          <motion.div className="balance-box" whileHover={{ scale: 1.05 }}>
-            <div className="wallet-amount">₹ {walletBalance}</div>
+          <div className="balance-box">
+            <div className="wallet-amount">₹ 0.00</div>
             <div className="wallet-label">Available</div>
             <div className="wallet-subtext">Wallet Balance</div>
-          </motion.div>
-
-          <motion.div className="balance-box" whileHover={{ scale: 1.05 }}>
-            <div className="wallet-amount">₹ {aepsBalance}</div>
+          </div>
+          <div className="balance-box">
+            <div className="wallet-amount">₹ 0.00</div>
             <div className="wallet-label">Available</div>
             <div className="wallet-subtext">AEPS Balance</div>
-          </motion.div>
-        </div>
-
-        {/* Right Section */}
-        <div className="topbar-right">
-          <motion.span className="notify-bell" whileHover={{ scale: 1.2 }}>
-            🔔
-          </motion.span>
-
-          <motion.span className="user-info-bar" whileHover={{ scale: 1.05 }}>
-            <img
-              src={finalPhoto}
-              onError={(e) => (e.target.src = defaultImage)}
-              className="user-pic"
-              alt="Admin"
-            />
-            <span>
-              <span className="welcome-label">Welcome,</span>
-              <span className="user-name-bar">
-                {adminName || "Esmart Admin"}
-              </span>
-            </span>
-          </motion.span>
-        </div>
-      </motion.header>
-
-      {/* ---------------- LEFT SIDEBAR ---------------- */}
-      <motion.aside
-        className="sidebar"
-        initial={{ x: -240, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        transition={{ duration: 0.6 }}
-      >
-        {/* User Profile */}
-        <div className="user-info">
-          <img
-            src={finalPhoto}
-            onError={(e) => (e.target.src = defaultImage)}
-            className="sidebar-user-pic"
-            alt="Admin"
-          />
-          <div className="user-name">{adminName || "Esmart Admin"}</div>
-          <div className="user-role">
-            Smart Retailer - 9547783824 - SBR38904
           </div>
         </div>
 
-        {/* MENU */}
+        {/* Right */}
+        <div className="topbar-right">
+          <span className="notify-bell">🔔</span>
+
+          <span className="user-info-bar">
+            <img src={finalPhoto} className="user-pic" />
+            <span>
+              <span className="welcome-label">Welcome,</span>
+              <span className="user-name-bar">{adminName}</span>
+            </span>
+          </span>
+        </div>
+      </motion.header>
+
+      {/* ---------------- SIDEBAR ---------------- */}
+      <motion.aside className="sidebar">
+        
+        <div className="user-info">
+          <img src={finalPhoto} className="sidebar-user-pic" />
+          <div className="user-name">{adminName || "Esmart Admin"}</div>
+          <div className="user-role">Smart Retailer - 9547783824 - SBR38904</div>
+        </div>
+
         <nav className="nav-menu">
           <ul>
-            <motion.li whileHover={{ x: 10 }} onClick={() => router.push("/AdminDashboard")}>
-              Dashboard
-            </motion.li>
+            <li onClick={() => router.push("/AdminDashboard")}>Dashboard</li>
 
-            <motion.li whileHover={{ x: 10 }} onClick={() => router.push("/SmartSummary")}>
-              Smart Summary
-            </motion.li>
+            <li onClick={() => router.push("/SmartSummary")}>Smart Summary</li>
 
             {/* Dropdown */}
-            <motion.li
-              className="dropdown-title"
-              onClick={() => setIsTransactionsOpen(!isTransactionsOpen)}
-              whileTap={{ scale: 0.97 }}
-            >
+            <li className="dropdown-title" onClick={() => setIsTransactionsOpen(!isTransactionsOpen)}>
               Transactions ▾
-            </motion.li>
+            </li>
 
             <AnimatePresence>
               {isTransactionsOpen && (
-                <motion.ul
-                  className="submenu"
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <motion.li whileHover={{ x: 10 }} onClick={() => router.push("/MoneyTransferTransactions")}>Money Transfer</motion.li>
-                  <motion.li whileHover={{ x: 10 }} onClick={() => router.push("/UPITransferTransactions")}>UPI Transfer</motion.li>
-                  <motion.li whileHover={{ x: 10 }} onClick={() => router.push("/PPITransferTransactions")}>PPI Transfer</motion.li>
-                  <motion.li whileHover={{ x: 10 }} onClick={() => router.push("/UtilityTransactions")}>Utility Bills</motion.li>
-                  <motion.li whileHover={{ x: 10 }} onClick={() => router.push("/EducationalFees")}>Education Fees</motion.li>
-                  <motion.li whileHover={{ x: 10 }} onClick={() => router.push("/AEPSTransactions")}>AEPS / MATM</motion.li>
-                  <motion.li whileHover={{ x: 10 }} onClick={() => router.push("/CreditCardTransactions")}>Credit Card</motion.li>
-                  <motion.li whileHover={{ x: 10 }} onClick={() => router.push("/FlightBookings")}>Flight Bookings</motion.li>
+                <motion.ul className="submenu">
+                  <li onClick={() => router.push("/MoneyTransferTransactions")}>Money Transfer</li>
+                  <li onClick={() => router.push("/UPITransferTransactions")}>UPI Transfer</li>
+                  <li onClick={() => router.push("/PPITransferTransactions")}>PPI Transfer</li>
+                  <li onClick={() => router.push("/UtilityTransactions")}>Utility Bills</li>
+                  <li onClick={() => router.push("/EducationalFees")}>Education Fees</li>
+                  <li onClick={() => router.push("/AEPSTransactions")}>AEPS / MATM</li>
+                  <li onClick={() => router.push("/CreditCardTransactions")}>Credit Card</li>
+                  <li onClick={() => router.push("/FlightBookings")}>Flight Bookings</li>
                 </motion.ul>
               )}
             </AnimatePresence>
 
-            <motion.li whileHover={{ x: 10 }} onClick={() => router.push("/RefundPending")}>
-              Refund Pending
-            </motion.li>
-
-            <motion.li whileHover={{ x: 10 }} onClick={() => router.push("/MoneyRequests")}>
-              Money Requests
-            </motion.li>
-
-            <motion.li whileHover={{ x: 10 }} onClick={() => router.push("/Statements")}>
-              Statements
-            </motion.li>
-
-            <motion.li whileHover={{ x: 10 }} onClick={() => router.push("/Settlement")}>
-              Settlement
-            </motion.li>
-
-            <motion.li whileHover={{ x: 10 }} onClick={() => router.push("/ChargesSlabs")}>
-              Charges Slabs
-            </motion.li>
+            <li onClick={() => router.push("/RefundPending")}>Refund Pending</li>
+            <li onClick={() => router.push("/MoneyRequests")}>Money Requests</li>
+            <li onClick={() => router.push("/Statements")}>Statements</li>
+            <li onClick={() => router.push("/Settlement")}>Settlement</li>
 
             <li className="section-title">Privacy & Settings</li>
 
-            <motion.li whileHover={{ x: 10 }} onClick={() => router.push("/Configurations")}>
-              Configurations
-            </motion.li>
-
-            <motion.li whileHover={{ x: 10 }} onClick={() => router.push("/Credentials")}>
-              Credentials
-            </motion.li>
+            <li onClick={() => router.push("/Configurations")}>Configurations</li>
+            <li onClick={() => router.push("/Credentials")}>Credentials</li>
           </ul>
         </nav>
 
-        {/* Logout */}
-        <motion.button
-          className="logout-btn"
-          onClick={handleLogout}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          Logout
-        </motion.button>
+        <button className="logout-btn" onClick={handleLogout}>Logout</button>
       </motion.aside>
     </>
   );

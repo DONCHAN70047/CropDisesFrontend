@@ -1,14 +1,19 @@
-import React from 'react'
-import AdminDashboard from './Client'
-import { Suspense } from 'react'
+"use client";
+
+import React, { Suspense } from "react";
+import AdminDashboard from "./Client";
+import { useUserContext } from "@/app/utils/context/user_context";
 
 
-const page = () => {
+export default function Page() {
+  const { user } = useUserContext();
+  //console.log(user.firstName)
+  const fullName = `${user.firstName || ""} ${user.lastName || ""}`.trim();
+
+
   return (
     <Suspense fallback={<div>Loading......</div>}>
-        <AdminDashboard /> 
+      <AdminDashboard adminName={fullName || "Admin"} />
     </Suspense>
-  )
+  );
 }
-
-export default page

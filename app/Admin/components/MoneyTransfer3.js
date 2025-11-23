@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import DashboardHeaderSidebar from "../../Admin/DashboardHeaderSidebar";
+import DashboardHeaderSidebar from "../DashboardHeaderSidebar";
 import { motion } from "framer-motion";
 import "../../css/MoneyTransfer.css";
 
@@ -11,18 +11,20 @@ export default function MoneyTransfer3() {
   const [adminName, setAdminName] = useState("");
   const [adminPhoto, setAdminPhoto] = useState("");
 
+  // LOAD ADMIN DATA
   useEffect(() => {
     const name = localStorage.getItem("adminName");
     const photo = localStorage.getItem("adminPhoto");
 
     if (!name) {
-      router.replace("/Login"); // safer for auth redirect
+      router.replace("/login"); // redirect if not logged in
     } else {
       setAdminName(name);
       setAdminPhoto(photo);
     }
   }, [router]);
 
+  // LOGOUT FUNCTION
   const handleLogout = () => {
     localStorage.removeItem("adminName");
     localStorage.removeItem("adminPhoto");

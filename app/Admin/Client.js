@@ -1,8 +1,6 @@
-// FULL UPDATED AdminDashboard.jsx WITH MONEY TRANSFER ROUTE INTEGRATION
-"use client"
+"use client";
 
 import { useEffect, useState } from "react";
-// import { useNavigate } from "react-router-dom";
 import { useRouter, useSearchParams } from "next/navigation";
 import "./AdminDashboard.css";
 import DashboardHeaderSidebar from "./DashboardHeaderSidebar";
@@ -10,13 +8,19 @@ import { motion } from "framer-motion";
 import { clear_refresh_cookie } from "./functions";
 import { useUserContext } from "../utils/context/user_context";
 
-const AdminDashboard = () => {
-    const router = useRouter()
+const AdminDashboard = ({ adminName }) => {
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const { user, setUser } = useUserContext();
 
-    const searchParams = useSearchParams()
-    const { user, setUser } = useUserContext()
+    const [name, setName] = useState(adminName || "");
+    const [adminPhoto, setAdminPhoto] = useState("");
+    const [walletBalance, setWalletBalance] = useState("0.00");
 
+    
+    const query_page = searchParams.get("panel");
 
+    
     /**
      * https://localhost:4000/Admin?panel=moneytransfer
      * 
@@ -25,7 +29,6 @@ const AdminDashboard = () => {
      * router - router.push("/Admin?panel=moneytransfer")
      */
 
-    const query_page = searchParams.get('panel')
 
     /**
      * 
@@ -38,10 +41,6 @@ const AdminDashboard = () => {
      * (query_page === "moneytransfer" && <Moneytransfer />)
      * (query_page === "moneytransfer" && <Moneytransfer />)
      */
-
-    const [adminName, setAdminName] = useState("");
-    const [adminPhoto, setAdminPhoto] = useState("");
-    const [walletBalance, setWalletBalance] = useState("0.00");
 
     // useEffect(() => {
     //     const name = localStorage.getItem("adminName");   // use context api
@@ -57,7 +56,7 @@ const AdminDashboard = () => {
     // }, [router]);
 
     // Fetch user balance
-    const fetchBalance = async () => {
+    /*const fetchBalance = async () => {
         try {
             const response = await fetch(
                 `${import.meta.env.VITE_BACKEND_URL}/api/check-balance/`
@@ -76,10 +75,10 @@ const AdminDashboard = () => {
         fetchBalance();
         const interval = setInterval(fetchBalance, 30000);
         return () => clearInterval(interval);
-    }, []);
+    }, []); */
 
     const handleLogout = async () => {
-        await clear_refresh_cookie()
+        await clear_refresh_cookie();
         setUser({
             firstName: null,
             lastName: null,
@@ -87,11 +86,11 @@ const AdminDashboard = () => {
             phone: null,
             userId: null,
             access: null,
-        })
+        });
         router.push("/");
     };
 
-    // SERVICES WITH ROUTES
+    // All service cards
     const services = [
         { label: "Royel Payout", icon: "https://cdn-icons-png.flaticon.com/512/2920/2920323.png", route: "/MoneyTransfer" },
         { label: "Money Transfer 3", icon: "/TrasferPic.png", route: "/MoneyTransfer3" },
@@ -109,6 +108,7 @@ const AdminDashboard = () => {
         { label: "Pay Credit Card Bills", icon: "/PayCreditCardBills.png" },
     ];
 
+    // Recent transactions list
     const recentTransactions = [
         { amount: 1100, label: "Money Transfer", date: "28 Mar 25 04:40 PM", id: "2803202512833" },
         { amount: 0, label: "Verification", date: "28 Mar 25 04:40 PM", id: "2803202512812" },
@@ -119,7 +119,7 @@ const AdminDashboard = () => {
     return (
         <div className="dashboard-container">
             <DashboardHeaderSidebar
-                adminName={adminName}
+                adminName={name}
                 adminPhoto={adminPhoto}
                 handleLogout={handleLogout}
             />
@@ -133,18 +133,24 @@ const AdminDashboard = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8 }}
                 >
-
                     {/* Header */}
                     <header className="app-header">
                         <img
-                            src={adminPhoto || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"}
+                            src={
+                                adminPhoto ||
+                                "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                            }
                             alt="User Avatar"
                             className="header-profile-img"
                         />
 
                         <div className="company-info">
-                            <div className="company-name">ISHMART TECHNOLOGLOB SERVICE PVT LTD</div>
-                            <div className="company-sub">Smart Retailer - 9547783824 - SBR38904</div>
+                            <div className="company-name">
+                                ISHMART TECHNOLOGLOB SERVICE PVT LTD
+                            </div>
+                            <div className="company-sub">
+                                Smart Retailer - 9547783824 - SBR38904
+                            </div>
                         </div>
 
                         <div className="balance-info">
@@ -163,7 +169,7 @@ const AdminDashboard = () => {
                     {/* Marquee */}
                     <div className="alert-marquee">
                         <div className="marquee-text">
-                            कृपया BSES और Tata Power के लिए ₹ 1,00,000 से अधिक के बिजली बिल न भेजें 🙏 ||
+                            कृपया BSES और Tata Power के लिए ₹ 1,00,000 से अधिक के बिजली बिल न भेजें 🙏 || 
                             Do not send bills over ₹1,00,000 for BSES and Tata Power 🙏
                         </div>
                     </div>
@@ -179,7 +185,9 @@ const AdminDashboard = () => {
                                     onClick={() => {
                                         if (service.route) router.push(service.route);
                                     }}
-                                    style={{ cursor: service.route ? "pointer" : "default" }}
+                                    style={{
+                                        cursor: service.route ? "pointer" : "default",
+                                    }}
                                 >
                                     <img src={service.icon} alt={service.label} />
                                     <p>{service.label}</p>
@@ -194,7 +202,11 @@ const AdminDashboard = () => {
                             <h3>Recent Transactions</h3>
                             <ul>
                                 {recentTransactions.map((txn, idx) => (
-                                    <motion.li key={idx} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                                    <motion.li
+                                        key={idx}
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                    >
                                         - ₹ {txn.amount} {txn.label} <br />
                                         <small>{txn.date} @ {txn.id}</small>
                                     </motion.li>
@@ -203,7 +215,6 @@ const AdminDashboard = () => {
                         </div>
                         <br /><br />
                     </section>
-
                 </motion.main>
             </div>
         </div>
