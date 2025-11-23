@@ -36,7 +36,7 @@ const AboutUs = () => {
 
         {/* RIGHT SIDE IMAGE */}
         <div className="about-image">
-          {/* <img src={ConsultAboutUS} alt="About Us Team" /> */}
+          <img src='/ConsultAboutUS.webp' alt="About Us Team" /> 
         </div>
       </section>
 

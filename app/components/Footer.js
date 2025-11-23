@@ -3,6 +3,7 @@
 import React from "react";
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaXTwitter } from "react-icons/fa6";
 import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope } from "react-icons/fa";
+import '../css/Footer.css'
 
 const Footer = () => {
   return (
