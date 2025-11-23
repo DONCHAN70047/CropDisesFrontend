@@ -46,7 +46,7 @@ export default function Login() {
 
       if (response.status === 200) {
         setUser(response?.data);
-        // router.push("/Admin");
+        router.push("/Admin");
       } else {
         setError(data.error || "Invalid phone number or password");
       }

@@ -31,8 +31,9 @@ export function UserProvider({ children }) {
                 setUser(() => (res.data.data));
                 return res.data.access;
             }
+            return null
         } catch (err) {
-            console.error("Refresh failed", err);
+            // console.error("Refresh failed", err);
             return null;
         }
     };
