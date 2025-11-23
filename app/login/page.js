@@ -6,33 +6,28 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { loginUser } from "./actions";
 import Link from "next/link";
+import { useUserContext } from "../utils/context/user_context";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-
-import "./Login.css"; 
-
-import Header from "@/app/components/Header";
-import Footer from "@/app/components/Footer";
 
 export default function Login() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
-  // const navigate = useNavigate();
 
   const router = useRouter()
+  const {user, setUser} = useUserContext()
 
   
-  useEffect(() => {
-    const adminName = localStorage.getItem("adminName");
-    if (adminName) {
-      router.push("/AdminDashboard");
-    }
-  }, [router]);
-
+  // useEffect(() => {
+  //   const adminName = localStorage.getItem("adminName");
+  //   if (adminName) {
+  //     router.push("/AdminDashboard");
+  //   }
+  // }, [router]);
   
+  console.log(user)
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
@@ -42,28 +37,16 @@ export default function Login() {
       return;
     }
 
+    console.log(phoneNumber, password)
+
     try {
-      // const response = await fetch(
-      //   `${import.meta.env.VITE_BACKEND_URL}/api/login/`,
-      //   {
-      //     method: "POST",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },
-      //     body: JSON.stringify({
-      //       phone_number: phoneNumber,
-      //       password: password,
-      //     }),
-      //   }
-      // );
+      const response = await loginUser({phone: phoneNumber, password: password});
 
-      const response = await loginUser(phoneNumber, password);
+      console.log(response)
 
-      const data = await response.json();
-
-      if (response.ok) {
-        localStorage.setItem("adminName", data.admin_name);
-        router.push("/AdminDashboard");
+      if (response.status === 200) {
+        setUser(response?.data);
+        // router.push("/Admin");
       } else {
         setError(data.error || "Invalid phone number or password");
       }

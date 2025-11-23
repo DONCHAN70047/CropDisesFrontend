@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import "./DashboardHeaderSidebar.css";
 
@@ -7,7 +7,7 @@ const DashboardHeaderSidebar = ({ adminName, adminPhoto, handleLogout }) => {
   const [isTransactionsOpen, setIsTransactionsOpen] = useState(true);
   const [walletBalance, setWalletBalance] = useState("0.00");
   const [aepsBalance, setAepsBalance] = useState("0.00");
-  const navigate = useNavigate();
+  const router = useRouter()
 
   const defaultImage = "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
   const finalPhoto = adminPhoto || defaultImage;
@@ -124,11 +124,11 @@ const DashboardHeaderSidebar = ({ adminName, adminPhoto, handleLogout }) => {
         {/* MENU */}
         <nav className="nav-menu">
           <ul>
-            <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/AdminDashboard")}>
+            <motion.li whileHover={{ x: 10 }} onClick={() => router.push("/AdminDashboard")}>
               Dashboard
             </motion.li>
 
-            <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/SmartSummary")}>
+            <motion.li whileHover={{ x: 10 }} onClick={() => router.push("/SmartSummary")}>
               Smart Summary
             </motion.li>
 
@@ -150,45 +150,45 @@ const DashboardHeaderSidebar = ({ adminName, adminPhoto, handleLogout }) => {
                   exit={{ height: 0, opacity: 0 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/MoneyTransferTransactions")}>Money Transfer</motion.li>
-                  <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/UPITransferTransactions")}>UPI Transfer</motion.li>
-                  <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/PPITransferTransactions")}>PPI Transfer</motion.li>
-                  <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/UtilityTransactions")}>Utility Bills</motion.li>
-                  <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/EducationalFees")}>Education Fees</motion.li>
-                  <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/AEPSTransactions")}>AEPS / MATM</motion.li>
-                  <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/CreditCardTransactions")}>Credit Card</motion.li>
-                  <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/FlightBookings")}>Flight Bookings</motion.li>
+                  <motion.li whileHover={{ x: 10 }} onClick={() => router.push("/MoneyTransferTransactions")}>Money Transfer</motion.li>
+                  <motion.li whileHover={{ x: 10 }} onClick={() => router.push("/UPITransferTransactions")}>UPI Transfer</motion.li>
+                  <motion.li whileHover={{ x: 10 }} onClick={() => router.push("/PPITransferTransactions")}>PPI Transfer</motion.li>
+                  <motion.li whileHover={{ x: 10 }} onClick={() => router.push("/UtilityTransactions")}>Utility Bills</motion.li>
+                  <motion.li whileHover={{ x: 10 }} onClick={() => router.push("/EducationalFees")}>Education Fees</motion.li>
+                  <motion.li whileHover={{ x: 10 }} onClick={() => router.push("/AEPSTransactions")}>AEPS / MATM</motion.li>
+                  <motion.li whileHover={{ x: 10 }} onClick={() => router.push("/CreditCardTransactions")}>Credit Card</motion.li>
+                  <motion.li whileHover={{ x: 10 }} onClick={() => router.push("/FlightBookings")}>Flight Bookings</motion.li>
                 </motion.ul>
               )}
             </AnimatePresence>
 
-            <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/RefundPending")}>
+            <motion.li whileHover={{ x: 10 }} onClick={() => router.push("/RefundPending")}>
               Refund Pending
             </motion.li>
 
-            <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/MoneyRequests")}>
+            <motion.li whileHover={{ x: 10 }} onClick={() => router.push("/MoneyRequests")}>
               Money Requests
             </motion.li>
 
-            <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/Statements")}>
+            <motion.li whileHover={{ x: 10 }} onClick={() => router.push("/Statements")}>
               Statements
             </motion.li>
 
-            <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/Settlement")}>
+            <motion.li whileHover={{ x: 10 }} onClick={() => router.push("/Settlement")}>
               Settlement
             </motion.li>
 
-            <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/ChargesSlabs")}>
+            <motion.li whileHover={{ x: 10 }} onClick={() => router.push("/ChargesSlabs")}>
               Charges Slabs
             </motion.li>
 
             <li className="section-title">Privacy & Settings</li>
 
-            <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/Configurations")}>
+            <motion.li whileHover={{ x: 10 }} onClick={() => router.push("/Configurations")}>
               Configurations
             </motion.li>
 
-            <motion.li whileHover={{ x: 10 }} onClick={() => navigate("/Credentials")}>
+            <motion.li whileHover={{ x: 10 }} onClick={() => router.push("/Credentials")}>
               Credentials
             </motion.li>
           </ul>

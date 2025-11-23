@@ -3,11 +3,7 @@ import { createContext, useState } from "react";
 import axios from "axios";
 import { useContext } from "react";
 
-
 export const UserContext = createContext(null);
-
-
-import React from 'react'
 
 export const useUserContext = () => {
   const use_UserContext = useContext(UserContext)
@@ -15,7 +11,6 @@ export const useUserContext = () => {
     use_UserContext
   )
 }
-
 
 export function UserProvider({ children }) {
     
@@ -32,9 +27,9 @@ export function UserProvider({ children }) {
     const refreshAccessToken = async () => {
         try {
             const res = await axios.get("/api/auth/refresh", { withCredentials: true });
-            if (res.data?.accessToken) {
-                setUser((prev) => ({ ...prev, access: res.data.accessToken }));
-                return res.data.accessToken;
+            if (res.data?.access) {
+                setUser(() => (res.data.data));
+                return res.data.access;
             }
         } catch (err) {
             console.error("Refresh failed", err);

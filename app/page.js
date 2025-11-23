@@ -3,17 +3,27 @@
 import { useEffect, useRef } from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import { useRouter } from "next/navigation";
 
 import "./page.css";
 import { useUserContext } from "./utils/context/user_context";
 
 export default function Home() {
   const carouselRef = useRef(null);
+  const router = useRouter()
 
   ///////////////////////////////
 
-  const {user} = useUserContext()
+  const { user, refreshAccessToken } = useUserContext()
   console.log(user)
+
+  useEffect(() => {
+    if (user && user.access) {
+      router.push("/Admin");
+    }else{
+      refreshAccessToken()
+    }
+  }, [user]);
 
   ///////////////////////////////
 
