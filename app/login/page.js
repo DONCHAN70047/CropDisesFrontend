@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation";
 import "../css/Login.css";
 import { loginUser } from "./actions";
 import Link from "next/link";
+import Header from '../components/Header'
+import Footer from '../components/Footer'
 import { useUserContext } from "../utils/context/user_context";
 
 
