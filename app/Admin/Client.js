@@ -8,11 +8,13 @@ import "./AdminDashboard.css";
 import DashboardHeaderSidebar from "./DashboardHeaderSidebar";
 import { motion } from "framer-motion";
 import { clear_refresh_cookie } from "./functions";
+import { useUserContext } from "../utils/context/user_context";
 
 const AdminDashboard = () => {
     const router = useRouter()
 
     const searchParams = useSearchParams()
+    const { user, setUser } = useUserContext()
 
 
     /**
@@ -78,6 +80,14 @@ const AdminDashboard = () => {
 
     const handleLogout = async () => {
         await clear_refresh_cookie()
+        setUser({
+            firstName: null,
+            lastName: null,
+            email: null,
+            phone: null,
+            userId: null,
+            access: null,
+        })
         router.push("/");
     };
 

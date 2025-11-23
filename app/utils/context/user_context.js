@@ -29,7 +29,7 @@ export function UserProvider({ children }) {
             const res = await axios.get("/api/auth/refresh", { withCredentials: true });
             if (res.data?.access) {
                 setUser(() => (res.data.data));
-                return res.data.access;
+                return res?.data.access;
             }
             return null
         } catch (err) {
