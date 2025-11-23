@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import DashboardHeaderSidebar from "../DashboardHeaderSidebar";
+import DashboardHeaderSidebar from "../../Admin/DashboardHeaderSidebar.js";
 import "../css/MoneyTransfer.css";
 
 export default function AEPSTransactions() {

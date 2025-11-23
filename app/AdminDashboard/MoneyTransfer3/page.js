@@ -2,9 +2,9 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import DashboardHeaderSidebar from "../DashboardHeaderSidebar";
+import DashboardHeaderSidebar from "../../Admin/DashboardHeaderSidebar";
 import { motion } from "framer-motion";
-import "../css/MoneyTransfer.css";
+import "../../css/MoneyTransfer.css";
 
 export default function MoneyTransfer3() {
   const router = useRouter();

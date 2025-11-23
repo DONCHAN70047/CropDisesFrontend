@@ -1,6 +1,7 @@
+"use client"
 import React, { useEffect, useState } from "react";
-import "./MoneyTransfer.css";
-import DashboardHeaderSidebar from "../DashboardHeaderSidebar";
+import "../../css/MoneyTransfer.css";
+import DashboardHeaderSidebar from "../../Admin/DashboardHeaderSidebar";
 import { motion } from "framer-motion";
 
 const MoneyTransfer = () => {
