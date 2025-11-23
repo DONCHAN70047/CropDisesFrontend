@@ -6,11 +6,6 @@ import { loginUser } from "./actions";
 import Link from "next/link";
 import { useUserContext } from "../utils/context/user_context";
 
-<<<<<<< HEAD
-import Header from "@/app/components/Header";
-import Footer from "@/app/components/Footer";
-=======
->>>>>>> fc02cb68748cdefe0ad1475cd10cab9415f95873
 
 export default function Login() {
   const [phoneNumber, setPhoneNumber] = useState("");
