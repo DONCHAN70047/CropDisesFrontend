@@ -1,15 +1,14 @@
 // FULL UPDATED AdminDashboard.jsx WITH MONEY TRANSFER ROUTE INTEGRATION
+"use client"
 
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useRouter } from "next/navigation";
-import { useSearchParams } from "next/navigation";  /////////////////////////
+// import { useNavigate } from "react-router-dom";
+import { useRouter, useSearchParams } from "next/navigation";
 import "./AdminDashboard.css";
 import DashboardHeaderSidebar from "./DashboardHeaderSidebar";
 import { motion } from "framer-motion";
 
 const AdminDashboard = () => {
-    const navigate = useNavigate();
     const router = useRouter()
 
     const searchParams = useSearchParams()
@@ -41,18 +40,18 @@ const AdminDashboard = () => {
     const [adminPhoto, setAdminPhoto] = useState("");
     const [walletBalance, setWalletBalance] = useState("0.00");
 
-    useEffect(() => {
-        const name = localStorage.getItem("adminName");   // use context api
-        const photo = localStorage.getItem("adminPhoto");
+    // useEffect(() => {
+    //     const name = localStorage.getItem("adminName");   // use context api
+    //     const photo = localStorage.getItem("adminPhoto");
 
-        if (!name) {
-            //   navigate("/Login");
-            router.push('/login')
-        } else {
-            setAdminName(name);
-            setAdminPhoto(photo);
-        }
-    }, [navigate]);
+    //     if (!name) {
+    //         //   navigate("/Login");
+    //         router.push('/login')
+    //     } else {
+    //         setAdminName(name);
+    //         setAdminPhoto(photo);
+    //     }
+    // }, [router]);
 
     // Fetch user balance
     const fetchBalance = async () => {
@@ -77,9 +76,8 @@ const AdminDashboard = () => {
     }, []);
 
     const handleLogout = () => {
-        localStorage.removeItem("adminName");
-        localStorage.removeItem("adminPhoto");
-        navigate("/Login");
+        // handle the logout: remove the refresh token from cookies
+        router.push("/login");
     };
 
     // SERVICES WITH ROUTES
@@ -168,7 +166,7 @@ const AdminDashboard = () => {
                                     key={i}
                                     whileHover={{ scale: 1.05 }}
                                     onClick={() => {
-                                        if (service.route) navigate(service.route);
+                                        if (service.route) router.push(service.route);
                                     }}
                                     style={{ cursor: service.route ? "pointer" : "default" }}
                                 >
