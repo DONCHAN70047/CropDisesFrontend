@@ -10,6 +10,11 @@ const DashboardHeaderSidebar = ({ adminName, adminPhoto, handleLogout }) => {
   const defaultImage = "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
   const finalPhoto = adminPhoto || defaultImage;
 
+  // Function to navigate to admin transaction pages
+  const navigateTo = (path) => {
+    router.push(path);
+  };
+
   return (
     <>
       {/* ---------------- TOP NAVBAR ---------------- */}
@@ -21,9 +26,11 @@ const DashboardHeaderSidebar = ({ adminName, adminPhoto, handleLogout }) => {
       >
         {/* Left */}
         <div className="topbar-left">
-          <img className="logo-img" src="/EsmartPayLogo.png" />
+          <img className="logo-img" src="/EsmartPayLogo.png" alt="Logo" />
           <div className="topbar-date">
-            <span className="date-left">November <span className="year-small">2025</span></span>
+            <span className="date-left">
+              November <span className="year-small">2025</span>
+            </span>
             <span className="date-right">12</span>
           </div>
         </div>
@@ -47,7 +54,7 @@ const DashboardHeaderSidebar = ({ adminName, adminPhoto, handleLogout }) => {
           <span className="notify-bell">🔔</span>
 
           <span className="user-info-bar">
-            <img src={finalPhoto} className="user-pic" />
+            <img src={finalPhoto} className="user-pic" alt="User" />
             <span>
               <span className="welcome-label">Welcome,</span>
               <span className="user-name-bar">{adminName}</span>
@@ -58,48 +65,51 @@ const DashboardHeaderSidebar = ({ adminName, adminPhoto, handleLogout }) => {
 
       {/* ---------------- SIDEBAR ---------------- */}
       <motion.aside className="sidebar">
-        
         <div className="user-info">
-          <img src={finalPhoto} className="sidebar-user-pic" />
+          <img src={finalPhoto} className="sidebar-user-pic" alt="User" />
           <div className="user-name">{adminName || "Esmart Admin"}</div>
           <div className="user-role">Smart Retailer - 9547783824 - SBR38904</div>
         </div>
 
         <nav className="nav-menu">
           <ul>
-            <li onClick={() => router.push("/AdminDashboard")}>Dashboard</li>
+            <li onClick={() => navigateTo("/Admin")}>Dashboard</li>
+            <li onClick={() => navigateTo("/Admin/SmartSummary")}>Smart Summary</li>
 
-            <li onClick={() => router.push("/SmartSummary")}>Smart Summary</li>
-
-            {/* Dropdown */}
+            {/* Transactions Dropdown */}
             <li className="dropdown-title" onClick={() => setIsTransactionsOpen(!isTransactionsOpen)}>
               Transactions ▾
             </li>
 
             <AnimatePresence>
               {isTransactionsOpen && (
-                <motion.ul className="submenu">
-                  <li onClick={() => router.push("/MoneyTransferTransactions")}>Money Transfer</li>
-                  <li onClick={() => router.push("/UPITransferTransactions")}>UPI Transfer</li>
-                  <li onClick={() => router.push("/PPITransferTransactions")}>PPI Transfer</li>
-                  <li onClick={() => router.push("/UtilityTransactions")}>Utility Bills</li>
-                  <li onClick={() => router.push("/EducationalFees")}>Education Fees</li>
-                  <li onClick={() => router.push("/AEPSTransactions")}>AEPS / MATM</li>
-                  <li onClick={() => router.push("/CreditCardTransactions")}>Credit Card</li>
-                  <li onClick={() => router.push("/FlightBookings")}>Flight Bookings</li>
+                <motion.ul
+                  className="submenu"
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <li onClick={() => navigateTo("/Admin/components/MoneyTransferTransactionsSlidebar")}>Money Transfer</li>
+                  <li onClick={() => navigateTo("/Admin/components/UPITransferTransactionsSlidebar")}>UPI Transfer</li>
+                  <li onClick={() => navigateTo("/Admin/components/PPITransferTransactionsSlidebar")}>PPI Transfer</li>
+                  <li onClick={() => navigateTo("/Admin/components/UtilityTransactionsSlidebar")}>Utility Bills</li>
+                  <li onClick={() => navigateTo("/Admin/components/EducationalFeesSlidebar")}>Education Fees</li>
+                  <li onClick={() => navigateTo("/Admin/components/AEPSTransactionsSlidebar")}>AEPS / MATM</li>
+                  <li onClick={() => navigateTo("/Admin/components/CreditCardTransactionsSlidebar")}>Credit Card</li>
+                  <li onClick={() => navigateTo("/Admin/components/FlightBookingsSidebar")}>Flight Bookings</li>
                 </motion.ul>
               )}
             </AnimatePresence>
 
-            <li onClick={() => router.push("/RefundPending")}>Refund Pending</li>
-            <li onClick={() => router.push("/MoneyRequests")}>Money Requests</li>
-            <li onClick={() => router.push("/Statements")}>Statements</li>
-            <li onClick={() => router.push("/Settlement")}>Settlement</li>
+            <li onClick={() => navigateTo("/Admin/RefundPending")}>Refund Pending</li>
+            <li onClick={() => navigateTo("/Admin/MoneyRequests")}>Money Requests</li>
+            <li onClick={() => navigateTo("/Admin/Statements")}>Statements</li>
+            <li onClick={() => navigateTo("/Admin/Settlement")}>Settlement</li>
 
             <li className="section-title">Privacy & Settings</li>
-
-            <li onClick={() => router.push("/Configurations")}>Configurations</li>
-            <li onClick={() => router.push("/Credentials")}>Credentials</li>
+            <li onClick={() => navigateTo("/Admin/Configurations")}>Configurations</li>
+            <li onClick={() => navigateTo("/Admin/Credentials")}>Credentials</li>
           </ul>
         </nav>
 

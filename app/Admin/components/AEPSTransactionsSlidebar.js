@@ -5,9 +5,11 @@ import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import DashboardHeaderSidebar from "../DashboardHeaderSidebar.js";
 import "../../css/MoneyTransfer.css";
+import { useUserContext } from "@/app/utils/context/user_context";
 
 export default function AEPSTransactions() {
   const router = useRouter();
+  const { user } = useUserContext();
 
   const [adminName, setAdminName] = useState("");
   const [showOverlay, setShowOverlay] = useState(false);
@@ -27,29 +29,26 @@ export default function AEPSTransactions() {
 
   // ---------- LOGIN CHECK ----------
   useEffect(() => {
-    const name = localStorage.getItem("adminName");
-
-    if (!name) {
-      router.replace("/Login"); // better than push for auth redirects
+    const fullName = `${user?.firstName || ""} ${user?.lastName || ""}`.trim();
+    if (!fullName) {
+      router.replace("/login");
     } else {
-      setAdminName(name);
+      setAdminName(fullName);
     }
-  }, [router]);
+  }, [router, user]);
 
   const handleLogout = () => {
     localStorage.removeItem("adminName");
-    router.replace("/Login");
+    router.replace("/login");
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    const newValue =
-      (name === "fromDate" || name === "toDate") && value.trim() === ""
-        ? today
-        : value;
-
-    setFilters((prev) => ({ ...prev, [name]: newValue }));
+    setFilters((prev) => ({
+      ...prev,
+      [name]: value || (name === "fromDate" || name === "toDate" ? today : ""),
+    }));
 
     if (name === "transactionNo" && value.trim() === "") {
       setDataVisible(false);
@@ -91,9 +90,7 @@ export default function AEPSTransactions() {
         Commission: (Math.random() * 20).toFixed(2),
         TransType: ["IMPS", "NEFT", "UPI", "CARD"][Math.floor(Math.random() * 4)],
         UTRNo: `UTR${Math.floor(100000 + Math.random() * 900000)}`,
-        Status: ["Success", "Failed", "Refunded", "Pending"][
-          Math.floor(Math.random() * 4)
-        ],
+        Status: ["Success", "Failed", "Refunded", "Pending"][Math.floor(Math.random() * 4)],
         Message: "Transaction processed successfully",
         CreatedDate: today,
         PostedDate: today,
@@ -148,16 +145,11 @@ export default function AEPSTransactions() {
       return;
     }
 
-    const csvRows = [];
-    csvRows.push(tableHeaders.join(","));
-
-    filteredData.forEach((row) => {
-      csvRows.push(Object.values(row).join(","));
-    });
+    const csvRows = [tableHeaders.join(",")];
+    filteredData.forEach((row) => csvRows.push(Object.values(row).join(",")));
 
     const blob = new Blob([csvRows.join("\n")], { type: "text/csv" });
     const url = window.URL.createObjectURL(blob);
-
     const a = document.createElement("a");
     a.href = url;
     a.download = "AEPS_Transactions.csv";
@@ -188,15 +180,8 @@ export default function AEPSTransactions() {
           {/* Filters */}
           <motion.div className="card filter-card" whileHover={{ scale: 1.02 }}>
             <h3>Search Filters</h3>
-
             <div className="search-box">
-              <input
-                type="text"
-                name="transactionNo"
-                value={filters.transactionNo}
-                onChange={handleChange}
-                placeholder="Transaction No"
-              />
+              <input type="text" name="transactionNo" value={filters.transactionNo} onChange={handleChange} placeholder="Transaction No" />
 
               <select name="status" value={filters.status} onChange={handleChange}>
                 <option value="">- Status -</option>
@@ -232,12 +217,7 @@ export default function AEPSTransactions() {
           {/* Summary */}
           <motion.div className="card summary-card-section">
             {summaryData.map((item, i) => (
-              <motion.div
-                key={i}
-                className="summary-card"
-                style={{ background: item.color }}
-                whileHover={{ scale: 1.05 }}
-              >
+              <motion.div key={i} className="summary-card" style={{ background: item.color }} whileHover={{ scale: 1.05 }}>
                 <p>{item.title}</p>
                 <h3>₹ {(Math.random() * 50000).toFixed(2)}</h3>
               </motion.div>
@@ -254,11 +234,7 @@ export default function AEPSTransactions() {
                 <tbody>
                   {dataVisible && filteredData.length > 0 ? (
                     filteredData.slice(0, limit).map((row, i) => (
-                      <tr key={i}>
-                        {Object.values(row).map((val, j) => (
-                          <td key={j}>{val}</td>
-                        ))}
-                      </tr>
+                      <tr key={i}>{Object.values(row).map((val, j) => <td key={j}>{val}</td>)}</tr>
                     ))
                   ) : (
                     <tr>
