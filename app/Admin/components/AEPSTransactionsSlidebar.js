@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import DashboardHeaderSidebar from "../DashboardHeaderSidebar.js";
 import "../../css/MoneyTransfer.css";
 import { useUserContext } from "@/app/utils/context/user_context";
+import { isProtected } from "../../utils/protectedRoute.js";
 
 export default function AEPSTransactions() {
   const router = useRouter();
@@ -27,19 +28,18 @@ export default function AEPSTransactions() {
     toDate: today,
   });
 
-  // ---------- LOGIN CHECK ----------
-  // useEffect(() => {
-  //   const fullName = `${user?.firstName || ""} ${user?.lastName || ""}`.trim();
-  //   if (!fullName) {
-  //     router.replace("/login");
-  //   } else {
-  //     setAdminName(fullName);
-  //   }
-  // }, [router, user]);
+  useEffect(() => {
+    if (!isProtected) {
+      router.push("/login");
+    }
+    else {
+      setAdminName(name);
+    }
+  }, [router]);
 
   const handleLogout = () => {
     localStorage.removeItem("adminName");
-    router.replace("/login");
+    router.push("/login");
   };
 
   const handleChange = (e) => {

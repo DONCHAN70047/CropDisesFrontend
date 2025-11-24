@@ -4,47 +4,65 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import DashboardHeaderSidebar from "../DashboardHeaderSidebar";
-import "../../css/AllTransactions.css";  
+import "../../css/MoneyTransfer.css";
+import { useUserContext } from "@/app/utils/context/user_context";
+import { isProtected } from "../../utils/protectedRoute";
 
-export default function UPITransferTransactions() {
+const CreditCardTransactionsSlidebar = () => {
   const router = useRouter();
+  const { user, setUser } = useUserContext();
+
   const [adminName, setAdminName] = useState("");
   const today = new Date().toISOString().split("T")[0];
   const [showOverlay, setShowOverlay] = useState(false);
   const [dataVisible, setDataVisible] = useState(false);
   const [filteredData, setFilteredData] = useState([]);
   const [limit, setLimit] = useState(25);
-
   const [filters, setFilters] = useState({
     transactionNo: "",
     status: "",
+    type: "",
     fromDate: today,
     toDate: today,
   });
 
+
+  const summaryData = [
+    { title: "Total Transactions", color: "linear-gradient(135deg, #4e73df, #1cc88a)" },
+    { title: "Total Amount", color: "linear-gradient(135deg, #36b9cc, #6610f2)" },
+    { title: "Total Charges", color: "linear-gradient(135deg, #f6c23e, #e74a3b)" },
+    { title: "Total Commission", color: "linear-gradient(135deg, #00b4d8, #0077b6)" },
+    { title: "Refund Pending", color: "linear-gradient(135deg, #dc3545, #ff6b6b)" },
+    { title: "Total Refunded", color: "linear-gradient(135deg, #f0f0f2ff, #5e666eff)" },
+  ];
+
+  const [summaryValues, setSummaryValues] = useState([]);
+
+ 
   useEffect(() => {
-    const name = localStorage.getItem("adminName");
-    if (!name) {
-      router.push("/Login");
-    } else {
+    setSummaryValues(summaryData.map(() => (Math.random() * 50000).toFixed(2)));
+  }, []);
+
+  
+  useEffect(() => {
+    if (!isProtected) {
+      router.push("/login");
+    }
+    else {
       setAdminName(name);
     }
   }, [router]);
 
   const handleLogout = () => {
     localStorage.removeItem("adminName");
-    router.push("/Login");
+    router.push("/login");
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    let newValue = value;
-
-    if ((name === "fromDate" || name === "toDate") && value.trim() === "") {
-      newValue = today;
-    }
-
-    setFilters((prev) => ({ ...prev, [name]: newValue }));
+    const newValue =
+      value.trim() === "" && (name === "fromDate" || name === "toDate") ? today : value;
+    setFilters({ ...filters, [name]: newValue });
 
     if (name === "transactionNo" && value.trim() === "") {
       setDataVisible(false);
@@ -53,23 +71,12 @@ export default function UPITransferTransactions() {
   };
 
   const tableHeaders = [
-    "TransactionNo",
-    "SenderMobile",
-    "SenderName",
-    "BeneName",
-    "AccountNo",
-    "IFSC",
-    "Amount",
-    "Charges",
-    "Commission",
-    "TransType",
-    "UTRNo",
-    "Status",
-    "Message",
-    "CreatedDate",
-    "PostedDate",
+    "TransactionNo", "SenderMobile", "SenderName", "BeneName", "AccountNo",
+    "IFSC", "Amount", "Charges", "Commission", "TransType",
+    "UTRNo", "Status", "Message", "CreatedDate", "PostedDate",
   ];
 
+  // Mock transaction data
   const generateMockData = () => {
     const rows = [];
     for (let i = 1; i <= 200; i++) {
@@ -83,7 +90,7 @@ export default function UPITransferTransactions() {
         Amount: (Math.random() * 10000).toFixed(2),
         Charges: (Math.random() * 50).toFixed(2),
         Commission: (Math.random() * 20).toFixed(2),
-        TransType: "UPI",
+        TransType: ["IMPS", "NEFT", "UPI", "CARD"][Math.floor(Math.random() * 4)],
         UTRNo: `UTR${Math.floor(100000 + Math.random() * 900000)}`,
         Status: ["Success", "Failed", "Refunded", "Pending"][Math.floor(Math.random() * 4)],
         Message: "Transaction processed successfully",
@@ -100,11 +107,12 @@ export default function UPITransferTransactions() {
     const hasFilter =
       filters.transactionNo ||
       filters.status ||
+      filters.type ||
       filters.fromDate !== today ||
       filters.toDate !== today;
 
     if (!hasFilter) {
-      alert("Please apply at least one filter before searching.");
+      alert("⚠️ Please apply at least one filter before searching.");
       return;
     }
 
@@ -121,6 +129,9 @@ export default function UPITransferTransactions() {
       if (filters.status)
         filtered = filtered.filter((r) => r.Status === filters.status);
 
+      if (filters.type)
+        filtered = filtered.filter((r) => r.TransType === filters.type);
+
       setFilteredData(filtered);
       setDataVisible(true);
       setShowOverlay(false);
@@ -129,50 +140,37 @@ export default function UPITransferTransactions() {
 
   const handleExport = () => {
     if (!dataVisible || filteredData.length === 0) {
-      alert("No data available to export. Please search first.");
+      alert("⚠️ No data available to export. Please click 'Search' first.");
       return;
     }
 
-    const csvRows = [];
-    csvRows.push(tableHeaders.join(","));
+    const csvRows = [tableHeaders.join(",")];
     filteredData.forEach((row) => csvRows.push(Object.values(row).join(",")));
 
     const blob = new Blob([csvRows.join("\n")], { type: "text/csv" });
     const url = window.URL.createObjectURL(blob);
-
     const a = document.createElement("a");
     a.href = url;
-    a.download = "UPI_Transfer_Transactions.csv";
+    a.download = "CreditCard_Transactions.csv";
     a.click();
   };
 
-  const summaryData = [
-    { title: "Total Transactions", color: "linear-gradient(135deg, #4e73df, #1cc88a)" },
-    { title: "Total Amount", color: "linear-gradient(135deg, #36b9cc, #6610f2)" },
-    { title: "Total Charges", color: "linear-gradient(135deg, #f6c23e, #e74a3b)" },
-    { title: "Total Commission", color: "linear-gradient(135deg, #00b4d8, #0077b6)" },
-    { title: "Refund Pending", color: "linear-gradient(135deg, #dc3545, #ff6b6b)" },
-    { title: "Total Refunded", color: "linear-gradient(135deg, #f0f0f2ff, #5e666eff)" },
-  ];
-
   return (
     <div className="dashboard-container colorful-bg">
-      <DashboardHeaderSidebar adminName={adminName} handleLogout={handleLogout} />
+      
 
       <div className="main-row">
         <div className="sidebar-space" />
         <main className="main-content">
-
           <motion.h2 className="money-title" initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}>
             UPI Transfer Transactions
           </motion.h2>
 
           {/* Filters */}
           <motion.div className="card filter-card" whileHover={{ scale: 1.02 }}>
-            <h3>Search Filters</h3>
+            <h3>🔍 Search Filters</h3>
             <div className="search-box">
-              <input type="text" name="transactionNo" value={filters.transactionNo} onChange={handleChange} placeholder="Transaction No" />
-
+              <input type="text" name="transactionNo" placeholder="Transaction No" value={filters.transactionNo} onChange={handleChange} />
               <select name="status" value={filters.status} onChange={handleChange}>
                 <option value="">- Status -</option>
                 <option value="Success">Success</option>
@@ -180,77 +178,77 @@ export default function UPITransferTransactions() {
                 <option value="Pending">Pending</option>
                 <option value="Refunded">Refunded</option>
               </select>
-
+              <select name="type" value={filters.type} onChange={handleChange}>
+                <option value="">- Type -</option>
+                <option value="IMPS">IMPS</option>
+                <option value="NEFT">NEFT</option>
+                <option value="UPI">UPI</option>
+                <option value="CARD">Card</option>
+              </select>
               <input type="date" name="fromDate" value={filters.fromDate} onChange={handleChange} />
               <input type="date" name="toDate" value={filters.toDate} onChange={handleChange} />
-
-              <select value={limit} onChange={(e) => setLimit(+e.target.value)}>
+              <select className="limit-select" value={limit} onChange={(e) => setLimit(+e.target.value)}>
                 <option value={10}>Show 10</option>
                 <option value={25}>Show 25</option>
                 <option value={50}>Show 50</option>
                 <option value={100}>Show 100</option>
               </select>
-
-              <button onClick={handleSearch}>Search</button>
-              <button onClick={handleExport}>Export</button>
+              <button className="search-btn" onClick={handleSearch}>🔎 Search</button>
+              <button className="export-btn" onClick={handleExport}>📤 Export</button>
             </div>
           </motion.div>
 
           {/* Summary */}
           <motion.div className="card summary-card-section">
             {summaryData.map((item, i) => (
-              <motion.div
-                key={i}
-                className="summary-card"
-                style={{ background: item.color }}
-                whileHover={{ scale: 1.05 }}
-              >
+              <motion.div key={i} className="summary-card" style={{ background: item.color }} whileHover={{ scale: 1.05, rotate: 1 }}>
                 <p>{item.title}</p>
-                <h3>₹ {(Math.random() * 50000).toFixed(2)}</h3>
+                <h3>₹ {summaryValues[i]}</h3>
               </motion.div>
             ))}
           </motion.div>
 
           {/* Table */}
-          <motion.div className="card table-card">
+          <motion.div className="card table-card" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             <div className="transaction-table-container">
-              <table>
+              <table className="transaction-table">
                 <thead>
-                  <tr>
-                    {tableHeaders.map((h, i) => <th key={i}>{h}</th>)}
-                  </tr>
+                  <tr>{tableHeaders.map((h, i) => <th key={i}>{h}</th>)}</tr>
                 </thead>
                 <tbody>
                   {dataVisible && filteredData.length > 0 ? (
                     filteredData.slice(0, limit).map((row, i) => (
-                      <tr key={i}>
+                      <motion.tr key={i} whileHover={{ scale: 1.01, backgroundColor: "#f1f8ff" }}>
                         {Object.values(row).map((val, j) => <td key={j}>{val}</td>)}
-                      </tr>
+                      </motion.tr>
                     ))
                   ) : (
                     <tr>
-                      <td colSpan={tableHeaders.length}>No data found. Try searching.</td>
+                      <td colSpan={tableHeaders.length} className="no-data">
+                        No data found. Try searching!
+                      </td>
                     </tr>
                   )}
                 </tbody>
               </table>
             </div>
           </motion.div>
-
         </main>
       </div>
 
-      {/* Overlay */}
+      {/* Loading Overlay */}
       <AnimatePresence>
         {showOverlay && (
           <motion.div className="export-overlay" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
             <motion.div className="export-popup" initial={{ scale: 0.8 }} animate={{ scale: 1 }}>
-              <h3>Loading Data...</h3>
-              <p>Please wait while your UPI transactions load.</p>
+              <h3>📊 Loading Data...</h3>
+              <p>Please wait while we load your transaction records.</p>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
     </div>
   );
-}
+};
+
+export default CreditCardTransactionsSlidebar;

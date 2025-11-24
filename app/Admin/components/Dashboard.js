@@ -16,7 +16,7 @@ const Dashboard = ({ adminName }) => {
     const [walletBalance, setWalletBalance] = useState("0.00");
 
 
-    // All service cards
+ 
     const services = [
         { label: "Royel Payout", icon: "https://cdn-icons-png.flaticon.com/512/2920/2920323.png", route: "/MoneyTransfer" },
         { label: "Money Transfer 3", icon: "/TrasferPic.png", route: "/MoneyTransfer3" },
@@ -34,7 +34,7 @@ const Dashboard = ({ adminName }) => {
         { label: "Pay Credit Card Bills", icon: "/PayCreditCardBills.png" },
     ];
 
-    // Recent transactions list
+
     const recentTransactions = [
         { amount: 1100, label: "Money Transfer", date: "28 Mar 25 04:40 PM", id: "2803202512833" },
         { amount: 0, label: "Verification", date: "28 Mar 25 04:40 PM", id: "2803202512812" },

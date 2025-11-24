@@ -8,7 +8,15 @@ import { motion } from "framer-motion";
 import { clear_refresh_cookie } from "./functions";
 import { useUserContext } from "../utils/context/user_context";
 import Dashboard from "./components/Dashboard";
-import AEPSTransactions from "./components/AEPSTransactionsSlidebar";
+import UtilityTransactionsSlidebar from "./components/UtilityTransactionsSlidebar";
+import AEPSTransactionsSlidebar from "./components/AEPSTransactionsSlidebar";
+import CreditCardTransactionsSlidebar from "./components/CreditCardTransactionsSlidebar";
+import EducationalFeesSlidebar from "./components/EducationalFeesSlidebar";
+import FlightBookingsSidebar from "./components/FlightBookingsSidebar";
+import MoneyTransferTransactionsSlidebar from "./components/MoneyTransferTransactionsSlidebar";
+import PPITransferTransactionsSlidebar from "./components/PPITransferTransactionsSlidebar";
+import UPITransferTransactionsSlidebar from "./components/UPITransferTransactionsSlidebar";
+
 
 const AdminDashboard = ({ adminName }) => {
     const router = useRouter();
@@ -92,7 +100,7 @@ const AdminDashboard = ({ adminName }) => {
         router.push("/");
     };
 
-    
+
 
     return (
         <div className="dashboard-container">
@@ -104,13 +112,15 @@ const AdminDashboard = ({ adminName }) => {
 
 
             {query_page === null && <Dashboard />}
-            {query_page === "AEPSTransactionsSlidebar" && <AEPSTransactions />}
-            {query_page === "moneytransfer" && <Moneytransfer />}
-            {query_page === "moneytransfer" && <Moneytransfer />}
-            {query_page === "moneytransfer" && <Moneytransfer />}
-            {query_page === "moneytransfer" && <Moneytransfer />}
-            {query_page === "moneytransfer" && <Moneytransfer />}
-            {query_page === "moneytransfer" && <Moneytransfer />}
+            {query_page === "AEPSTransactionsSlidebar" && <AEPSTransactionsSlidebar />}
+            {query_page === "CreditCardTransactionsSlidebar" && <CreditCardTransactionsSlidebar />}
+            {query_page === "EducationalFeesSlidebar" && <EducationalFeesSlidebar />}
+            {query_page === "FlightBookingsSidebar" && <FlightBookingsSidebar />}
+            {query_page === "MoneyTransferTransactionsSlidebar" && <MoneyTransferTransactionsSlidebar />}
+            {query_page === "PPITransferTransactionsSlidebar" && <PPITransferTransactionsSlidebar />}
+            {query_page === "UPITransferTransactionsSlidebar" && <UPITransferTransactionsSlidebar />}
+            {query_page === "UtilityTransactionsSlidebar" && <UtilityTransactionsSlidebar />}
+
 
         </div>
     );

@@ -3,9 +3,10 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import DashboardHeaderSidebar from "../../DashboardHeaderSidebar";
-import "../../../css/AllTransactions.css";
+import DashboardHeaderSidebar from "../DashboardHeaderSidebar";
+import "../../css/MoneyTransfer.css";
 import { useUserContext } from "@/app/utils/context/user_context";
+import { isProtected } from "../../utils/protectedRoute";
 
 const CreditCardTransactionsSlidebar = () => {
   const router = useRouter();
@@ -25,7 +26,7 @@ const CreditCardTransactionsSlidebar = () => {
     toDate: today,
   });
 
-  // Client-side summary values
+
   const summaryData = [
     { title: "Total Transactions", color: "linear-gradient(135deg, #4e73df, #1cc88a)" },
     { title: "Total Amount", color: "linear-gradient(135deg, #36b9cc, #6610f2)" },
@@ -37,33 +38,23 @@ const CreditCardTransactionsSlidebar = () => {
 
   const [summaryValues, setSummaryValues] = useState([]);
 
-  // Generate summary values only on client to avoid hydration mismatch
+ 
   useEffect(() => {
     setSummaryValues(summaryData.map(() => (Math.random() * 50000).toFixed(2)));
   }, []);
 
-  // Check user authentication on mount
+  
   useEffect(() => {
-    if (!user || !user.firstName) {
+    if (!isProtected) {
       router.push("/login");
-    } else {
-      setAdminName(`${user.firstName} ${user.lastName || ""}`.trim());
     }
-  }, [user, router]);
+    else {
+      setAdminName(name);
+    }
+  }, [router]);
 
-  // Logout function
-  const handleLogout = async () => {
-    if (setUser) {
-      await clear_refresh_cookie();
-      setUser({
-        firstName: null,
-        lastName: null,
-        email: null,
-        phone: null,
-        userId: null,
-        access: null,
-      });
-    }
+  const handleLogout = () => {
+    localStorage.removeItem("adminName");
     router.push("/login");
   };
 
@@ -166,7 +157,7 @@ const CreditCardTransactionsSlidebar = () => {
 
   return (
     <div className="dashboard-container colorful-bg">
-      <DashboardHeaderSidebar adminName={adminName} handleLogout={handleLogout} />
+      
 
       <div className="main-row">
         <div className="sidebar-space" />

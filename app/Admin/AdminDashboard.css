@@ -1,33 +1,27 @@
 /* ============================================================
    🌟 ESMART ADMIN DASHBOARD — Premium Animated UI (2025)
-   Full Luxury Edition CSS
-============================================================= */
+============================================================ */
 
-
-/* ROOT COLORS (PREMIUM GRADE) */
-:root {
-  --primary: #6e56cf;
-  --primary-light: #e8e2ff;
-  --primary-shadow: rgba(110, 86, 207, 0.25);
-  --card-bg: #ffffff;
-  --soft-shadow: 0px 6px 18px rgba(0, 0, 0, 0.06);
-  --soft-shadow-hover: 0px 8px 24px rgba(0, 0, 0, 0.12);
+/* GLOBAL RESET */
+html, body {
+  margin: 0;
+  padding: 0;
 }
 
-/* MAIN WRAPPER --------------------------------------------------*/
+/* MAIN WRAPPER */
 .dashboard-container {
   display: flex;
   width: 100%;
   height: 100vh;
   overflow: hidden;
-  background: #f4f2ff;
 }
 
+/* Sidebar spacing (actual sidebar comes from DashboardHeaderSidebar.jsx) */
 .sidebar-space {
   width: 260px;
 }
 
-/* LAYOUT ---------------------------------------------------------*/
+/* MAIN LAYOUT */
 .main-row {
   display: flex;
   width: 100%;
@@ -38,86 +32,92 @@
 .main-content {
   flex: 1;
   height: 100vh;
-  padding: 22px;
+  padding: 20px;
   overflow-y: auto;
-  padding-bottom: 60px;
+  padding-bottom: 40px;
   animation: fadeSlideUp 0.7s ease-out;
+  position: relative;
+  z-index: 1;
 }
 
-/* Fade + slide animation */
 @keyframes fadeSlideUp {
-  from { opacity: 0; transform: translateY(14px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* HEADER ---------------------------------------------------------*/
+/* HEADER */
 .app-header {
-  background: var(--card-bg);
-  padding: 18px 20px;
-  border-radius: 16px;
+  background: #fff;
+  padding: 15px 20px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
-  gap: 22px;
-  margin-bottom: 20px;
-
-  box-shadow: var(--soft-shadow);
+  gap: 20px;
+  margin-bottom: 18px;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.08);
   animation: fadeIn 0.8s ease-in-out;
-
-  backdrop-filter: blur(6px);
-  border: 1px solid rgba(255, 255, 255, 0.7);
 }
 
 .header-profile-img {
-  width: 68px;
-  height: 68px;
+  width: 65px;
+  height: 65px;
   border-radius: 50%;
-  border: 3px solid var(--primary);
+  border: 3px solid #6e56cf;
   object-fit: cover;
-  transition: 0.35s ease;
+  object-position: center;
+  background: #eee;
+  transition: 0.3s ease;
 }
 
 .header-profile-img:hover {
-  transform: scale(1.08) rotate(3deg);
-  box-shadow: 0px 6px 20px var(--primary-shadow);
+  transform: scale(1.06) rotate(3deg);
+  box-shadow: 0px 4px 15px rgba(110,86,207,0.4);
+}
+
+.company-info {
+  flex: 1;
 }
 
 .company-name {
-  font-size: 21px;
-  font-weight: 700;
-  color: #2d2b38;
+  font-size: 20px;
+  font-weight: bold;
 }
 
 .company-sub {
   font-size: 14px;
-  opacity: 0.75;
+  opacity: 0.8;
 }
 
 .balance-info {
   display: flex;
-  gap: 45px;
+  gap: 40px;
 }
 
 .balance-info div div:first-child {
   font-size: 13px;
-  opacity: 0.75;
+  opacity: 0.7;
 }
 
 .balance-info div div:last-child {
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--primary);
-  letter-spacing: 0.3px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #6e56cf;
 }
 
-/* MARQUEE --------------------------------------------------------*/
+/* MARQUEE */
 .alert-marquee {
-  background: linear-gradient(45deg, #ff784f, #ff4d4d);
+  background: linear-gradient(45deg, #ff8c6b, #ff4d4d);
   color: #fff;
-  padding: 10px 14px;
-  border-radius: 12px;
-  margin-bottom: 22px;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0px 4px 12px rgba(255, 77, 77, 0.3);
 }
 
 .marquee-text {
@@ -130,143 +130,142 @@
   to { transform: translateX(-100%); }
 }
 
-/* SERVICES --------------------------------------------------------*/
-.services-section { margin-top: 12px; }
+/* SERVICES */
+.services-section {
+  margin-top: 10px;
+}
 
 .services-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
+  gap: 18px;
+  justify-items: center; /* keep cards centered */
 }
 
+/* Outer card is visual only, not fully clickable */
 .service-card {
-  background: var(--card-bg);
-  padding: 20px 10px;
+  background: #fff;
+  padding: 18px 8px;
   text-align: center;
-  border-radius: 18px;
+  border-radius: 16px;
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.08);
+  transition: all 0.25s ease-in-out;
+  animation: scaleFade 0.6s ease;
+  user-select: none;
+  -webkit-user-select: none;
+  position: relative;
+  pointer-events: none;        /* 👈 stops the whole box from being clickable */
+}
 
-  box-shadow: var(--soft-shadow);
-  transition: all 0.28s ease-in-out;
-
-  animation: scaleFade 0.65s ease;
+/* Only inner content reacts to mouse + click */
+.service-card img,
+.service-card p {
+  pointer-events: auto;        /* 👈 only these are clickable now */
   cursor: pointer;
-
-  border: 1px solid #f0ecff;
 }
 
-@keyframes scaleFade {
-  from { opacity: 0; transform: scale(0.85); }
-  to { opacity: 1; transform: scale(1); }
-}
-
+/* Optional: compact clickable area */
 .service-card img {
-  width: 52px;
-  height: 52px;
+  width: 50px;
+  height: 50px;
   object-fit: contain;
   transition: 0.25s ease;
-}
-
-.service-card:hover {
-  transform: translateY(-7px) scale(1.06);
-  box-shadow: var(--soft-shadow-hover);
-  border-color: var(--primary-light);
-}
-
-.service-card:hover img {
-  transform: rotate(14deg) scale(2.15);
+  display: block;
+  margin: 0 auto;
 }
 
 .service-card p {
   margin-top: 10px;
-  font-size: 14.5px;
+  font-size: 14px;
   font-weight: 600;
-  color: #2d2b38;
 }
 
-/* RECENT TRANSACTIONS --------------------------------------------*/
+/* Visual hover effect when hovering on content */
+.service-card img:hover,
+.service-card p:hover {
+  transform: scale(1.05);
+}
+
+/* TRANSACTIONS */
 .summary-transactions-section {
-  margin-top: 35px;
+  margin-top: 30px;
 }
 
 .recent-transactions {
-  background: var(--card-bg);
-  padding: 20px;
-  border-radius: 16px;
-  box-shadow: var(--soft-shadow);
+  background: #fff;
+  padding: 18px;
+  border-radius: 14px;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.08);
   animation: fadeIn 0.8s ease-in-out;
-  border: 1px solid #f0ecff;
 }
 
 .recent-transactions h3 {
-  font-size: 19px;
-  margin-bottom: 18px;
-  font-weight: 700;
+  font-size: 18px;
+  margin-bottom: 15px;
 }
 
 .recent-transactions ul {
   list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
+/* Outer li is visual holder only */
 .recent-transactions li {
-  background: var(--primary-light);
-  padding: 12px;
-  border-radius: 12px;
-  margin-bottom: 14px;
-
-  border-left: 4px solid var(--primary);
+  background: #f0edff;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  border-left: 4px solid #6e56cf;
   animation: fadeSlideUp 0.6s ease;
-  transition: 0.25s ease;
+  user-select: none;
+  -webkit-user-select: none;
+  pointer-events: none;           /* 👈 row itself not clickable */
+  padding: 0;                     /* we move padding to inner content */
 }
 
-.recent-transactions li:hover {
-  background: #ded6ff;
+/* Only inner content is clickable and smaller */
+.recent-transactions li > * {
+  display: inline-block;
+  padding: 10px 12px;
+  pointer-events: auto;           /* 👈 only the content is clickable */
+  cursor: pointer;
+}
+
+/* Hover effect only on real click area */
+.recent-transactions li > *:hover {
+  background: #e5e0ff;
+  border-radius: 10px;
   transform: scale(1.02);
-  box-shadow: var(--soft-shadow-hover);
+  transition: 0.2s ease;
 }
 
 .recent-transactions small {
   opacity: 0.7;
-  font-size: 12.5px;
 }
 
-/* BASIC FADE */
+/* FADE */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
-/* RESPONSIVE ------------------------------------------------------*/
-@media (max-width: 950px) {
-  .sidebar-space { width: 0; }
+/* RESPONSIVE */
+@media (max-width: 850px) {
+  .sidebar-space {
+    width: 0;
+  }
 
   .app-header {
     flex-direction: column;
     text-align: center;
-    padding: 20px;
-    gap: 14px;
   }
 
   .balance-info {
     flex-direction: column;
-    gap: 12px;
-  }
-}
-
-@media (max-width: 550px) {
-  .service-card {
-    padding: 16px 6px;
-  }
-
-  .service-card img {
-    width: 44px;
-    height: 44px;
-  }
-
-  .app-header {
     gap: 10px;
   }
 
-  .company-name {
-    font-size: 18px;
+  .main-content {
+    height: auto;
   }
 }

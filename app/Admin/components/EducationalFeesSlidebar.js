@@ -4,7 +4,8 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import DashboardHeaderSidebar from "../DashboardHeaderSidebar";
-import "../../css/AllTransactions.css";  
+import "../../css/AllTransactions.css";
+import { isProtected } from "../../utils/protectedRoute";  
 
 export default function EducationalFees() {
   const router = useRouter();
@@ -25,17 +26,17 @@ export default function EducationalFees() {
   const [limit, setLimit] = useState(25);
 
   useEffect(() => {
-    const name = localStorage.getItem("adminName");
-    if (!name) {
-      router.push("/Login");
-    } else {
+    if (!isProtected) {
+      router.push("/login");
+    }
+    else {
       setAdminName(name);
     }
   }, [router]);
 
   const handleLogout = () => {
     localStorage.removeItem("adminName");
-    router.push("/Login");
+    router.push("/login");
   };
 
   const handleChange = (e) => {
@@ -163,7 +164,6 @@ export default function EducationalFees() {
 
   return (
     <div className="dashboard-container colorful-bg">
-      <DashboardHeaderSidebar adminName={adminName} handleLogout={handleLogout} />
 
       <div className="main-row">
         <div className="sidebar-space" />

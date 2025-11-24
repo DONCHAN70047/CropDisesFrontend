@@ -10,9 +10,9 @@ const DashboardHeaderSidebar = ({ adminName, adminPhoto, handleLogout }) => {
   const defaultImage = "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
   const finalPhoto = adminPhoto || defaultImage;
 
-  // Function to navigate to admin transaction pages
-  const navigateTo = (path) => {
-    router.push(path);
+  
+  const navigateTo = (panelName) => {
+    router.push(`/Admin?panel=${panelName}`);
   };
 
   return (
@@ -73,7 +73,7 @@ const DashboardHeaderSidebar = ({ adminName, adminPhoto, handleLogout }) => {
 
         <nav className="nav-menu">
           <ul>
-            <li onClick={() => navigateTo("/Admin")}>Dashboard</li>
+            <li onClick={() => router.push("/Admin")}> Dashboard </li>
             <li onClick={() => navigateTo("/Admin/SmartSummary")}>Smart Summary</li>
 
             {/* Transactions Dropdown */}
@@ -90,26 +90,26 @@ const DashboardHeaderSidebar = ({ adminName, adminPhoto, handleLogout }) => {
                   exit={{ opacity: 0, height: 0 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <li onClick={() => navigateTo("/Admin/components/MoneyTransferTransactionsSlidebar")}>Money Transfer</li>
-                  <li onClick={() => navigateTo("/Admin/components/UPITransferTransactionsSlidebar")}>UPI Transfer</li>
-                  <li onClick={() => navigateTo("/Admin/components/PPITransferTransactionsSlidebar")}>PPI Transfer</li>
-                  <li onClick={() => navigateTo("/Admin/components/UtilityTransactionsSlidebar")}>Utility Bills</li>
-                  <li onClick={() => navigateTo("/Admin/components/EducationalFeesSlidebar")}>Education Fees</li>
-                  <li onClick={() => navigateTo("/Admin/components/AEPSTransactionsSlidebar")}>AEPS / MATM</li>
-                  <li onClick={() => navigateTo("/Admin/components/CreditCardTransactionsSlidebar")}>Credit Card</li>
-                  <li onClick={() => navigateTo("/Admin/components/FlightBookingsSidebar")}>Flight Bookings</li>
+                  <li onClick={() => navigateTo("MoneyTransferTransactionsSlidebar")}>Money Transfer</li>
+                  <li onClick={() => navigateTo("UPITransferTransactionsSlidebar")}>UPI Transfer</li>
+                  <li onClick={() => navigateTo("PPITransferTransactionsSlidebar")}>PPI Transfer</li>
+                  <li onClick={() => navigateTo("UtilityTransactionsSlidebar")}>Utility Bills</li>
+                  <li onClick={() => navigateTo("EducationalFeesSlidebar")}>Education Fees</li>
+                  <li onClick={() => navigateTo("AEPSTransactionsSlidebar")}>AEPS / MATM</li>
+                  <li onClick={() => navigateTo("CreditCardTransactionsSlidebar")}>Credit Card</li>
+                  <li onClick={() => navigateTo("FlightBookingsSidebar")}>Flight Bookings</li>
                 </motion.ul>
               )}
             </AnimatePresence>
 
-            <li onClick={() => navigateTo("/Admin/RefundPending")}>Refund Pending</li>
-            <li onClick={() => navigateTo("/Admin/MoneyRequests")}>Money Requests</li>
-            <li onClick={() => navigateTo("/Admin/Statements")}>Statements</li>
-            <li onClick={() => navigateTo("/Admin/Settlement")}>Settlement</li>
+            <li onClick={() => navigateTo("RefundPending")}>Refund Pending</li>
+            <li onClick={() => navigateTo("MoneyRequests")}>Money Requests</li>
+            <li onClick={() => navigateTo("Statements")}>Statements</li>
+            <li onClick={() => navigateTo("Settlement")}>Settlement</li>
 
             <li className="section-title">Privacy & Settings</li>
-            <li onClick={() => navigateTo("/Admin/Configurations")}>Configurations</li>
-            <li onClick={() => navigateTo("/Admin/Credentials")}>Credentials</li>
+            <li onClick={() => navigateTo("Configurations")}>Configurations</li>
+            <li onClick={() => navigateTo("Credentials")}>Credentials</li>
           </ul>
         </nav>
 
