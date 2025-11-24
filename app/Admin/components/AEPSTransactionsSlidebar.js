@@ -1,29 +1,21 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";  
+import React, { useEffect, useState, useMemo } from "react";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import DashboardHeaderSidebar from "../../Admin/DashboardHeaderSidebar";
-import "../../css/AllTransactions.css";  
+import DashboardHeaderSidebar from "../DashboardHeaderSidebar.js";
+import "../../css/MoneyTransfer.css";
 
-const CreditCardTransactions = () => {
+export default function AEPSTransactions() {
   const router = useRouter();
+
   const [adminName, setAdminName] = useState("");
-  const today = new Date().toISOString().split("T")[0];
   const [showOverlay, setShowOverlay] = useState(false);
   const [dataVisible, setDataVisible] = useState(false);
   const [filteredData, setFilteredData] = useState([]);
+  const [limit, setLimit] = useState(25);
 
-  useEffect(() => {
-    const name = localStorage.getItem("adminName");
-    if (!name) router.push("/Login");   
-    else setAdminName(name);
-  }, [router]);
-
-  const handleLogout = () => {
-    localStorage.removeItem("adminName");
-    router.push("/Login");  
-  };
+  const today = useMemo(() => new Date().toISOString().split("T")[0], []);
 
   const [filters, setFilters] = useState({
     transactionNo: "",
@@ -33,15 +25,31 @@ const CreditCardTransactions = () => {
     toDate: today,
   });
 
+  // ---------- LOGIN CHECK ----------
+  useEffect(() => {
+    const name = localStorage.getItem("adminName");
+
+    if (!name) {
+      router.replace("/Login"); // better than push for auth redirects
+    } else {
+      setAdminName(name);
+    }
+  }, [router]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("adminName");
+    router.replace("/Login");
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    let newValue = value;
 
-    if ((name === "fromDate" || name === "toDate") && value.trim() === "") {
-      newValue = today;
-    }
+    const newValue =
+      (name === "fromDate" || name === "toDate") && value.trim() === ""
+        ? today
+        : value;
 
-    setFilters({ ...filters, [name]: newValue });
+    setFilters((prev) => ({ ...prev, [name]: newValue }));
 
     if (name === "transactionNo" && value.trim() === "") {
       setDataVisible(false);
@@ -67,7 +75,8 @@ const CreditCardTransactions = () => {
     "PostedDate",
   ];
 
-  const generateMockData = () => {
+  // ---------- MOCK DATA ----------
+  const tableData = useMemo(() => {
     const rows = [];
     for (let i = 1; i <= 200; i++) {
       rows.push({
@@ -82,18 +91,18 @@ const CreditCardTransactions = () => {
         Commission: (Math.random() * 20).toFixed(2),
         TransType: ["IMPS", "NEFT", "UPI", "CARD"][Math.floor(Math.random() * 4)],
         UTRNo: `UTR${Math.floor(100000 + Math.random() * 900000)}`,
-        Status: ["Success", "Failed", "Refunded", "Pending"][Math.floor(Math.random() * 4)],
+        Status: ["Success", "Failed", "Refunded", "Pending"][
+          Math.floor(Math.random() * 4)
+        ],
         Message: "Transaction processed successfully",
         CreatedDate: today,
         PostedDate: today,
       });
     }
     return rows;
-  };
+  }, [today]);
 
-  const [tableData] = useState(generateMockData());
-  const [limit, setLimit] = useState(25);
-
+  // ---------- SEARCH ----------
   const handleSearch = () => {
     const hasFilter =
       filters.transactionNo ||
@@ -103,7 +112,7 @@ const CreditCardTransactions = () => {
       filters.toDate !== today;
 
     if (!hasFilter) {
-      alert("⚠️ Please apply at least one filter before searching.");
+      alert("Please apply at least one filter before searching.");
       return;
     }
 
@@ -112,16 +121,19 @@ const CreditCardTransactions = () => {
     setTimeout(() => {
       let filtered = tableData;
 
-      if (filters.transactionNo)
+      if (filters.transactionNo) {
         filtered = filtered.filter((r) =>
           r.TransactionNo.toLowerCase().includes(filters.transactionNo.toLowerCase())
         );
+      }
 
-      if (filters.status)
+      if (filters.status) {
         filtered = filtered.filter((r) => r.Status === filters.status);
+      }
 
-      if (filters.type)
+      if (filters.type) {
         filtered = filtered.filter((r) => r.TransType === filters.type);
+      }
 
       setFilteredData(filtered);
       setDataVisible(true);
@@ -129,22 +141,26 @@ const CreditCardTransactions = () => {
     }, 1000);
   };
 
+  // ---------- EXPORT ----------
   const handleExport = () => {
     if (!dataVisible || filteredData.length === 0) {
-      alert("⚠️ No data available to export. Please click 'Search' first.");
+      alert("No data available to export. Please search first.");
       return;
     }
 
     const csvRows = [];
     csvRows.push(tableHeaders.join(","));
-    filteredData.forEach((row) => csvRows.push(Object.values(row).join(",")));
+
+    filteredData.forEach((row) => {
+      csvRows.push(Object.values(row).join(","));
+    });
 
     const blob = new Blob([csvRows.join("\n")], { type: "text/csv" });
     const url = window.URL.createObjectURL(blob);
-    const a = document.createElement("a");
 
+    const a = document.createElement("a");
     a.href = url;
-    a.download = "CreditCard_Transactions.csv";
+    a.download = "AEPS_Transactions.csv";
     a.click();
   };
 
@@ -166,16 +182,21 @@ const CreditCardTransactions = () => {
 
         <main className="main-content">
           <motion.h2 className="money-title" initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}>
-            CreditCard Transfer Transactions
+            AEPS Transfer Transactions
           </motion.h2>
 
           {/* Filters */}
           <motion.div className="card filter-card" whileHover={{ scale: 1.02 }}>
-            <h3>🔍 Search Filters</h3>
+            <h3>Search Filters</h3>
 
             <div className="search-box">
-              <input type="text" name="transactionNo" placeholder="Transaction No"
-                value={filters.transactionNo} onChange={handleChange} />
+              <input
+                type="text"
+                name="transactionNo"
+                value={filters.transactionNo}
+                onChange={handleChange}
+                placeholder="Transaction No"
+              />
 
               <select name="status" value={filters.status} onChange={handleChange}>
                 <option value="">- Status -</option>
@@ -196,23 +217,27 @@ const CreditCardTransactions = () => {
               <input type="date" name="fromDate" value={filters.fromDate} onChange={handleChange} />
               <input type="date" name="toDate" value={filters.toDate} onChange={handleChange} />
 
-              <select className="limit-select" value={limit} onChange={(e) => setLimit(+e.target.value)}>
+              <select value={limit} onChange={(e) => setLimit(Number(e.target.value))}>
                 <option value={10}>Show 10</option>
                 <option value={25}>Show 25</option>
                 <option value={50}>Show 50</option>
                 <option value={100}>Show 100</option>
               </select>
 
-              <button className="search-btn" onClick={handleSearch}>🔎 Search</button>
-              <button className="export-btn" onClick={handleExport}>📤 Export</button>
+              <button onClick={handleSearch}>Search</button>
+              <button onClick={handleExport}>Export</button>
             </div>
           </motion.div>
 
           {/* Summary */}
           <motion.div className="card summary-card-section">
             {summaryData.map((item, i) => (
-              <motion.div key={i} className="summary-card" style={{ background: item.color }}
-                whileHover={{ scale: 1.05, rotate: 1 }}>
+              <motion.div
+                key={i}
+                className="summary-card"
+                style={{ background: item.color }}
+                whileHover={{ scale: 1.05 }}
+              >
                 <p>{item.title}</p>
                 <h3>₹ {(Math.random() * 50000).toFixed(2)}</h3>
               </motion.div>
@@ -220,31 +245,29 @@ const CreditCardTransactions = () => {
           </motion.div>
 
           {/* Table */}
-          <motion.div className="card table-card" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            <br /><br />
-
+          <motion.div className="card table-card">
             <div className="transaction-table-container">
               <table className="transaction-table">
                 <thead>
                   <tr>{tableHeaders.map((h, i) => <th key={i}>{h}</th>)}</tr>
                 </thead>
-
                 <tbody>
                   {dataVisible && filteredData.length > 0 ? (
                     filteredData.slice(0, limit).map((row, i) => (
-                      <motion.tr key={i} whileHover={{ scale: 1.01, backgroundColor: "#f1f8ff" }}>
-                        {Object.values(row).map((val, j) => <td key={j}>{val}</td>)}
-                      </motion.tr>
+                      <tr key={i}>
+                        {Object.values(row).map((val, j) => (
+                          <td key={j}>{val}</td>
+                        ))}
+                      </tr>
                     ))
                   ) : (
                     <tr>
                       <td colSpan={tableHeaders.length} className="no-data">
-                        No data found. Try searching!
+                        No data found. Try searching.
                       </td>
                     </tr>
                   )}
                 </tbody>
-
               </table>
             </div>
           </motion.div>
@@ -256,14 +279,12 @@ const CreditCardTransactions = () => {
         {showOverlay && (
           <motion.div className="export-overlay" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
             <motion.div className="export-popup" initial={{ scale: 0.8 }} animate={{ scale: 1 }}>
-              <h3>📊 Loading Data...</h3>
-              <p>Please wait while we load your transaction records.</p>
+              <h3>Loading Data...</h3>
+              <p>Please wait while your AEPS transactions load.</p>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
     </div>
   );
-};
-
-export default CreditCardTransactions;
+}

@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import DashboardHeaderSidebar from "../../Admin/DashboardHeaderSidebar";
+import DashboardHeaderSidebar from "../DashboardHeaderSidebar";
 import "../../css/AllTransactions.css";  
 
 export default function UPITransferTransactions() {

@@ -3,10 +3,10 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import DashboardHeaderSidebar from "../../Admin/DashboardHeaderSidebar";
+import DashboardHeaderSidebar from "../DashboardHeaderSidebar";
 import "../../css/AllTransactions.css";  
 
-export default function MoneyTransferTransactions() {
+export default function PPITransferTransactions() {
   const router = useRouter();
   const [adminName, setAdminName] = useState("");
   const today = new Date().toISOString().split("T")[0];
@@ -147,7 +147,7 @@ export default function MoneyTransferTransactions() {
 
     const a = document.createElement("a");
     a.href = url;
-    a.download = "Money_Transfer_Transactions_From_SmartPay.csv";
+    a.download = "PPI_Transfer_Transactions.csv";
     a.click();
   };
 
@@ -168,15 +168,18 @@ export default function MoneyTransferTransactions() {
         <div className="sidebar-space" />
         <main className="main-content">
 
-          <motion.h2 className="money-title" initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}>
-            Money Transfer Transactions
+          <motion.h2
+            className="money-title"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            PPI Transfer Transactions
           </motion.h2>
 
-          {/* Filters */}
+          {/* Filter Section */}
           <motion.div className="card filter-card" whileHover={{ scale: 1.02 }}>
             <h3>Search Filters</h3>
             <div className="search-box">
-
               <input type="text" name="transactionNo" value={filters.transactionNo} onChange={handleChange} placeholder="Transaction No" />
 
               <select name="status" value={filters.status} onChange={handleChange}>
@@ -210,17 +213,22 @@ export default function MoneyTransferTransactions() {
             </div>
           </motion.div>
 
-          {/* Summary */}
+          {/* Summary Section */}
           <motion.div className="card summary-card-section">
             {summaryData.map((item, i) => (
-              <motion.div key={i} className="summary-card" style={{ background: item.color }} whileHover={{ scale: 1.05 }}>
+              <motion.div
+                key={i}
+                className="summary-card"
+                style={{ background: item.color }}
+                whileHover={{ scale: 1.05 }}
+              >
                 <p>{item.title}</p>
                 <h3>₹ {(Math.random() * 50000).toFixed(2)}</h3>
               </motion.div>
             ))}
           </motion.div>
 
-          {/* Table */}
+          {/* Table Section */}
           <motion.div className="card table-card">
             <div className="transaction-table-container">
               <table>
@@ -249,7 +257,7 @@ export default function MoneyTransferTransactions() {
         </main>
       </div>
 
-      {/* Loading Overlay */}
+      {/* Overlay */}
       <AnimatePresence>
         {showOverlay && (
           <motion.div className="export-overlay" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>

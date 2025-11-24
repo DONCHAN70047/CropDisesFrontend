@@ -1,21 +1,19 @@
 "use client";
 
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import DashboardHeaderSidebar from "../../Admin/DashboardHeaderSidebar.js";
-import "../../css/MoneyTransfer.css";
+import DashboardHeaderSidebar from "../DashboardHeaderSidebar";
+import "../../css/AllTransactions.css";  
 
-export default function AEPSTransactions() {
+export default function UtilityTransactions() {
   const router = useRouter();
-
   const [adminName, setAdminName] = useState("");
+  const today = new Date().toISOString().split("T")[0];
   const [showOverlay, setShowOverlay] = useState(false);
   const [dataVisible, setDataVisible] = useState(false);
   const [filteredData, setFilteredData] = useState([]);
   const [limit, setLimit] = useState(25);
-
-  const today = useMemo(() => new Date().toISOString().split("T")[0], []);
 
   const [filters, setFilters] = useState({
     transactionNo: "",
@@ -25,12 +23,10 @@ export default function AEPSTransactions() {
     toDate: today,
   });
 
-  // ---------- LOGIN CHECK ----------
   useEffect(() => {
     const name = localStorage.getItem("adminName");
-
     if (!name) {
-      router.replace("/Login"); // better than push for auth redirects
+      router.push("/Login");
     } else {
       setAdminName(name);
     }
@@ -38,16 +34,16 @@ export default function AEPSTransactions() {
 
   const handleLogout = () => {
     localStorage.removeItem("adminName");
-    router.replace("/Login");
+    router.push("/Login");
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    let newValue = value;
 
-    const newValue =
-      (name === "fromDate" || name === "toDate") && value.trim() === ""
-        ? today
-        : value;
+    if ((name === "fromDate" || name === "toDate") && value.trim() === "") {
+      newValue = today;
+    }
 
     setFilters((prev) => ({ ...prev, [name]: newValue }));
 
@@ -75,8 +71,7 @@ export default function AEPSTransactions() {
     "PostedDate",
   ];
 
-  // ---------- MOCK DATA ----------
-  const tableData = useMemo(() => {
+  const generateMockData = () => {
     const rows = [];
     for (let i = 1; i <= 200; i++) {
       rows.push({
@@ -100,9 +95,10 @@ export default function AEPSTransactions() {
       });
     }
     return rows;
-  }, [today]);
+  };
 
-  // ---------- SEARCH ----------
+  const [tableData] = useState(generateMockData());
+
   const handleSearch = () => {
     const hasFilter =
       filters.transactionNo ||
@@ -123,7 +119,9 @@ export default function AEPSTransactions() {
 
       if (filters.transactionNo) {
         filtered = filtered.filter((r) =>
-          r.TransactionNo.toLowerCase().includes(filters.transactionNo.toLowerCase())
+          r.TransactionNo.toLowerCase().includes(
+            filters.transactionNo.toLowerCase()
+          )
         );
       }
 
@@ -141,7 +139,6 @@ export default function AEPSTransactions() {
     }, 1000);
   };
 
-  // ---------- EXPORT ----------
   const handleExport = () => {
     if (!dataVisible || filteredData.length === 0) {
       alert("No data available to export. Please search first.");
@@ -150,17 +147,14 @@ export default function AEPSTransactions() {
 
     const csvRows = [];
     csvRows.push(tableHeaders.join(","));
-
-    filteredData.forEach((row) => {
-      csvRows.push(Object.values(row).join(","));
-    });
+    filteredData.forEach((row) => csvRows.push(Object.values(row).join(",")));
 
     const blob = new Blob([csvRows.join("\n")], { type: "text/csv" });
     const url = window.URL.createObjectURL(blob);
 
     const a = document.createElement("a");
     a.href = url;
-    a.download = "AEPS_Transactions.csv";
+    a.download = "Utility_Transactions.csv";
     a.click();
   };
 
@@ -175,21 +169,28 @@ export default function AEPSTransactions() {
 
   return (
     <div className="dashboard-container colorful-bg">
-      <DashboardHeaderSidebar adminName={adminName} handleLogout={handleLogout} />
+      <DashboardHeaderSidebar
+        adminName={adminName}
+        handleLogout={handleLogout}
+      />
 
       <div className="main-row">
         <div className="sidebar-space" />
-
         <main className="main-content">
-          <motion.h2 className="money-title" initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}>
-            AEPS Transfer Transactions
+
+          <motion.h2
+            className="money-title"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            Utility Transfer Transactions
           </motion.h2>
 
           {/* Filters */}
           <motion.div className="card filter-card" whileHover={{ scale: 1.02 }}>
             <h3>Search Filters</h3>
-
             <div className="search-box">
+
               <input
                 type="text"
                 name="transactionNo"
@@ -217,7 +218,7 @@ export default function AEPSTransactions() {
               <input type="date" name="fromDate" value={filters.fromDate} onChange={handleChange} />
               <input type="date" name="toDate" value={filters.toDate} onChange={handleChange} />
 
-              <select value={limit} onChange={(e) => setLimit(Number(e.target.value))}>
+              <select value={limit} onChange={(e) => setLimit(+e.target.value)}>
                 <option value={10}>Show 10</option>
                 <option value={25}>Show 25</option>
                 <option value={50}>Show 50</option>
@@ -247,9 +248,13 @@ export default function AEPSTransactions() {
           {/* Table */}
           <motion.div className="card table-card">
             <div className="transaction-table-container">
-              <table className="transaction-table">
+              <table>
                 <thead>
-                  <tr>{tableHeaders.map((h, i) => <th key={i}>{h}</th>)}</tr>
+                  <tr>
+                    {tableHeaders.map((h, i) => (
+                      <th key={i}>{h}</th>
+                    ))}
+                  </tr>
                 </thead>
                 <tbody>
                   {dataVisible && filteredData.length > 0 ? (
@@ -262,7 +267,7 @@ export default function AEPSTransactions() {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan={tableHeaders.length} className="no-data">
+                      <td colSpan={tableHeaders.length}>
                         No data found. Try searching.
                       </td>
                     </tr>
@@ -271,20 +276,31 @@ export default function AEPSTransactions() {
               </table>
             </div>
           </motion.div>
+
         </main>
       </div>
 
       {/* Loading Overlay */}
       <AnimatePresence>
         {showOverlay && (
-          <motion.div className="export-overlay" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-            <motion.div className="export-popup" initial={{ scale: 0.8 }} animate={{ scale: 1 }}>
+          <motion.div
+            className="export-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="export-popup"
+              initial={{ scale: 0.8 }}
+              animate={{ scale: 1 }}
+            >
               <h3>Loading Data...</h3>
-              <p>Please wait while your AEPS transactions load.</p>
+              <p>Please wait while your utility transactions load.</p>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
+
     </div>
   );
 }

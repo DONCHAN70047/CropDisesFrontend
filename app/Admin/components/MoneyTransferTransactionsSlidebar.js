@@ -3,10 +3,10 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import DashboardHeaderSidebar from "../../Admin/DashboardHeaderSidebar";
+import DashboardHeaderSidebar from "../DashboardHeaderSidebar";
 import "../../css/AllTransactions.css";  
 
-export default function UtilityTransactions() {
+export default function MoneyTransferTransactions() {
   const router = useRouter();
   const [adminName, setAdminName] = useState("");
   const today = new Date().toISOString().split("T")[0];
@@ -86,9 +86,7 @@ export default function UtilityTransactions() {
         Commission: (Math.random() * 20).toFixed(2),
         TransType: ["IMPS", "NEFT", "UPI", "CARD"][Math.floor(Math.random() * 4)],
         UTRNo: `UTR${Math.floor(100000 + Math.random() * 900000)}`,
-        Status: ["Success", "Failed", "Refunded", "Pending"][
-          Math.floor(Math.random() * 4)
-        ],
+        Status: ["Success", "Failed", "Refunded", "Pending"][Math.floor(Math.random() * 4)],
         Message: "Transaction processed successfully",
         CreatedDate: today,
         PostedDate: today,
@@ -117,21 +115,16 @@ export default function UtilityTransactions() {
     setTimeout(() => {
       let filtered = tableData;
 
-      if (filters.transactionNo) {
+      if (filters.transactionNo)
         filtered = filtered.filter((r) =>
-          r.TransactionNo.toLowerCase().includes(
-            filters.transactionNo.toLowerCase()
-          )
+          r.TransactionNo.toLowerCase().includes(filters.transactionNo.toLowerCase())
         );
-      }
 
-      if (filters.status) {
+      if (filters.status)
         filtered = filtered.filter((r) => r.Status === filters.status);
-      }
 
-      if (filters.type) {
+      if (filters.type)
         filtered = filtered.filter((r) => r.TransType === filters.type);
-      }
 
       setFilteredData(filtered);
       setDataVisible(true);
@@ -154,7 +147,7 @@ export default function UtilityTransactions() {
 
     const a = document.createElement("a");
     a.href = url;
-    a.download = "Utility_Transactions.csv";
+    a.download = "Money_Transfer_Transactions_From_SmartPay.csv";
     a.click();
   };
 
@@ -169,21 +162,14 @@ export default function UtilityTransactions() {
 
   return (
     <div className="dashboard-container colorful-bg">
-      <DashboardHeaderSidebar
-        adminName={adminName}
-        handleLogout={handleLogout}
-      />
+      <DashboardHeaderSidebar adminName={adminName} handleLogout={handleLogout} />
 
       <div className="main-row">
         <div className="sidebar-space" />
         <main className="main-content">
 
-          <motion.h2
-            className="money-title"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-          >
-            Utility Transfer Transactions
+          <motion.h2 className="money-title" initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}>
+            Money Transfer Transactions
           </motion.h2>
 
           {/* Filters */}
@@ -191,13 +177,7 @@ export default function UtilityTransactions() {
             <h3>Search Filters</h3>
             <div className="search-box">
 
-              <input
-                type="text"
-                name="transactionNo"
-                value={filters.transactionNo}
-                onChange={handleChange}
-                placeholder="Transaction No"
-              />
+              <input type="text" name="transactionNo" value={filters.transactionNo} onChange={handleChange} placeholder="Transaction No" />
 
               <select name="status" value={filters.status} onChange={handleChange}>
                 <option value="">- Status -</option>
@@ -233,12 +213,7 @@ export default function UtilityTransactions() {
           {/* Summary */}
           <motion.div className="card summary-card-section">
             {summaryData.map((item, i) => (
-              <motion.div
-                key={i}
-                className="summary-card"
-                style={{ background: item.color }}
-                whileHover={{ scale: 1.05 }}
-              >
+              <motion.div key={i} className="summary-card" style={{ background: item.color }} whileHover={{ scale: 1.05 }}>
                 <p>{item.title}</p>
                 <h3>₹ {(Math.random() * 50000).toFixed(2)}</h3>
               </motion.div>
@@ -251,25 +226,19 @@ export default function UtilityTransactions() {
               <table>
                 <thead>
                   <tr>
-                    {tableHeaders.map((h, i) => (
-                      <th key={i}>{h}</th>
-                    ))}
+                    {tableHeaders.map((h, i) => <th key={i}>{h}</th>)}
                   </tr>
                 </thead>
                 <tbody>
                   {dataVisible && filteredData.length > 0 ? (
                     filteredData.slice(0, limit).map((row, i) => (
                       <tr key={i}>
-                        {Object.values(row).map((val, j) => (
-                          <td key={j}>{val}</td>
-                        ))}
+                        {Object.values(row).map((val, j) => <td key={j}>{val}</td>)}
                       </tr>
                     ))
                   ) : (
                     <tr>
-                      <td colSpan={tableHeaders.length}>
-                        No data found. Try searching.
-                      </td>
+                      <td colSpan={tableHeaders.length}>No data found. Try searching.</td>
                     </tr>
                   )}
                 </tbody>
@@ -283,19 +252,10 @@ export default function UtilityTransactions() {
       {/* Loading Overlay */}
       <AnimatePresence>
         {showOverlay && (
-          <motion.div
-            className="export-overlay"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <motion.div
-              className="export-popup"
-              initial={{ scale: 0.8 }}
-              animate={{ scale: 1 }}
-            >
+          <motion.div className="export-overlay" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+            <motion.div className="export-popup" initial={{ scale: 0.8 }} animate={{ scale: 1 }}>
               <h3>Loading Data...</h3>
-              <p>Please wait while your utility transactions load.</p>
+              <p>Please wait while your transaction data loads.</p>
             </motion.div>
           </motion.div>
         )}

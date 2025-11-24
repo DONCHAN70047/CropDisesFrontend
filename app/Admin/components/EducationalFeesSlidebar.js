@@ -3,17 +3,16 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import DashboardHeaderSidebar from "../../Admin/DashboardHeaderSidebar";
+import DashboardHeaderSidebar from "../DashboardHeaderSidebar";
 import "../../css/AllTransactions.css";  
 
-export default function FlightBookings() {
+export default function EducationalFees() {
   const router = useRouter();
   const [adminName, setAdminName] = useState("");
   const today = new Date().toISOString().split("T")[0];
   const [showOverlay, setShowOverlay] = useState(false);
   const [dataVisible, setDataVisible] = useState(false);
   const [filteredData, setFilteredData] = useState([]);
-  const [limit, setLimit] = useState(25);
 
   const [filters, setFilters] = useState({
     transactionNo: "",
@@ -22,6 +21,8 @@ export default function FlightBookings() {
     fromDate: today,
     toDate: today,
   });
+
+  const [limit, setLimit] = useState(25);
 
   useEffect(() => {
     const name = localStorage.getItem("adminName");
@@ -147,7 +148,7 @@ export default function FlightBookings() {
 
     const a = document.createElement("a");
     a.href = url;
-    a.download = "Flight_Booking_Transactions.csv";
+    a.download = "Money_Transfer_Transactions_From_SmartPay.csv";
     a.click();
   };
 
@@ -168,16 +169,25 @@ export default function FlightBookings() {
         <div className="sidebar-space" />
         <main className="main-content">
 
-          <motion.h2 className="money-title" initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}>
-            Flight Booking Transactions
+          <motion.h2 
+            className="money-title"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            Educational Fees Transactions
           </motion.h2>
 
-          {/* Filters */}
+          {/* Filter Section */}
           <motion.div className="card filter-card" whileHover={{ scale: 1.02 }}>
             <h3>Search Filters</h3>
             <div className="search-box">
-
-              <input type="text" name="transactionNo" value={filters.transactionNo} onChange={handleChange} placeholder="Transaction No" />
+              <input
+                type="text"
+                name="transactionNo"
+                placeholder="Transaction No"
+                value={filters.transactionNo}
+                onChange={handleChange}
+              />
 
               <select name="status" value={filters.status} onChange={handleChange}>
                 <option value="">- Status -</option>
@@ -213,7 +223,12 @@ export default function FlightBookings() {
           {/* Summary */}
           <motion.div className="card summary-card-section">
             {summaryData.map((item, i) => (
-              <motion.div key={i} className="summary-card" style={{ background: item.color }} whileHover={{ scale: 1.05 }}>
+              <motion.div
+                key={i}
+                className="summary-card"
+                style={{ background: item.color }}
+                whileHover={{ scale: 1.05 }}
+              >
                 <p>{item.title}</p>
                 <h3>₹ {(Math.random() * 50000).toFixed(2)}</h3>
               </motion.div>
@@ -226,14 +241,18 @@ export default function FlightBookings() {
               <table>
                 <thead>
                   <tr>
-                    {tableHeaders.map((h, i) => <th key={i}>{h}</th>)}
+                    {tableHeaders.map((header, i) => (
+                      <th key={i}>{header}</th>
+                    ))}
                   </tr>
                 </thead>
                 <tbody>
                   {dataVisible && filteredData.length > 0 ? (
                     filteredData.slice(0, limit).map((row, i) => (
                       <tr key={i}>
-                        {Object.values(row).map((val, j) => <td key={j}>{val}</td>)}
+                        {Object.values(row).map((val, j) => (
+                          <td key={j}>{val}</td>
+                        ))}
                       </tr>
                     ))
                   ) : (
@@ -249,13 +268,18 @@ export default function FlightBookings() {
         </main>
       </div>
 
-      {/* Overlay */}
+      {/* Loading Overlay */}
       <AnimatePresence>
         {showOverlay && (
-          <motion.div className="export-overlay" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-            <motion.div className="export-popup" initial={{ scale: 0.8 }} animate={{ scale: 1 }}>
+          <motion.div
+            className="export-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div className="export-popup" initial={{ scale: 0.9 }} animate={{ scale: 1 }}>
               <h3>Loading Data...</h3>
-              <p>Please wait while the transactions load.</p>
+              <p>Please wait while your data is loading.</p>
             </motion.div>
           </motion.div>
         )}
