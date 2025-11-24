@@ -48,7 +48,7 @@ export default function Login() {
         setUser(response?.data);
         router.push("/Admin");
       } else {
-        setError(data.error || "Invalid phone number or password");
+        setError(response?.data?.error || "Invalid phone number or password");
       }
     } catch (err) {
       console.error("Login error:", err);

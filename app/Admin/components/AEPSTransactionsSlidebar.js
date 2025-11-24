@@ -28,14 +28,14 @@ export default function AEPSTransactions() {
   });
 
   // ---------- LOGIN CHECK ----------
-  useEffect(() => {
-    const fullName = `${user?.firstName || ""} ${user?.lastName || ""}`.trim();
-    if (!fullName) {
-      router.replace("/login");
-    } else {
-      setAdminName(fullName);
-    }
-  }, [router, user]);
+  // useEffect(() => {
+  //   const fullName = `${user?.firstName || ""} ${user?.lastName || ""}`.trim();
+  //   if (!fullName) {
+  //     router.replace("/login");
+  //   } else {
+  //     setAdminName(fullName);
+  //   }
+  // }, [router, user]);
 
   const handleLogout = () => {
     localStorage.removeItem("adminName");
@@ -167,7 +167,7 @@ export default function AEPSTransactions() {
 
   return (
     <div className="dashboard-container colorful-bg">
-      <DashboardHeaderSidebar adminName={adminName} handleLogout={handleLogout} />
+      {/* <DashboardHeaderSidebar adminName={adminName} handleLogout={handleLogout} /> */}
 
       <div className="main-row">
         <div className="sidebar-space" />
