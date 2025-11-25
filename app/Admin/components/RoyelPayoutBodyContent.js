@@ -1,44 +1,44 @@
-"use client"
+"use client";
+
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import "../../css/MoneyTransfer.css";
-import DashboardHeaderSidebar from "../DashboardHeaderSidebar";
 import { motion } from "framer-motion";
+import { isProtected } from "../../utils/protectedRoute";
+import { useUserContext } from "@/app/utils/context/user_context";
+
 
 const MoneyTransfer = () => {
+
+  {/* Copy */}
+  const router = useRouter();
   const [adminName, setAdminName] = useState("");
   const [adminPhoto, setAdminPhoto] = useState("");
-
   const handleLogout = () => {
     localStorage.removeItem("adminName");
     localStorage.removeItem("adminPhoto");
-    window.location.href = "/Login";
+    router.push("/login");
   };
-
   useEffect(() => {
-    const name = localStorage.getItem("adminName");
-    const photo = localStorage.getItem("adminPhoto");
-
-    if (!name) {
-      window.location.href = "/Login";
+    if (!isProtected()) {
+      router.push("/login");
     } else {
-      setAdminName(name);
-      setAdminPhoto(photo);
+      const storedName = localStorage.getItem("adminName");
+      const storedPhoto = localStorage.getItem("adminPhoto");
+
+      if (storedName) setAdminName(storedName);
+      if (storedPhoto) setAdminPhoto(storedPhoto);
     }
-  }, []);
+  }, []);   {/* Untill this */}
+
+
 
   return (
     <div className="dashboard-container colorful-bg">
 
-      {/* HEADER + SIDEBAR */}
-      <DashboardHeaderSidebar
-        adminName={adminName}
-        adminPhoto={adminPhoto}
-        handleLogout={handleLogout}
-      />
-
       <div className="main-row">
-        
-        {/* Fixed Sidebar Gap */}
+
+        {/* Sidebar Gap */}
         <div className="sidebar-space" />
 
         {/* MAIN CONTENT */}
@@ -50,7 +50,7 @@ const MoneyTransfer = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
           >
-             Royel Payout
+            Royel Payout
           </motion.h2>
 
           <motion.div

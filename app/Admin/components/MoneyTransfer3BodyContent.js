@@ -2,44 +2,35 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import DashboardHeaderSidebar from "../DashboardHeaderSidebar";
 import { motion } from "framer-motion";
 import "../../css/MoneyTransfer.css";
+import { isProtected } from "../../utils/protectedRoute";
 
 export default function MoneyTransfer3() {
-  const router = useRouter();
-  const [adminName, setAdminName] = useState("");
-  const [adminPhoto, setAdminPhoto] = useState("");
-
   // LOAD ADMIN DATA
-  useEffect(() => {
-    const name = localStorage.getItem("adminName");
-    const photo = localStorage.getItem("adminPhoto");
-
-    if (!name) {
-      router.replace("/login"); // redirect if not logged in
-    } else {
-      setAdminName(name);
-      setAdminPhoto(photo);
-    }
-  }, [router]);
-
-  // LOGOUT FUNCTION
-  const handleLogout = () => {
-    localStorage.removeItem("adminName");
-    localStorage.removeItem("adminPhoto");
-    router.replace("/Login");
-  };
+  {/* Copy */}
+    const router = useRouter();
+    const [adminName, setAdminName] = useState("");
+    const [adminPhoto, setAdminPhoto] = useState("");
+    const handleLogout = () => {
+      localStorage.removeItem("adminName");
+      localStorage.removeItem("adminPhoto");
+      router.push("/login");
+    };
+    useEffect(() => {
+      if (!isProtected()) {
+        router.push("/login");
+      } else {
+        const storedName = localStorage.getItem("adminName");
+        const storedPhoto = localStorage.getItem("adminPhoto");
+  
+        if (storedName) setAdminName(storedName);
+        if (storedPhoto) setAdminPhoto(storedPhoto);
+      }
+    }, []);   {/* Untill this */}
 
   return (
     <div className="dashboard-container colorful-bg">
-
-      {/* HEADER + SIDEBAR */}
-      <DashboardHeaderSidebar
-        adminName={adminName}
-        adminPhoto={adminPhoto}
-        handleLogout={handleLogout}
-      />
 
       <div className="main-row">
 
