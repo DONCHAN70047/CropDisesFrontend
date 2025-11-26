@@ -30,17 +30,17 @@ export async function loginUser({ phone, password }) {
             userId: existingUser._id.toString()
         }
 
-        // create new tokens
+       
         const new_access = createAccessToken(payload);
         const new_refresh = createRefreshToken(payload);
 
-        // reset refresh token
+        
         cookieStore.delete('refresh')
         cookieStore.set('refresh', new_refresh, {
             httpOnly: true,
             sameSite: "strict",
             secure: process.env.SECURE,
-            maxAge: 60 * 24 * 60 * 60, // 60 days
+            maxAge: 60 * 24 * 60 * 60, 
         })
 
         return isVerified
