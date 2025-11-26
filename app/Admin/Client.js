@@ -15,9 +15,11 @@ import EducationalFeesSlidebar from "./components/EducationalFeesSlidebar";
 import FlightBookingsSidebar from "./components/FlightBookingsSidebar";
 import MoneyTransferTransactionsSlidebar from "./components/MoneyTransferTransactionsSlidebar";
 import PPITransferTransactionsSlidebar from "./components/PPITransferTransactionsSlidebar";
-import UPITransferTransactionsSlidebar from "./components/UPITransferTransactionsSlidebar"; 
+import UPITransferTransactionsSlidebar from "./components/UPITransferTransactionsSlidebar";
 import RoyelPayoutBodyContent from "./components/RoyelPayoutBodyContent";
 import MoneyTransfer3BodyContent from "./components/MoneyTransfer3BodyContent";
+import ChangempinSlidebar from "./components/ChangeMpinSlidebar";
+import ChangepasswordSlidebar from "./components/ChangePasswordSlidebar";
 
 
 const AdminDashboard = ({ adminName }) => {
@@ -121,9 +123,11 @@ const AdminDashboard = ({ adminName }) => {
             {query_page === "MoneyTransferTransactionsSlidebar" && <MoneyTransferTransactionsSlidebar />}
             {query_page === "PPITransferTransactionsSlidebar" && <PPITransferTransactionsSlidebar />}
             {query_page === "UPITransferTransactionsSlidebar" && <UPITransferTransactionsSlidebar />}
-            {query_page === "UtilityTransactionsSlidebar" && <UtilityTransactionsSlidebar />} 
-            {query_page === "RoyelPayoutBodyContent" && <RoyelPayoutBodyContent />}   
-            {query_page === "MoneyTransfer3BodyContent" && <MoneyTransfer3BodyContent />} 
+            {query_page === "UtilityTransactionsSlidebar" && <UtilityTransactionsSlidebar />}
+            {query_page === "RoyelPayoutBodyContent" && <RoyelPayoutBodyContent />}
+            {query_page === "MoneyTransfer3BodyContent" && <MoneyTransfer3BodyContent />}
+            {query_page === "changempinSlidebar" && <ChangempinSlidebar />}
+            {query_page === "changepasswordSlidebar" && <ChangepasswordSlidebar />}
 
         </div>
     );

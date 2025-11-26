@@ -6,9 +6,9 @@ import "../../css/MoneyTransfer.css";
 import { motion } from "framer-motion";
 import { isProtected } from "../../utils/protectedRoute";
 
-const ChangeMPIN = () => {
+const ChangePasswordSlidebar = () => {
 
-  {/* Copy */}
+
   const router = useRouter();
   const [adminName, setAdminName] = useState("");
   const [adminPhoto, setAdminPhoto] = useState("");
@@ -31,16 +31,14 @@ const ChangeMPIN = () => {
       if (storedName) setAdminName(storedName);
       if (storedPhoto) setAdminPhoto(storedPhoto);
     }
-  }, []);   {/* Untill this */}
+  }, []);   
 
   const handleVerify = () => {
-    console.log("MPIN OTP:", otp);
-    // Your verify OTP API logic here
+    console.log("OTP:", otp);
   };
 
   const handleResend = () => {
-    console.log("Resend MPIN OTP clicked");
-    // Your resend OTP API logic here
+    console.log("Resend OTP clicked");
   };
 
   return (
@@ -48,10 +46,10 @@ const ChangeMPIN = () => {
 
       <div className="main-row">
 
-        {/* Sidebar Gap */}
+        
         <div className="sidebar-space" />
 
-        {/* MAIN CONTENT */}
+        
         <main className="main-content">
 
           <motion.h2
@@ -60,11 +58,11 @@ const ChangeMPIN = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
           >
-            Change MPIN
+            Change Password
           </motion.h2>
 
           <p className="mt-subtitle">
-            Update your current mpin to enhance security.
+            Update your current password to enhance security.
           </p>
 
           <motion.div
@@ -92,17 +90,11 @@ const ChangeMPIN = () => {
                 />
 
                 <div className="mt-btn-row">
-                  <button 
-                    className="mt-btn verify-btn" 
-                    onClick={handleVerify}
-                  >
+                  <button className="mt-btn verify-btn" onClick={handleVerify}>
                     Verify
                   </button>
 
-                  <button 
-                    className="mt-btn resend-btn" 
-                    onClick={handleResend}
-                  >
+                  <button className="mt-btn resend-btn" onClick={handleResend}>
                     Resend OTP
                   </button>
                 </div>
@@ -118,4 +110,4 @@ const ChangeMPIN = () => {
   );
 };
 
-export default ChangeMPIN;
+export default ChangePasswordSlidebar;

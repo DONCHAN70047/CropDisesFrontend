@@ -10,10 +10,17 @@ const DashboardHeaderSidebar = ({ adminName, adminPhoto, handleLogout }) => {
   const defaultImage = "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
   const finalPhoto = adminPhoto || defaultImage;
 
-  
+
   const navigateTo = (panelName) => {
     router.push(`/Admin?panel=${panelName}`);
   };
+
+  const [showConfigMenu, setShowConfigMenu] = useState(false);
+
+  const toggleConfigMenu = () => {
+    setShowConfigMenu(!showConfigMenu);
+  };
+
 
   return (
     <>
@@ -77,7 +84,10 @@ const DashboardHeaderSidebar = ({ adminName, adminPhoto, handleLogout }) => {
             <li onClick={() => navigateTo("/Admin/SmartSummary")}>Smart Summary</li>
 
             {/* Transactions Dropdown */}
-            <li className="dropdown-title" onClick={() => setIsTransactionsOpen(!isTransactionsOpen)}>
+            <li
+              className="dropdown-title"
+              onClick={() => setIsTransactionsOpen(!isTransactionsOpen)}
+            >
               Transactions ▾
             </li>
 
@@ -90,17 +100,42 @@ const DashboardHeaderSidebar = ({ adminName, adminPhoto, handleLogout }) => {
                   exit={{ opacity: 0, height: 0 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <li onClick={() => navigateTo("MoneyTransferTransactionsSlidebar")}>Money Transfer</li>
-                  <li onClick={() => navigateTo("UPITransferTransactionsSlidebar")}>UPI Transfer</li>
-                  <li onClick={() => navigateTo("PPITransferTransactionsSlidebar")}>PPI Transfer</li>
-                  <li onClick={() => navigateTo("UtilityTransactionsSlidebar")}>Utility Bills</li>
-                  <li onClick={() => navigateTo("EducationalFeesSlidebar")}>Education Fees</li>
-                  <li onClick={() => navigateTo("AEPSTransactionsSlidebar")}>AEPS / MATM</li>
-                  <li onClick={() => navigateTo("CreditCardTransactionsSlidebar")}>Credit Card</li>
-                  <li onClick={() => navigateTo("FlightBookingsSidebar")}>Flight Bookings</li>
+                  <li onClick={() => navigateTo("MoneyTransferTransactionsSlidebar")}>
+                    Money Transfer
+                  </li>
+
+                  <li onClick={() => navigateTo("UPITransferTransactionsSlidebar")}>
+                    UPI Transfer
+                  </li>
+
+                  <li onClick={() => navigateTo("PPITransferTransactionsSlidebar")}>
+                    PPI Transfer
+                  </li>
+
+                  <li onClick={() => navigateTo("UtilityTransactionsSlidebar")}>
+                    Utility Bills
+                  </li>
+
+                  <li onClick={() => navigateTo("EducationalFeesSlidebar")}>
+                    Education Fees
+                  </li>
+
+                  <li onClick={() => navigateTo("AEPSTransactionsSlidebar")}>
+                    AEPS / MATM
+                  </li>
+
+                  <li onClick={() => navigateTo("CreditCardTransactionsSlidebar")}>
+                    Credit Card
+                  </li>
+
+                  <li onClick={() => navigateTo("FlightBookingsSidebar")}>
+                    Flight Bookings
+                  </li>
                 </motion.ul>
               )}
             </AnimatePresence>
+
+
 
             <li onClick={() => navigateTo("RefundPending")}>Refund Pending</li>
             <li onClick={() => navigateTo("MoneyRequests")}>Money Requests</li>
@@ -108,7 +143,20 @@ const DashboardHeaderSidebar = ({ adminName, adminPhoto, handleLogout }) => {
             <li onClick={() => navigateTo("Settlement")}>Settlement</li>
 
             <li className="section-title">Privacy & Settings</li>
-            <li onClick={() => navigateTo("Configurations")}>Configurations</li>
+            <li onClick={toggleConfigMenu}>
+              Configurations
+            </li>
+            {showConfigMenu && (
+              <ul className="sub-menu">
+                <li onClick={() => navigateTo("changepasswordSlidebar")}>
+                  Change Password
+                </li>
+
+                <li onClick={() => navigateTo("changempinSlidebar")}>
+                  Change MPIN
+                </li>
+              </ul>
+            )}
             <li onClick={() => navigateTo("Credentials")}>Credentials</li>
           </ul>
         </nav>

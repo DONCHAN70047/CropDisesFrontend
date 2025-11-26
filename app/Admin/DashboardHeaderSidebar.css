@@ -21,6 +21,23 @@
   height: 100vh;
 }
 
+.sub-menu {
+  margin-left: 20px;
+  list-style: none;
+  padding: 5px 0;
+}
+
+.sub-menu li {
+  padding: 6px 0;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.sub-menu li:hover {
+  color: #6e56cf;
+}
+
+
 /* =====================================================
    🟣 TOP NAVBAR
 ===================================================== */
