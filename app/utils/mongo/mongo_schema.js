@@ -13,4 +13,3 @@ const user_schema = new mongoose.Schema({
 });
 
 export const user = mongoose.models["user"] || mongoose.model("user", user_schema);
-export const RoyelPayout = mongoose.model("RoyelPayout", RoyelPayoutSchema);
