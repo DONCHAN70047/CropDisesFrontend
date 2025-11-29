@@ -12,18 +12,15 @@ const DashboardHeaderSidebar = ({ adminName, adminPhoto, handleLogout }) => {
   const [isMoneyRequestsOpen, setIsMoneyRequestsOpen] = useState(false);
   const [isStatementsOpen, setIsStatementsOpen] = useState(false);
   const [isSettlementOpen, setIsSettlementOpen] = useState(false);
-  const [isChargesSlabsOpen, setIsChargesSlabsOpen] = useState(false); // NEW STATE
-  const [showConfigMenu, setShowConfigMenu] = useState(false);
+  const [isChargesSlabsOpen, setIsChargesSlabsOpen] = useState(false);
+  const [isConfigurationsOpen, setIsConfigurationsOpen] = useState(false); // Controls Configurations
+  const [isCredentialsOpen, setIsCredentialsOpen] = useState(false); // Controls Credentials
 
   const defaultImage = "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
   const finalPhoto = adminPhoto || defaultImage;
 
   const navigateTo = (panelName) => {
     router.push(`/Admin?panel=${panelName}`);
-  };
-
-  const toggleConfigMenu = () => {
-    setShowConfigMenu(!showConfigMenu);
   };
 
   return (
@@ -210,7 +207,7 @@ const DashboardHeaderSidebar = ({ adminName, adminPhoto, handleLogout }) => {
               )}
             </AnimatePresence>
 
-            {/* --- 6. Charges Slabs Dropdown (NEW) --- */}
+            {/* --- 6. Charges Slabs Dropdown --- */}
             <li 
               className="dropdown-title"
               onClick={() => setIsChargesSlabsOpen(!isChargesSlabsOpen)}
@@ -236,12 +233,40 @@ const DashboardHeaderSidebar = ({ adminName, adminPhoto, handleLogout }) => {
 
             <li className="section-title">Privacy & Settings</li>
             
-            {/* --- Configurations Dropdown --- */}
-            <li className="dropdown-title" onClick={toggleConfigMenu}>
+            {/* --- 7. Configurations Dropdown (UPDATED) --- */}
+            <li 
+              className="dropdown-title" 
+              onClick={() => setIsConfigurationsOpen(!isConfigurationsOpen)}
+            >
               Configurations ▾
             </li>
             <AnimatePresence>
-              {showConfigMenu && (
+              {isConfigurationsOpen && (
+                <motion.ul 
+                  className="submenu"
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <li onClick={() => navigateTo("CollectRequestOutlets")}>Collect Request Outlets</li>
+                  <li onClick={() => navigateTo("PrintBCCertificate")}>Print BC Certificate</li>
+                  <li onClick={() => navigateTo("PrintEssentialLetter")}>Print Essential Letter</li>
+                  <li onClick={() => navigateTo("PrintIDCard")}>Print ID Card</li>
+                  <li onClick={() => navigateTo("PrintInfo")}>Print Info</li>
+                </motion.ul>
+              )}
+            </AnimatePresence>
+            
+            {/* --- 8. Credentials Dropdown --- */}
+            <li 
+              className="dropdown-title" 
+              onClick={() => setIsCredentialsOpen(!isCredentialsOpen)}
+            >
+              Credentials ▾
+            </li>
+            <AnimatePresence>
+              {isCredentialsOpen && (
                 <motion.ul 
                   className="submenu"
                   initial={{ opacity: 0, height: 0 }}
@@ -254,8 +279,7 @@ const DashboardHeaderSidebar = ({ adminName, adminPhoto, handleLogout }) => {
                 </motion.ul>
               )}
             </AnimatePresence>
-
-            <li onClick={() => navigateTo("Credentials")}>Credentials</li>
+            
           </ul>
         </nav>
 
