@@ -24,6 +24,7 @@ import SmartSummary from "./components/SmartSummary";
 
 
 
+
 const AdminDashboard = ({ adminName }) => {
     const router = useRouter();
     const searchParams = useSearchParams();

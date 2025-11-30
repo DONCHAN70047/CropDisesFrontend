@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import "../../css/MoneyTransfer.css";
 import { DataSearchMoneyTransfer } from "./action/MoneyTransferTransactionsSlidebarDataSearch";
@@ -13,19 +13,14 @@ const MoneyTransferTransactionsSlidebar = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [limit, setLimit] = useState(25);
 
-  const summaryData = [
-    "Total Transactions",
-    "Total Amount",
-    "Total Charges",
-    "Total Commission",
-    "Refund Pending",
-    "Total Refunded",
-  ];
-
-  const [summaryValues, setSummaryValues] = useState([]);
-  useEffect(() => {
-    setSummaryValues(summaryData.map(() => (Math.random() * 50000).toFixed(2)));
-  }, []);
+  const [summaryValues, setSummaryValues] = useState({
+    totalTransactions: 0,
+    totalAmount: 0,
+    totalCharges: 0,
+    totalCommission: 0,
+    refundPending: 0,
+    totalRefunded: 0,
+  });
 
   const [filters, setFilters] = useState({
     transactionNo: "",
@@ -53,43 +48,74 @@ const MoneyTransferTransactionsSlidebar = () => {
     "PostedDate",
   ];
 
+  // ====================== HANDLE INPUT CHANGE ======================
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFilters((prev) => ({ ...prev, [name]: value }));
   };
 
-  // ======================= SEARCH FUNCTION =======================
-  const handleSearch = async () => {
-  setShowOverlay(true);
+  // ====================== SUMMARY CALCULATION ======================
+  const calculateSummary = (data) => {
+    const summary = {
+      totalTransactions: data.length,
+      totalAmount: 0,
+      totalCharges: 0,
+      totalCommission: 0,
+      refundPending: 0,
+      totalRefunded: 0,
+    };
 
-  try {
-    const result = await DataSearchMoneyTransfer({
-      transactionNo: filters.transactionNo,
-      status: filters.status,
-      type: filters.type,
-      startDate: filters.fromDate,
-      endDate: filters.toDate,
+    data.forEach((item) => {
+      summary.totalAmount += Number(item.Amount || 0);
+      summary.totalCharges += Number(item.Charges || 0);
+      summary.totalCommission += Number(item.Commission || 0);
+
+      if (item.Status === "Pending") {
+        summary.refundPending += Number(item.Amount || 0);
+      }
+
+      if (item.Status === "Refunded") {
+        summary.totalRefunded += Number(item.Amount || 0);
+      }
     });
 
-    if (result.status === 200) {
-      setFilteredData(result.data);
-      setDataVisible(true);
+    setSummaryValues(summary);
+  };
 
-      if (result.data.length === 0) {
-        alert("No Data Found");
+  // ====================== SEARCH FUNCTION ======================
+  const handleSearch = async () => {
+    setShowOverlay(true);
+
+    try {
+      const result = await DataSearchMoneyTransfer({
+        transactionNo: filters.transactionNo,
+        status: filters.status,
+        type: filters.type,
+        startDate: filters.fromDate,
+        endDate: filters.toDate,
+      });
+
+      if (result.status === 200) {
+        setFilteredData(result.data);
+        setDataVisible(true);
+
+        // Calculate summary values
+        calculateSummary(result.data);
+
+        if (result.data.length === 0) {
+          alert("No Data Found");
+        }
+      } else {
+        alert("Server Error");
       }
-    } else {
+    } catch (err) {
       alert("Server Error");
     }
-  } catch (err) {
-    alert("Server Error");
-  }
 
-  setShowOverlay(false);
-};
+    setShowOverlay(false);
+  };
 
-
-  // ======================= EXPORT CSV =======================
+  // ====================== EXPORT CSV ======================
   const handleExport = () => {
     if (!dataVisible || filteredData.length === 0) {
       alert("⚠️ No data to export.");
@@ -193,19 +219,35 @@ const MoneyTransferTransactionsSlidebar = () => {
 
           {/* ======================= SUMMARY ======================= */}
           <motion.div className="card summary-card-section">
-            {summaryData.map((title, i) => (
-              <motion.div
-                key={i}
-                className="summary-card"
-                style={{
-                  background:
-                    "linear-gradient(135deg, rgb(50,150,255), rgb(120,80,255))",
-                }}
-              >
-                <p>{title}</p>
-                <h3>₹ {summaryValues[i]}</h3>
-              </motion.div>
-            ))}
+            <motion.div className="summary-card">
+              <p>Total Transactions</p>
+              <h3>₹ {summaryValues.totalTransactions}</h3>
+            </motion.div>
+
+            <motion.div className="summary-card">
+              <p>Total Amount</p>
+              <h3>₹ {summaryValues.totalAmount.toFixed(2)}</h3>
+            </motion.div>
+
+            <motion.div className="summary-card">
+              <p>Total Charges</p>
+              <h3>₹ {summaryValues.totalCharges.toFixed(2)}</h3>
+            </motion.div>
+
+            <motion.div className="summary-card">
+              <p>Total Commission</p>
+              <h3>₹ {summaryValues.totalCommission.toFixed(2)}</h3>
+            </motion.div>
+
+            <motion.div className="summary-card">
+              <p>Refund Pending</p>
+              <h3>₹ {summaryValues.refundPending.toFixed(2)}</h3>
+            </motion.div>
+
+            <motion.div className="summary-card">
+              <p>Total Refunded</p>
+              <h3>₹ {summaryValues.totalRefunded.toFixed(2)}</h3>
+            </motion.div>
           </motion.div>
 
           {/* ======================= TABLE ======================= */}

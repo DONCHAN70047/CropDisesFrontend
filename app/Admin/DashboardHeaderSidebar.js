@@ -82,7 +82,7 @@ const DashboardHeaderSidebar = ({ adminName, adminPhoto, handleLogout }) => {
         <nav className="nav-menu">
           <ul>
             <li onClick={() => router.push("/Admin")}> Dashboard </li>
-            <li onClick={() => navigateTo("/Admin/SmartSummary")}>Smart Summary</li>
+            <li onClick={() => navigateTo("SmartSummary")}>Smart Summary</li>
 
             {/* --- 1. Transactions Dropdown --- */}
             <li

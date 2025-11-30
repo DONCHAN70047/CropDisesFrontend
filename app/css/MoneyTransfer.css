@@ -135,3 +135,88 @@
     font-size: 24px;
   }
 }
+
+/* ---------- Summary block container ---------- */
+.summary-card-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: flex-start; /* change to center if you want centered */
+  align-items: stretch;
+  padding: 12px 8px;
+}
+
+/* ---------- Individual summary card ---------- */
+.summary-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 220px;               /* card width */
+  min-height: 96px;           /* card height */
+  padding: 14px 18px;
+  border-radius: 12px;
+  color: #ffffff;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+  background: linear-gradient(135deg,#2b2b2b,#1a1a1a);
+  border: 1px solid rgba(255,255,255,0.06);
+  transition: transform .18s ease, box-shadow .18s ease;
+  cursor: default;
+}
+
+/* Hover effect */
+.summary-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 32px rgba(0,0,0,0.45);
+}
+
+/* Label (top small text) */
+.summary-card p {
+  margin: 0;
+  font-size: 13px;
+  opacity: 0.95;
+  letter-spacing: 0.2px;
+}
+
+/* Value (big number) */
+.summary-card h3 {
+  margin: 6px 0 0 0;
+  font-size: 20px;
+  line-height: 1;
+  font-weight: 700;
+}
+
+/* ---------- Color variants (choose one for each card) ---------- */
+.summary-card.blue {
+  background: linear-gradient(135deg,#2b8cff,#6dd5ff);
+  color: #062a4c;
+}
+.summary-card.green {
+  background: linear-gradient(135deg,#00d391,#38ef7d);
+  color: #06321b;
+}
+.summary-card.purple {
+  background: linear-gradient(135deg,#8e44ad,#c38cf0);
+  color: #2b0633;
+}
+.summary-card.orange {
+  background: linear-gradient(135deg,#ff8a00,#fbd786);
+  color: #3a2200;
+}
+.summary-card.red {
+  background: linear-gradient(135deg,#ff4b2b,#ff416c);
+  color: #3a0505;
+}
+.summary-card.teal {
+  background: linear-gradient(135deg,#06beb6,#48b1bf);
+  color: #022b2b;
+}
+
+/* ---------- Compact / responsive tweaks ---------- */
+@media (max-width: 900px) {
+  .summary-card { width: 48%; }
+}
+@media (max-width: 520px) {
+  .summary-card { width: 100%; }
+  .summary-card h3 { font-size: 18px; }
+}
