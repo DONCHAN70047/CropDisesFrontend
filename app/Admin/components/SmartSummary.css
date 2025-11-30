@@ -1,0 +1,129 @@
+/* Container Layout */
+.smart-summary-container {
+  padding: 20px;
+  background-color: #f1f2f7; /* Light grey background matching dashboard */
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Page Header */
+.page-header {
+  margin-bottom: 20px;
+}
+
+.page-title {
+  color: #1a0dab; /* Deep purple/blue tone from screenshot logo */
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.page-subtitle {
+  color: #000;
+  font-size: 13px;
+  margin-top: 5px;
+  font-weight: 500;
+}
+
+/* Card Styling */
+.summary-card {
+  background-color: #fff;
+  border-radius: 4px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Filter Section */
+.filter-section {
+  display: flex;
+  justify-content: flex-end; /* Aligns items to the right */
+  gap: 10px;
+  margin-bottom: 25px;
+  border-bottom: 1px solid #eee; /* Faint line separator if needed */
+  padding-bottom: 15px;
+}
+
+.date-input {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  color: #333;
+  font-size: 14px;
+  outline: none;
+}
+
+.search-btn {
+  background-color: #00c853; /* Bright Green */
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.search-btn:hover {
+  background-color: #009624;
+}
+
+/* Section Title inside Card */
+.section-title {
+  color: #2c004f; /* Dark purple */
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+/* Table Styling */
+.table-responsive {
+  overflow-x: auto;
+}
+
+.summary-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px; /* Ensures table doesn't squish on mobile */
+}
+
+.summary-table th {
+  text-align: left;
+  padding: 12px 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 1px solid #eee;
+}
+
+.summary-table td {
+  padding: 12px 10px;
+  font-size: 14px;
+  font-weight: 600; /* Numbers look slightly bold in screenshot */
+  color: #333;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.category-cell {
+  font-weight: 700 !important; /* Bold categories */
+  color: #000;
+}
+
+/* Specific Color Columns */
+.success-text {
+  color: #00c853; /* Green */
+}
+
+.pending-text {
+  color: #ffab00; /* Orange/Gold */
+}
+
+.failed-text {
+  color: #d50000; /* Red */
+}
+
+/* Empty row handling */
+.empty-row td {
+  height: 20px; /* Just some spacing */
+  color: transparent;
+}

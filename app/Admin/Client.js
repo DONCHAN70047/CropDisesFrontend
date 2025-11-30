@@ -20,6 +20,8 @@ import RoyelPayoutBodyContent from "./components/RoyelPayoutBodyContent";
 import MoneyTransfer3BodyContent from "./components/MoneyTransfer3BodyContent";
 import ChangempinSlidebar from "./components/ChangeMpinSlidebar";
 import ChangepasswordSlidebar from "./components/ChangePasswordSlidebar";
+import SmartSummary from "./components/SmartSummary";
+
 
 
 const AdminDashboard = ({ adminName }) => {
@@ -128,6 +130,7 @@ const AdminDashboard = ({ adminName }) => {
             {query_page === "MoneyTransfer3BodyContent" && <MoneyTransfer3BodyContent />}
             {query_page === "changempinSlidebar" && <ChangempinSlidebar />}
             {query_page === "changepasswordSlidebar" && <ChangepasswordSlidebar />}
+            {query_page === "SmartSummary" && <SmartSummary />}
 
         </div>
     );
