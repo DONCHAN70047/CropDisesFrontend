@@ -1,23 +1,27 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import DashboardHeaderSidebar from "../DashboardHeaderSidebar";
 import "../../css/MoneyTransfer.css";
-import { useUserContext } from "@/app/utils/context/user_context";
-import { isProtected } from "../../utils/protectedRoute";
+import { DataSearchMoneyTransfer } from "./action/MoneyTransferTransactionsSlidebarDataSearch";
 
-const CreditCardTransactionsSlidebar = () => {
-  const router = useRouter();
-  const { user, setUser } = useUserContext();
-
-  const [adminName, setAdminName] = useState("");
+const MoneyTransferTransactionsSlidebar = () => {
   const today = new Date().toISOString().split("T")[0];
+
   const [showOverlay, setShowOverlay] = useState(false);
   const [dataVisible, setDataVisible] = useState(false);
   const [filteredData, setFilteredData] = useState([]);
   const [limit, setLimit] = useState(25);
+
+  const [summaryValues, setSummaryValues] = useState({
+    totalTransactions: 0,
+    totalAmount: 0,
+    totalCharges: 0,
+    totalCommission: 0,
+    refundPending: 0,
+    totalRefunded: 0,
+  });
+
   const [filters, setFilters] = useState({
     transactionNo: "",
     status: "",
@@ -26,151 +30,142 @@ const CreditCardTransactionsSlidebar = () => {
     toDate: today,
   });
 
-
-  const summaryData = [
-    { title: "Total Transactions", color: "linear-gradient(135deg, #4e73df, #1cc88a)" },
-    { title: "Total Amount", color: "linear-gradient(135deg, #36b9cc, #6610f2)" },
-    { title: "Total Charges", color: "linear-gradient(135deg, #f6c23e, #e74a3b)" },
-    { title: "Total Commission", color: "linear-gradient(135deg, #00b4d8, #0077b6)" },
-    { title: "Refund Pending", color: "linear-gradient(135deg, #dc3545, #ff6b6b)" },
-    { title: "Total Refunded", color: "linear-gradient(135deg, #f0f0f2ff, #5e666eff)" },
+  const tableHeaders = [
+    "TransactionNo",
+    "SenderMobile",
+    "SenderName",
+    "BeneName",
+    "AccountNo",
+    "IFSC",
+    "Amount",
+    "Charges",
+    "Commission",
+    "TransType",
+    "UTRNo",
+    "Status",
+    "Message",
+    "CreatedDate",
+    "PostedDate",
   ];
 
-  const [summaryValues, setSummaryValues] = useState([]);
-
- 
-  useEffect(() => {
-    setSummaryValues(summaryData.map(() => (Math.random() * 50000).toFixed(2)));
-  }, []);
-
-  
-  useEffect(() => {
-    if (!isProtected) {
-      router.push("/login");
-    }
-    else {
-      setAdminName(name);
-    }
-  }, [router]);
-
-  const handleLogout = () => {
-    localStorage.removeItem("adminName");
-    router.push("/login");
-  };
-
+  // ====================== HANDLE INPUT CHANGE ======================
   const handleChange = (e) => {
     const { name, value } = e.target;
-    const newValue =
-      value.trim() === "" && (name === "fromDate" || name === "toDate") ? today : value;
-    setFilters({ ...filters, [name]: newValue });
-
-    if (name === "transactionNo" && value.trim() === "") {
-      setDataVisible(false);
-      setFilteredData([]);
-    }
+    setFilters((prev) => ({ ...prev, [name]: value }));
   };
 
-  const tableHeaders = [
-    "TransactionNo", "SenderMobile", "SenderName", "BeneName", "AccountNo",
-    "IFSC", "Amount", "Charges", "Commission", "TransType",
-    "UTRNo", "Status", "Message", "CreatedDate", "PostedDate",
-  ];
+  // ====================== SUMMARY CALCULATION ======================
+  const calculateSummary = (data) => {
+    const summary = {
+      totalTransactions: data.length,
+      totalAmount: 0,
+      totalCharges: 0,
+      totalCommission: 0,
+      refundPending: 0,
+      totalRefunded: 0,
+    };
 
-  // Mock transaction data
-  const generateMockData = () => {
-    const rows = [];
-    for (let i = 1; i <= 200; i++) {
-      rows.push({
-        TransactionNo: `TXN${1000 + i}`,
-        SenderMobile: `98${Math.floor(10000000 + Math.random() * 9000000)}`,
-        SenderName: `Sender ${i}`,
-        BeneName: `Receiver ${i}`,
-        AccountNo: `10${Math.floor(1000000000 + Math.random() * 9000000000)}`,
-        IFSC: `SBIN000${Math.floor(1000 + Math.random() * 9000)}`,
-        Amount: (Math.random() * 10000).toFixed(2),
-        Charges: (Math.random() * 50).toFixed(2),
-        Commission: (Math.random() * 20).toFixed(2),
-        TransType: ["IMPS", "NEFT", "UPI", "CARD"][Math.floor(Math.random() * 4)],
-        UTRNo: `UTR${Math.floor(100000 + Math.random() * 900000)}`,
-        Status: ["Success", "Failed", "Refunded", "Pending"][Math.floor(Math.random() * 4)],
-        Message: "Transaction processed successfully",
-        CreatedDate: today,
-        PostedDate: today,
-      });
-    }
-    return rows;
+    data.forEach((item) => {
+      summary.totalAmount += Number(item.Amount || 0);
+      summary.totalCharges += Number(item.Charges || 0);
+      summary.totalCommission += Number(item.Commission || 0);
+
+      if (item.Status === "Pending") {
+        summary.refundPending += Number(item.Amount || 0);
+      }
+
+      if (item.Status === "Refunded") {
+        summary.totalRefunded += Number(item.Amount || 0);
+      }
+    });
+
+    setSummaryValues(summary);
   };
 
-  const [tableData] = useState(generateMockData());
-
-  const handleSearch = () => {
-    const hasFilter =
-      filters.transactionNo ||
-      filters.status ||
-      filters.type ||
-      filters.fromDate !== today ||
-      filters.toDate !== today;
-
-    if (!hasFilter) {
-      alert("⚠️ Please apply at least one filter before searching.");
-      return;
-    }
-
+  // ====================== SEARCH FUNCTION ======================
+  const handleSearch = async () => {
     setShowOverlay(true);
 
-    setTimeout(() => {
-      let filtered = tableData;
+    try {
+      const result = await DataSearchMoneyTransfer({
+        transactionNo: filters.transactionNo,
+        status: filters.status,
+        type: filters.type,
+        startDate: filters.fromDate,
+        endDate: filters.toDate,
+      });
 
-      if (filters.transactionNo)
-        filtered = filtered.filter((r) =>
-          r.TransactionNo.toLowerCase().includes(filters.transactionNo.toLowerCase())
-        );
+      if (result.status === 200) {
+        setFilteredData(result.data);
+        setDataVisible(true);
 
-      if (filters.status)
-        filtered = filtered.filter((r) => r.Status === filters.status);
+        // Calculate summary values
+        calculateSummary(result.data);
 
-      if (filters.type)
-        filtered = filtered.filter((r) => r.TransType === filters.type);
+        if (result.data.length === 0) {
+          alert("No Data Found");
+        }
+      } else {
+        alert("Server Error");
+      }
+    } catch (err) {
+      alert("Server Error");
+    }
 
-      setFilteredData(filtered);
-      setDataVisible(true);
-      setShowOverlay(false);
-    }, 1000);
+    setShowOverlay(false);
   };
 
+  // ====================== EXPORT CSV ======================
   const handleExport = () => {
     if (!dataVisible || filteredData.length === 0) {
-      alert("⚠️ No data available to export. Please click 'Search' first.");
+      alert("⚠️ No data to export.");
       return;
     }
 
     const csvRows = [tableHeaders.join(",")];
-    filteredData.forEach((row) => csvRows.push(Object.values(row).join(",")));
+
+    filteredData.forEach((row) => {
+      csvRows.push(
+        tableHeaders.map((h) => JSON.stringify(row[h] || "")).join(",")
+      );
+    });
 
     const blob = new Blob([csvRows.join("\n")], { type: "text/csv" });
     const url = window.URL.createObjectURL(blob);
+
     const a = document.createElement("a");
     a.href = url;
-    a.download = "CreditCard_Transactions.csv";
+    a.download = "MoneyTransfer_Transactions.csv";
     a.click();
   };
 
   return (
     <div className="dashboard-container colorful-bg">
-      
-
       <div className="main-row">
         <div className="sidebar-space" />
+
         <main className="main-content">
-          <motion.h2 className="money-title" initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}>
-            Utility Bill Transactions
+          <motion.h2
+            className="money-title"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            Utity Bill Transfer Transactions
           </motion.h2>
 
-          {/* Filters */}
-          <motion.div className="card filter-card" whileHover={{ scale: 1.02 }}>
+          {/* ======================= FILTER CARD ======================= */}
+          <motion.div className="card filter-card">
             <h3>🔍 Search Filters</h3>
+
             <div className="search-box">
-              <input type="text" name="transactionNo" placeholder="Transaction No" value={filters.transactionNo} onChange={handleChange} />
+              <input
+                type="text"
+                name="transactionNo"
+                placeholder="Transaction No"
+                value={filters.transactionNo}
+                onChange={handleChange}
+              />
+
               <select name="status" value={filters.status} onChange={handleChange}>
                 <option value="">- Status -</option>
                 <option value="Success">Success</option>
@@ -178,48 +173,102 @@ const CreditCardTransactionsSlidebar = () => {
                 <option value="Pending">Pending</option>
                 <option value="Refunded">Refunded</option>
               </select>
+
               <select name="type" value={filters.type} onChange={handleChange}>
                 <option value="">- Type -</option>
                 <option value="IMPS">IMPS</option>
                 <option value="NEFT">NEFT</option>
                 <option value="UPI">UPI</option>
-                <option value="CARD">Card</option>
+                <option value="CARD">CARD</option>
               </select>
-              <input type="date" name="fromDate" value={filters.fromDate} onChange={handleChange} />
-              <input type="date" name="toDate" value={filters.toDate} onChange={handleChange} />
-              <select className="limit-select" value={limit} onChange={(e) => setLimit(+e.target.value)}>
+
+              <input
+                type="date"
+                name="fromDate"
+                value={filters.fromDate}
+                onChange={handleChange}
+              />
+
+              <input
+                type="date"
+                name="toDate"
+                value={filters.toDate}
+                onChange={handleChange}
+              />
+
+              <select
+                className="limit-select"
+                value={limit}
+                onChange={(e) => setLimit(Number(e.target.value))}
+              >
                 <option value={10}>Show 10</option>
                 <option value={25}>Show 25</option>
                 <option value={50}>Show 50</option>
                 <option value={100}>Show 100</option>
               </select>
-              <button className="search-btn" onClick={handleSearch}>🔎 Search</button>
-              <button className="export-btn" onClick={handleExport}>📤 Export</button>
+
+              <button className="search-btn" onClick={handleSearch}>
+                🔎 Search
+              </button>
+
+              <button className="export-btn" onClick={handleExport}>
+                📤 Export
+              </button>
             </div>
           </motion.div>
 
-          {/* Summary */}
+          {/* ======================= SUMMARY ======================= */}
           <motion.div className="card summary-card-section">
-            {summaryData.map((item, i) => (
-              <motion.div key={i} className="summary-card" style={{ background: item.color }} whileHover={{ scale: 1.05, rotate: 1 }}>
-                <p>{item.title}</p>
-                <h3>₹ {summaryValues[i]}</h3>
-              </motion.div>
-            ))}
+            <motion.div className="summary-card">
+              <p>Total Transactions</p>
+              <h3>₹ {summaryValues.totalTransactions}</h3>
+            </motion.div>
+
+            <motion.div className="summary-card">
+              <p>Total Amount</p>
+              <h3>₹ {summaryValues.totalAmount.toFixed(2)}</h3>
+            </motion.div>
+
+            <motion.div className="summary-card">
+              <p>Total Charges</p>
+              <h3>₹ {summaryValues.totalCharges.toFixed(2)}</h3>
+            </motion.div>
+
+            <motion.div className="summary-card">
+              <p>Total Commission</p>
+              <h3>₹ {summaryValues.totalCommission.toFixed(2)}</h3>
+            </motion.div>
+
+            <motion.div className="summary-card">
+              <p>Refund Pending</p>
+              <h3>₹ {summaryValues.refundPending.toFixed(2)}</h3>
+            </motion.div>
+
+            <motion.div className="summary-card">
+              <p>Total Refunded</p>
+              <h3>₹ {summaryValues.totalRefunded.toFixed(2)}</h3>
+            </motion.div>
           </motion.div>
 
-          {/* Table */}
-          <motion.div className="card table-card" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+          {/* ======================= TABLE ======================= */}
+          <motion.div className="card table-card">
             <div className="transaction-table-container">
               <table className="transaction-table">
                 <thead>
-                  <tr>{tableHeaders.map((h, i) => <th key={i}>{h}</th>)}</tr>
+                  <tr>
+                    {tableHeaders.map((h, i) => (
+                      <th key={i}>{h}</th>
+                    ))}
+                  </tr>
                 </thead>
+
                 <tbody>
                   {dataVisible && filteredData.length > 0 ? (
                     filteredData.slice(0, limit).map((row, i) => (
-                      <motion.tr key={i} whileHover={{ scale: 1.01, backgroundColor: "#f1f8ff" }}>
-                        {Object.values(row).map((val, j) => <td key={j}>{val}</td>)}
+                      <motion.tr key={i}>
+                        {tableHeaders.map((h, j) => (
+                          <td key={j}>{row[h] ?? ""}</td>
+                        ))}
                       </motion.tr>
                     ))
                   ) : (
@@ -236,13 +285,13 @@ const CreditCardTransactionsSlidebar = () => {
         </main>
       </div>
 
-      {/* Loading Overlay */}
+      {/* ======================= LOADING OVERLAY ======================= */}
       <AnimatePresence>
         {showOverlay && (
-          <motion.div className="export-overlay" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-            <motion.div className="export-popup" initial={{ scale: 0.8 }} animate={{ scale: 1 }}>
+          <motion.div className="export-overlay" animate={{ opacity: 1 }}>
+            <motion.div className="export-popup">
               <h3>📊 Loading Data...</h3>
-              <p>Please wait while we load your transaction records.</p>
+              <p>Please wait while fetching transactions.</p>
             </motion.div>
           </motion.div>
         )}
@@ -251,4 +300,4 @@ const CreditCardTransactionsSlidebar = () => {
   );
 };
 
-export default CreditCardTransactionsSlidebar;
+export default MoneyTransferTransactionsSlidebar;
