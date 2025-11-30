@@ -27,6 +27,5 @@ export const MoneyTransferTransactionsSlidebar =
   mongoose.models.MoneyTransferTransactionsSlidebar ||
   mongoose.model(
     "MoneyTransferTransactionsSlidebar",
-    MoneyTransferTransactionsSchema,
-    "MoneyTransferTransactionsSlidebar"  
+    MoneyTransferTransactionsSchema
   );
