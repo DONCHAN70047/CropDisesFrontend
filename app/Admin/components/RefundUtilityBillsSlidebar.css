@@ -1,0 +1,132 @@
+/* --- General Layout --- */
+.colorful-bg {
+  background-color: #f1f2f7;
+  min-height: 100vh;
+}
+
+.main-row {
+  display: flex;
+  width: 100%;
+}
+
+.sidebar-space {
+  width: 260px;
+  flex-shrink: 0;
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 20px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* --- Header --- */
+.page-header-container {
+  margin-bottom: 20px;
+}
+
+.page-title {
+  color: #1a0dab; /* Deep Blue/Purple */
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.page-subtitle {
+  color: #000;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* --- Control Bar --- */
+.control-bar {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  margin-bottom: 15px;
+}
+
+/* --- Summary Cards --- */
+.summary-cards-group {
+  display: flex;
+  gap: 20px;
+}
+
+.status-card {
+  width: 200px;
+  padding: 15px;
+  color: white;
+  text-align: center;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.purple-card {
+  background: linear-gradient(135deg, #b027b0 0%, #7b1fa2 100%);
+}
+
+.card-label {
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.card-value {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* --- Search Group --- */
+.search-group {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.search-input {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-size: 14px;
+  width: 200px;
+  outline: none;
+}
+
+.search-btn-green {
+  background-color: #00e676; /* Bright Green */
+  color: white;
+  border: none;
+  padding: 9px 20px;
+  border-radius: 3px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: background 0.3s;
+}
+
+.search-btn-green:hover {
+  background-color: #00c853;
+}
+
+/* --- Data Section --- */
+.data-section {
+  background-color: #fff;
+  border-radius: 4px;
+}
+
+.no-records-bar {
+  background-color: #f5f5f5;
+  color: #333;
+  text-align: center;
+  padding: 15px;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid #eee;
+}

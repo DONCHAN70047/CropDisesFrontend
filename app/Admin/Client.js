@@ -21,7 +21,15 @@ import MoneyTransfer3BodyContent from "./components/MoneyTransfer3BodyContent";
 import ChangempinSlidebar from "./components/ChangeMpinSlidebar";
 import ChangepasswordSlidebar from "./components/ChangePasswordSlidebar";
 import SmartSummary from "./components/SmartSummary";
-
+import RefundMoneyTransferSlidebar from "./components/RefundMoneyTransferSlidebar";
+import RefundPPISlidebar from "./components/RefundPPISlidebar";
+import RefundUtilityBillsSlidebar from "./components/RefundUtilityBillsSlidebar";
+import RefundCreditCardSlidebar from "./components/RefundCreditCardSlidebar";
+import RefundUPISlidebar from "./components/RefundUPISlidebar";
+import PendingRequestsSlidebar from "./components/PendingRequestsSlidebar";
+import AddNewRequestSlidebar from "./components/AddNewRequestSlidebar";
+import InCompleteRequestsSlidebar from "./components/InCompleteRequestsSlidebar";
+import AllRequestsSlidebar from "./components/AllRequestsSlidebar";
 
 
 
@@ -132,6 +140,18 @@ const AdminDashboard = ({ adminName }) => {
             {query_page === "changempinSlidebar" && <ChangempinSlidebar />}
             {query_page === "changepasswordSlidebar" && <ChangepasswordSlidebar />}
             {query_page === "SmartSummary" && <SmartSummary />}
+            {query_page === "RefundMoneyTransferSlidebar" && <RefundMoneyTransferSlidebar />}
+            {query_page === "RefundPPISlidebar" && <RefundPPISlidebar />}
+            {query_page === "RefundUtilityBillsSlidebar" && <RefundUtilityBillsSlidebar />}
+            {query_page === "RefundCreditCardSlidebar" && <RefundCreditCardSlidebar />}
+            {query_page === "RefundUPISlidebar" && <RefundUPISlidebar />}
+            {query_page === "PendingRequestsSlidebar" && <PendingRequestsSlidebar />}
+            {query_page === "AddNewRequestSlidebar" && <AddNewRequestSlidebar />}
+            {query_page === "InCompleteRequestsSlidebar" && <InCompleteRequestsSlidebar />}
+            {query_page === "AllRequestsSlidebar" && <AllRequestsSlidebar />}
+            
+             
+            
 
         </div>
     );

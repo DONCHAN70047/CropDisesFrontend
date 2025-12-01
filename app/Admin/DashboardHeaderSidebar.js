@@ -128,11 +128,11 @@ const DashboardHeaderSidebar = ({ adminName, adminPhoto, handleLogout }) => {
                   exit={{ opacity: 0, height: 0 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <li onClick={() => navigateTo("RefundMoneyTransfer")}>Money Transfer</li>
-                  <li onClick={() => navigateTo("RefundPPI")}>PPI Transfer</li>
-                  <li onClick={() => navigateTo("RefundUtilityBills")}>Utility Bills</li>
-                  <li onClick={() => navigateTo("RefundCreditCard")}>Credit Card</li>
-                  <li onClick={() => navigateTo("RefundUPI")}>UPI</li>
+                  <li onClick={() => navigateTo("RefundMoneyTransferSlidebar")}>Money Transfer</li>
+                  <li onClick={() => navigateTo("RefundPPISlidebar")}>PPI Transfer</li>
+                  <li onClick={() => navigateTo("RefundUtilityBillsSlidebar")}>Utility Bills</li>
+                  <li onClick={() => navigateTo("RefundCreditCardSlidebar")}>Credit Card</li>
+                  <li onClick={() => navigateTo("RefundUPISlidebar")}>UPI</li>
                 </motion.ul>
               )}
             </AnimatePresence>
@@ -153,10 +153,10 @@ const DashboardHeaderSidebar = ({ adminName, adminPhoto, handleLogout }) => {
                   exit={{ opacity: 0, height: 0 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <li onClick={() => navigateTo("AddNewRequest")}>Add New Request</li>
-                  <li onClick={() => navigateTo("PendingRequests")}>Pending Requests</li>
-                  <li onClick={() => navigateTo("InCompleteRequests")}>InComplete Requests</li>
-                  <li onClick={() => navigateTo("AllRequests")}>All Requests</li>
+                  <li onClick={() => navigateTo("AddNewRequestSlidebar")}>Add New Request</li>
+                  <li onClick={() => navigateTo("PendingRequestsSlidebar")}>Pending Requests</li>
+                  <li onClick={() => navigateTo("InCompleteRequestsSlidebar")}>InComplete Requests</li>
+                  <li onClick={() => navigateTo("AllRequestsSlidebar")}>All Requests</li>
                 </motion.ul>
               )}
             </AnimatePresence>
@@ -177,10 +177,10 @@ const DashboardHeaderSidebar = ({ adminName, adminPhoto, handleLogout }) => {
                   exit={{ opacity: 0, height: 0 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <li onClick={() => navigateTo("AccountStatement")}>Account Statement</li>
-                  <li onClick={() => navigateTo("AEPSStatement")}>AEPS Statement</li>
-                  <li onClick={() => navigateTo("CreditDebitList")}>Credit/Debit List</li>
-                  <li onClick={() => navigateTo("SmartPayList")}>Smart Pay List</li>
+                  <li onClick={() => navigateTo("AccountStatementSlidebar")}>Account Statement</li>
+                  <li onClick={() => navigateTo("AEPSStatementSlidebar")}>AEPS Statement</li>
+                  <li onClick={() => navigateTo("CreditDebitListSlidebar")}>Credit/Debit List</li>
+                  <li onClick={() => navigateTo("SmartPayListSlidebar")}>Smart Pay List</li>
                 </motion.ul>
               )}
             </AnimatePresence>
@@ -201,8 +201,8 @@ const DashboardHeaderSidebar = ({ adminName, adminPhoto, handleLogout }) => {
                   exit={{ opacity: 0, height: 0 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <li onClick={() => navigateTo("AddBankAccount")}>Add Bank Account</li>
-                  <li onClick={() => navigateTo("AccountList")}>Account List</li>
+                  <li onClick={() => navigateTo("AddBankAccountSlidebar")}>Add Bank Account</li>
+                  <li onClick={() => navigateTo("AccountListSlidebar")}>Account List</li>
                 </motion.ul>
               )}
             </AnimatePresence>
@@ -223,7 +223,7 @@ const DashboardHeaderSidebar = ({ adminName, adminPhoto, handleLogout }) => {
                   exit={{ opacity: 0, height: 0 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <li onClick={() => navigateTo("ChargesCommissionRates")}>
+                  <li onClick={() => navigateTo("ChargesCommissionRatesSlidebar")}>
                     Charges/Commission Rates
                   </li>
                 </motion.ul>
@@ -249,11 +249,11 @@ const DashboardHeaderSidebar = ({ adminName, adminPhoto, handleLogout }) => {
                   exit={{ opacity: 0, height: 0 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <li onClick={() => navigateTo("CollectRequestOutlets")}>Collect Request Outlets</li>
-                  <li onClick={() => navigateTo("PrintBCCertificate")}>Print BC Certificate</li>
-                  <li onClick={() => navigateTo("PrintEssentialLetter")}>Print Essential Letter</li>
-                  <li onClick={() => navigateTo("PrintIDCard")}>Print ID Card</li>
-                  <li onClick={() => navigateTo("PrintInfo")}>Print Info</li>
+                  <li onClick={() => navigateTo("CollectRequestOutletsSlidebar")}>Collect Request Outlets</li>
+                  <li onClick={() => navigateTo("PrintBCCertificateSlidebar")}>Print BC Certificate</li>
+                  <li onClick={() => navigateTo("PrintEssentialLetterSlidebar")}>Print Essential Letter</li>
+                  <li onClick={() => navigateTo("PrintIDCardSlidebar")}>Print ID Card</li>
+                  <li onClick={() => navigateTo("PrintInfoSlidebar")}>Print Info</li>
                 </motion.ul>
               )}
             </AnimatePresence>
