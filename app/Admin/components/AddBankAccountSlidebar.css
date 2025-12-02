@@ -1,0 +1,119 @@
+/* --- General Layout --- */
+.colorful-bg {
+  background-color: #f1f2f7;
+  min-height: 100vh;
+}
+
+.main-row {
+  display: flex;
+  width: 100%;
+}
+
+.sidebar-space {
+  width: 260px;
+  flex-shrink: 0;
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 20px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* --- Header --- */
+.page-header-container {
+  margin-bottom: 20px;
+}
+
+.page-title {
+  color: #1a0dab;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.page-subtitle {
+  color: #000;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* --- Settlement Form Card --- */
+.settlement-form-card {
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  max-width: 600px; /* Limits width to match screenshot look */
+  margin: 0 auto; /* Centers the card horizontally if needed, or remove for left align */
+  /* If screenshot is left aligned, use margin: 0; */
+  margin-left: 0; 
+  overflow: hidden;
+}
+
+.form-heading {
+  color: #1a0dab; /* Dark Purple Heading */
+  font-size: 16px;
+  font-weight: 700;
+  padding: 15px 20px;
+  margin: 0;
+  border-bottom: 1px solid #eee;
+}
+
+.form-content {
+  padding: 20px;
+}
+
+/* --- Form Fields --- */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  color: #000;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.form-select, .form-input, .custom-file-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  outline: none;
+  background-color: #fff;
+}
+
+.form-select:focus, .form-input:focus {
+  border-color: #1a0dab;
+}
+
+/* Specific styling for file input container */
+.file-input-wrapper {
+  position: relative;
+}
+
+.custom-file-input {
+  background-color: #f9f9f9; /* Light grey bg for file input area */
+  padding: 6px;
+}
+
+/* --- Submit Button --- */
+.btn-submit-blue {
+  background-color: #7b68ee; /* Medium Slate Blue / Blurple */
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 10px;
+  transition: background 0.3s;
+}
+
+.btn-submit-blue:hover {
+  background-color: #6a5acd;
+}

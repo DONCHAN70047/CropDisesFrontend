@@ -30,8 +30,13 @@ import PendingRequestsSlidebar from "./components/PendingRequestsSlidebar";
 import AddNewRequestSlidebar from "./components/AddNewRequestSlidebar";
 import InCompleteRequestsSlidebar from "./components/InCompleteRequestsSlidebar";
 import AllRequestsSlidebar from "./components/AllRequestsSlidebar";
-
-
+import AccountStatementSlidebar from "./components/AccountStatementSlidebar";
+import AEPSStatementSlidebar from "./components/AEPSStatementSlidebar";
+import CreditDebitListSlidebar from "./components/CreditDebitListSlidebar";
+import SmartPayListSlidebar from "./components/SmartPayListSlidebar";
+import AddBankAccountSlidebar from "./components/AddBankAccountSlidebar";
+import AccountListSlidebar from "./components/AccountListSlidebar";
+import ChargesCommissionRatesSlidebar from "./components/ChargesCommissionRatesSlidebar";
 
 const AdminDashboard = ({ adminName }) => {
     const router = useRouter();
@@ -149,8 +154,13 @@ const AdminDashboard = ({ adminName }) => {
             {query_page === "AddNewRequestSlidebar" && <AddNewRequestSlidebar />}
             {query_page === "InCompleteRequestsSlidebar" && <InCompleteRequestsSlidebar />}
             {query_page === "AllRequestsSlidebar" && <AllRequestsSlidebar />}
-            
-             
+            {query_page === "AccountStatementSlidebar" && <AccountStatementSlidebar />}
+            {query_page === "AEPSStatementSlidebar" && <AEPSStatementSlidebar />}
+            {query_page === "CreditDebitListSlidebar" && <CreditDebitListSlidebar />}
+            {query_page === "SmartPayListSlidebar" && <SmartPayListSlidebar />}  
+            {query_page === "AddBankAccountSlidebar" && <AddBankAccountSlidebar />}
+            {query_page === "AccountListSlidebar" && <AccountListSlidebar />}
+            {query_page === "ChargesCommissionRatesSlidebar" && <ChargesCommissionRatesSlidebar />}   
             
 
         </div>
