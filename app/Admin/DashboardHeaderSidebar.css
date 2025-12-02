@@ -147,7 +147,7 @@
    🟣 SIDEBAR
 ===================================================== */
 .sidebar {
-  width: 240px;
+  width: 220px;
   background: linear-gradient(180deg, #19052e, #09000f);
   color: white;
   display: flex;
@@ -223,6 +223,8 @@
 }
 
 .logout-btn {
+  height: auto;
+  width: 220px;
   background: #ff5252;
   color: white;
   border: none;
@@ -377,7 +379,7 @@
    🟣 SIDEBAR — WITH SMOOTH SCROLL
 ===================================================== */
 .sidebar {
-  width: 240px;
+  width: 260px;
   background: linear-gradient(180deg, #2e005f, #08000d);
   color: white;
   display: flex;
