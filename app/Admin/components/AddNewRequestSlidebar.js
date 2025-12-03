@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import { AddFundInsertAction } from "./action/AddFundRequest";
 import "./AddNewRequestSlidebar.css";
 
 const AddNewRequest = () => {
@@ -14,40 +15,75 @@ const AddNewRequest = () => {
     receipt: null
   });
 
+  const [loading, setLoading] = useState(false);
+
+  // Handle input fields
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Handle file upload
   const handleFileChange = (e) => {
-    setFormData(prev => ({ ...prev, receipt: e.target.files[0] }));
+    setFormData((prev) => ({ ...prev, receipt: e.target.files[0] }));
   };
 
-  const handleSubmit = () => {
-    console.log("Submitting Fund Request:", formData);
-    alert("Request Submitted (Console Log)");
+  // Convert image to Base64
+  const convertToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result.split(",")[1]); 
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
+  // Submit form
+  const handleSubmit = async () => {
+    setLoading(true);
+
+    let base64Image = "";
+    if (formData.receipt) {
+      base64Image = await convertToBase64(formData.receipt);
+    }
+
+    const myForm = new FormData();
+    myForm.append("PaymentType", formData.paymentType);
+    myForm.append("PaymentDate", formData.paymentDate);
+    myForm.append("BankAccount", formData.bankAccount);
+    myForm.append("EnterAmount", formData.amount);
+    myForm.append("BankNarration", formData.narration);
+    myForm.append("UploadReceipt", base64Image);
+
+    const res = await AddFundInsertAction(myForm);
+    setLoading(false);
+
+    if (res?.status === 200) {
+      alert("✔ Fund Request Submitted Successfully!");
+      handleCancel();
+    } else {
+      alert("⚠ Something went wrong!");
+    }
   };
 
   const handleCancel = () => {
     setFormData({
-        paymentType: "",
-        paymentDate: "",
-        bankAccount: "",
-        amount: "",
-        narration: "",
-        receipt: null
+      paymentType: "",
+      paymentDate: "",
+      bankAccount: "",
+      amount: "",
+      narration: "",
+      receipt: null,
     });
   };
 
   return (
     <div className="dashboard-container colorful-bg">
       <div className="main-row">
-        {/* Sidebar Placeholder */}
         <div className="sidebar-space" />
 
         <main className="main-content">
-          
-          {/* --- Page Header --- */}
+          {/* Page Header */}
           <motion.div 
             className="page-header-container"
             initial={{ opacity: 0, y: -10 }}
@@ -58,7 +94,7 @@ const AddNewRequest = () => {
             <p className="page-subtitle">Add Your Fund Request with Correct Bank Details.</p>
           </motion.div>
 
-          {/* --- Notification Bar --- */}
+          {/* Notification Bar */}
           <motion.div 
             className="notification-bar"
             initial={{ opacity: 0 }}
@@ -66,14 +102,15 @@ const AddNewRequest = () => {
             transition={{ duration: 0.6 }}
           >
              <marquee behavior="scroll" direction="left" className="scrolling-text">
-                Note: Please upload valid receipt. Charges may apply. <span className="red-highlight">1%+Gst Charge on Cash Deposit</span>
+                Note: Please upload valid receipt. Charges may apply. 
+                <span className="red-highlight">1%+Gst Charge on Cash Deposit</span>
              </marquee>
           </motion.div>
 
-          {/* --- Form Container --- */}
+          {/* Form */}
           <div className="fund-request-grid">
             
-            {/* Left Card: Details & Upload */}
+            {/* Left Section */}
             <motion.div 
               className="form-card"
               initial={{ x: -20, opacity: 0 }}
@@ -132,12 +169,13 @@ const AddNewRequest = () => {
                         type="file" 
                         onChange={handleFileChange}
                         className="custom-file-input"
+                        accept="image/*"
                       />
                   </div>
                </div>
             </motion.div>
 
-            {/* Right Card: Amount & Submit */}
+            {/* Right Section */}
             <motion.div 
               className="form-card center-content-card"
               initial={{ x: 20, opacity: 0 }}
@@ -170,9 +208,14 @@ const AddNewRequest = () => {
                 </div>
 
                 <div className="button-group">
-                    <button className="btn-submit" onClick={handleSubmit}>
-                        ✓ Submit
+                    <button 
+                      className="btn-submit" 
+                      onClick={handleSubmit}
+                      disabled={loading}
+                    >
+                        {loading ? "Submitting..." : "✓ Submit"}
                     </button>
+
                     <button className="btn-cancel" onClick={handleCancel}>
                         ✕ Cancel
                     </button>
