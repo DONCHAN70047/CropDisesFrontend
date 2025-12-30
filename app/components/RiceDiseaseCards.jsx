@@ -49,6 +49,21 @@ export default function RiceDiseaseCards() {
           margin: auto;
         }
 
+        /* PHONE: 2 cards per row */
+        @media (max-width: 768px) {
+          .grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+          }
+        }
+
+        /* MOBILE SMALL: 1 card per row */
+        @media (max-width: 480px) {
+          .grid {
+            grid-template-columns: 1fr;
+          }
+        }
+
         .card {
           background: #e4e1e1ff; 
           border-radius: 16px;
@@ -78,13 +93,13 @@ export default function RiceDiseaseCards() {
         h3 {
           margin-bottom: 10px;
           font-size: 1.25rem;
-          color: #000; /* Black heading */
+          color: #000;
         }
 
         p {
           font-size: 0.9rem;
           line-height: 1.5;
-          color: #333; /* Dark gray text for readability */
+          color: #333;
         }
 
         .learnMore {
