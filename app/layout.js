@@ -1,21 +1,18 @@
-import "./globals.css";
-import { UserProvider } from "./utils/context/user_context";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 export const metadata = {
-  title: "NBNK Web Service",
-  description: "Fintech for the Fast-Changing Bharat",
-  icons: {
-    icon: "/CompanyLogo.png",
-  },
+  title: "Rice Disease Detection | KBTech",
+  description: "AI-powered rice disease detection system",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>
-        <UserProvider>
-          {children}
-        </UserProvider>
+      <body style={{ margin: 0 }}>
+        <Header />
+        <div style={{ paddingTop: "70px" }}>{children}</div>
+        <Footer />
       </body>
     </html>
   );

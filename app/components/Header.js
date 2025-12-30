@@ -1,58 +1,167 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import { FaBars, FaTimes } from "react-icons/fa";
-import '../page.css';
+import { usePathname } from "next/navigation";
 
-const Header = () => {
+export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
 
-  const toggleMenu = () => {
-    setMenuOpen((prev) => !prev);
-  };
-
-  const closeMenu = () => {
-    setMenuOpen(false);
-  };
+  const isActive = (path) => pathname === path;
 
   return (
-    <header className="navbar">
-      {/* ---------- LEFT: LOGO ---------- */}
-      <div className="logo">
-        <Link href="/">
-          <img src="/EsmartPayLogo.png" alt="EsmartPay Logo" className="logo-img" />
-        </Link>
-      </div>
+    <>
+      {/* HEADER */}
+      <header className="header">
+        <div className="left">
+          {/* HAMBURGER (3 LINES) */}
+          <div
+            className={`menuBtn ${menuOpen ? "active" : ""}`}
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            <span />
+            <span />
+            <span />
+          </div>
 
-      {/* ---------- NAV LINKS ---------- */}
-      <nav className={`nav-links ${menuOpen ? "active" : ""}`}>
-        <Link href="/" onClick={closeMenu}>Home</Link>
-        <Link href="/AboutUS" onClick={closeMenu}>About Us</Link>
-        <Link href="/UnderConstruction" onClick={closeMenu}>Services</Link>
-        <Link href="/UnderConstruction" onClick={closeMenu}>Products</Link>
-        <Link href="/UnderConstruction" onClick={closeMenu}>Career</Link>
-        <Link href="/UnderConstruction" onClick={closeMenu}>Contact Us</Link>
-        <Link href="/UnderConstruction" onClick={closeMenu}>Team</Link>
+          {/* LOGO */}
+          <div className="logo">
+            <span>KBTech</span>
+            <small>Rice Disease AI</small>
+          </div>
+        </div>
+      </header>
 
-        {/* MOBILE LOGIN */}
-        <Link href="/login">
-          <button className="login-btn mobile-login" onClick={closeMenu}>Login</button>
-        </Link>
+      {/* BACKDROP (click outside to close) */}
+      {menuOpen && (
+        <div className="backdrop" onClick={() => setMenuOpen(false)} />
+      )}
+
+      {/* SIDE NAV */}
+      <nav className={`nav ${menuOpen ? "open" : ""}`}>
+        <Link onClick={() => setMenuOpen(false)} className={isActive("/") ? "active" : ""} href="/">Home</Link>
+        <Link onClick={() => setMenuOpen(false)} className={isActive("/about") ? "active" : ""} href="/about">About Us</Link>
+        <Link onClick={() => setMenuOpen(false)} className={isActive("/products") ? "active" : ""} href="/products">Product Us</Link>
+        <Link onClick={() => setMenuOpen(false)} className={isActive("/diseases") ? "active" : ""} href="/diseases">Informational Disease</Link>
+        <Link onClick={() => setMenuOpen(false)} className={isActive("/contact") ? "active" : ""} href="/contact">Contact Us</Link>
       </nav>
 
-      {/* ---------- RIGHT SIDE ---------- */}
-      <div className="right-icons">
-        <Link href="/login">
-          <button className="login-btn desktop-login">Login</button>
-        </Link>
+      <style jsx>{`
+        /* HEADER */
+        .header {
+          position: fixed;
+          top: 0;
+          width: 100%;
+          height: 72px;
+          padding: 0 20px;
+          display: flex;
+          align-items: center;
+          background: rgba(10, 10, 10, 0.85);
+          backdrop-filter: blur(12px);
+          z-index: 1000;
+          box-shadow: 0 6px 25px rgba(0, 0, 0, 0.6);
+        }
 
-        <div className="menu-icon" onClick={toggleMenu}>
-          {menuOpen ? <FaTimes /> : <FaBars />}
-        </div>
-      </div>
-    </header>
+        .left {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+        }
+
+        /* HAMBURGER */
+        .menuBtn {
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+          cursor: pointer;
+        }
+
+        .menuBtn span {
+          width: 26px;
+          height: 3px;
+          background: #ffffff;
+          border-radius: 3px;
+          transition: all 0.3s ease;
+        }
+
+        .menuBtn.active span:nth-child(1) {
+          transform: rotate(45deg) translate(5px, 6px);
+        }
+
+        .menuBtn.active span:nth-child(2) {
+          opacity: 0;
+        }
+
+        .menuBtn.active span:nth-child(3) {
+          transform: rotate(-45deg) translate(6px, -6px);
+        }
+
+        /* LOGO */
+        .logo span {
+          color: #22c55e;
+          font-size: 1.4rem;
+          font-weight: 700;
+        }
+
+        .logo small {
+          display: block;
+          font-size: 0.7rem;
+          color: #9ca3af;
+        }
+
+        /* BACKDROP */
+        .backdrop {
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.55);
+          z-index: 900;
+        }
+
+        /* NAV MENU */
+        .nav {
+          position: fixed;
+          top: 88px;
+          left: 20px;
+          width: 260px;
+          background: rgba(12, 12, 12, 0.98);
+          backdrop-filter: blur(14px);
+          display: flex;
+          flex-direction: column;
+          gap: 18px;
+          padding: 24px;
+          border-radius: 14px;
+          box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75);
+          opacity: 0;
+          transform: translateY(-15px);
+          pointer-events: none;
+          transition: all 0.3s ease;
+          z-index: 1001;
+        }
+
+        .nav.open {
+          opacity: 1;
+          transform: translateY(0);
+          pointer-events: auto;
+        }
+
+        .nav a {
+          color: #e5e7eb;
+          text-decoration: none;
+          font-size: 1rem;
+          font-weight: 500;
+          transition: color 0.25s ease;
+        }
+
+        .nav a:hover {
+          color: #22c55e;
+        }
+
+        .nav a.active {
+          color: #22c55e;
+          font-weight: 600;
+        }
+      `}</style>
+    </>
   );
-};
-
-export default Header;
+}
