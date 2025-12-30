@@ -1,26 +1,28 @@
 "use client";
+import RiceDiseaseCards from "./components/RiceDiseaseCards";
 
 export default function Home() {
   return (
-    <main className="container">
-      {/* Overlay */}
-      <div className="overlay"></div>
+    <>
+      <main className="container">
+        {/* Overlay */}
+        <div className="overlay"></div>
 
-      {/* Content */}
-      <div className="content">
-        <h1 className="title">Rice Disease Detection</h1>
-        <p className="subtitle">
-          Detect rice leaf diseases early using AI-powered analysis
-        </p>
+        {/* Content */}
+        <div className="content">
+          <h1 className="title">Rice Disease Detection</h1>
+          <p className="subtitle">
+            Detect rice leaf diseases early using AI-powered analysis
+          </p>
 
-        <div className="buttonGroup">
-          <button className="primaryBtn">Upload Leaf Image</button>
-          <button className="secondaryBtn">Learn More</button>
+          <div className="buttonGroup">
+            <button className="primaryBtn">Upload Leaf Image</button>
+            <button className="secondaryBtn">Learn More</button>
+          </div>
         </div>
-      </div>
 
-      {/* CSS */}
-      <style jsx>{`
+        {/* CSS */}
+        <style jsx>{`
         .container {
           min-height: 100vh;
           min-width: 100%;
@@ -113,6 +115,9 @@ export default function Home() {
           }
         }
       `}</style>
-    </main>
+      </main>
+      {/* INFO SECTION */}
+      <RiceDiseaseCards />
+    </>
   );
 }

@@ -12,10 +12,11 @@ export default function Header() {
 
   return (
     <>
-      {/* HEADER */}
+      {/* ================= HEADER ================= */}
       <header className="header">
+        {/* LEFT SECTION */}
         <div className="left">
-          {/* HAMBURGER (3 LINES) */}
+          {/* HAMBURGER */}
           <div
             className={`menuBtn ${menuOpen ? "active" : ""}`}
             onClick={() => setMenuOpen(!menuOpen)}
@@ -31,22 +32,33 @@ export default function Header() {
             <small>Rice Disease AI</small>
           </div>
         </div>
+
+        {/* RIGHT SECTION */}
+        <div className="actions">
+          <Link href="/login" className="loginBtn">Login</Link>
+          <Link href="/signup" className="signupBtn">Sign Up</Link>
+        </div>
       </header>
 
-      {/* BACKDROP (click outside to close) */}
+      {/* ================= BACKDROP ================= */}
       {menuOpen && (
         <div className="backdrop" onClick={() => setMenuOpen(false)} />
       )}
 
-      {/* SIDE NAV */}
-      <nav className={`nav ${menuOpen ? "open" : ""}`}>
-        <Link onClick={() => setMenuOpen(false)} className={isActive("/") ? "active" : ""} href="/">Home</Link>
-        <Link onClick={() => setMenuOpen(false)} className={isActive("/about") ? "active" : ""} href="/about">About Us</Link>
-        <Link onClick={() => setMenuOpen(false)} className={isActive("/products") ? "active" : ""} href="/products">Product Us</Link>
-        <Link onClick={() => setMenuOpen(false)} className={isActive("/diseases") ? "active" : ""} href="/diseases">Informational Disease</Link>
-        <Link onClick={() => setMenuOpen(false)} className={isActive("/contact") ? "active" : ""} href="/contact">Contact Us</Link>
-      </nav>
+      {/* ================= SLIDE NAV ================= */}
+      <aside className={`slideNav ${menuOpen ? "open" : ""}`}>
+        <button className="closeBtn" onClick={() => setMenuOpen(false)}>✕</button>
 
+        <nav>
+          <Link onClick={() => setMenuOpen(false)} className={isActive("/") ? "active" : ""} href="/">Home</Link>
+          <Link onClick={() => setMenuOpen(false)} className={isActive("/about") ? "active" : ""} href="/about">About Us</Link>
+          <Link onClick={() => setMenuOpen(false)} className={isActive("/products") ? "active" : ""} href="/products">Products</Link>
+          <Link onClick={() => setMenuOpen(false)} className={isActive("/diseases") ? "active" : ""} href="/diseases">Disease Info</Link>
+          <Link onClick={() => setMenuOpen(false)} className={isActive("/contact") ? "active" : ""} href="/contact">Contact</Link>
+        </nav>
+      </aside>
+
+      {/* ================= STYLES ================= */}
       <style jsx>{`
         /* HEADER */
         .header {
@@ -54,19 +66,24 @@ export default function Header() {
           top: 0;
           width: 100%;
           height: 72px;
-          padding: 0 20px;
+          padding: 0 24px;
           display: flex;
           align-items: center;
-          background: rgba(10, 10, 10, 0.85);
-          backdrop-filter: blur(12px);
+          justify-content: space-between;
+          background: linear-gradient(
+            180deg,
+            rgba(10,10,10,0.92),
+            rgba(10,10,10,0.82)
+          );
+          backdrop-filter: blur(14px);
+          box-shadow: 0 10px 40px rgba(0,0,0,0.7);
           z-index: 1000;
-          box-shadow: 0 6px 25px rgba(0, 0, 0, 0.6);
         }
 
         .left {
           display: flex;
           align-items: center;
-          gap: 16px;
+          gap: 28px;
         }
 
         /* HAMBURGER */
@@ -81,8 +98,8 @@ export default function Header() {
           width: 26px;
           height: 3px;
           background: #ffffff;
-          border-radius: 3px;
-          transition: all 0.3s ease;
+          border-radius: 6px;
+          transition: all 0.35s ease;
         }
 
         .menuBtn.active span:nth-child(1) {
@@ -100,66 +117,118 @@ export default function Header() {
         /* LOGO */
         .logo span {
           color: #22c55e;
-          font-size: 1.4rem;
-          font-weight: 700;
+          font-size: 1.45rem;
+          font-weight: 800;
+          letter-spacing: 0.4px;
         }
 
         .logo small {
           display: block;
           font-size: 0.7rem;
           color: #9ca3af;
+          letter-spacing: 1px;
+        }
+
+        /* ACTION BUTTONS */
+        .actions {
+          display: flex;
+          gap: 14px;
+        }
+
+        .loginBtn {
+          color: #e5e7eb;
+          text-decoration: none;
+          padding: 8px 16px;
+          border-radius: 10px;
+          font-size: 0.9rem;
+          transition: background 0.25s ease;
+        }
+
+        .loginBtn:hover {
+          background: rgba(255,255,255,0.12);
+        }
+
+        .signupBtn {
+          background: linear-gradient(135deg, #22c55e, #16a34a);
+          color: #000;
+          text-decoration: none;
+          padding: 8px 18px;
+          border-radius: 10px;
+          font-weight: 700;
+          font-size: 0.9rem;
+          box-shadow: 0 6px 18px rgba(34,197,94,0.45);
+          transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .signupBtn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 10px 28px rgba(34,197,94,0.6);
         }
 
         /* BACKDROP */
         .backdrop {
           position: fixed;
           inset: 0;
-          background: rgba(0, 0, 0, 0.55);
+          background: rgba(0,0,0,0.65);
           z-index: 900;
         }
 
-        /* NAV MENU */
-        .nav {
+        /* SLIDE NAV */
+        .slideNav {
           position: fixed;
-          top: 88px;
-          left: 20px;
-          width: 260px;
-          background: rgba(12, 12, 12, 0.98);
-          backdrop-filter: blur(14px);
+          top: 0;
+          left: 0;
+          height: 100vh;
+          width: 280px;
+          background: rgba(12,12,12,0.98);
+          backdrop-filter: blur(18px);
+          box-shadow: 20px 0 60px rgba(0,0,0,0.9);
+          transform: translateX(-100%);
+          transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+          z-index: 1001;
+          padding-top: 100px;
+        }
+
+        .slideNav.open {
+          transform: translateX(0);
+        }
+
+        .closeBtn {
+          position: absolute;
+          top: 18px;
+          right: 20px;
+          font-size: 1.6rem;
+          background: none;
+          border: none;
+          color: #e5e7eb;
+          cursor: pointer;
+        }
+
+        .slideNav nav {
           display: flex;
           flex-direction: column;
-          gap: 18px;
-          padding: 24px;
-          border-radius: 14px;
-          box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75);
-          opacity: 0;
-          transform: translateY(-15px);
-          pointer-events: none;
-          transition: all 0.3s ease;
-          z-index: 1001;
+          gap: 22px;
+          padding: 0 26px;
         }
 
-        .nav.open {
-          opacity: 1;
-          transform: translateY(0);
-          pointer-events: auto;
-        }
-
-        .nav a {
+        .slideNav a {
           color: #e5e7eb;
+          font-size: 1.05rem;
+          font-weight: 600;
           text-decoration: none;
-          font-size: 1rem;
-          font-weight: 500;
           transition: color 0.25s ease;
         }
 
-        .nav a:hover {
+        .slideNav a:hover,
+        .slideNav a.active {
           color: #22c55e;
         }
 
-        .nav a.active {
-          color: #22c55e;
-          font-weight: 600;
+        /* MOBILE */
+        @media (max-width: 480px) {
+          .actions {
+            display: none;
+          }
         }
       `}</style>
     </>
