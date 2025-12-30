@@ -30,15 +30,15 @@ export default function RiceDiseaseCards() {
       <style jsx>{`
         .section {
           padding: 80px 20px;
-          background: #0b0b0b;
-          color: #fff;
+          background: #ffffff; /* White background */
+          color: #000; /* Default text color for readability */
         }
 
         .sectionTitle {
           text-align: center;
           font-size: 2.2rem;
           margin-bottom: 50px;
-          color: #22c55e;
+          color: #22c55e; /* Green title */
         }
 
         .grid {
@@ -50,10 +50,10 @@ export default function RiceDiseaseCards() {
         }
 
         .card {
-          background: rgba(255, 255, 255, 0.04);
+          background: #e4e1e1ff; 
           border-radius: 16px;
           overflow: hidden;
-          box-shadow: 0 10px 35px rgba(0, 0, 0, 0.6);
+          box-shadow: 0 10px 35px rgba(0, 0, 0, 0.1);
           transition: transform 0.3s ease;
         }
 
@@ -78,12 +78,13 @@ export default function RiceDiseaseCards() {
         h3 {
           margin-bottom: 10px;
           font-size: 1.25rem;
+          color: #000; /* Black heading */
         }
 
         p {
           font-size: 0.9rem;
           line-height: 1.5;
-          color: #cbd5f5;
+          color: #333; /* Dark gray text for readability */
         }
 
         .learnMore {

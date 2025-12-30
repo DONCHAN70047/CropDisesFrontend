@@ -34,7 +34,7 @@ export const riceDiseases = [
   {
     id: 5,
     name: "Rice Tungro Disease",
-    image: "/diseases/tungro.jpg",
+    image: "/SheathBlight.jpg",
     description:
       "Viral disease transmitted by leafhoppers causing stunted growth and yellow leaves.",
     page: "/diseases/tungro",
@@ -42,7 +42,7 @@ export const riceDiseases = [
   {
     id: 6,
     name: "Leaf Scald",
-    image: "/diseases/leafscald.jpg",
+    image: "/SheathBlight.jpg",
     description:
       "Leaf tips turn white and spread downward, usually under high rainfall conditions.",
     page: "/diseases/leaf-scald",
@@ -50,7 +50,7 @@ export const riceDiseases = [
   {
     id: 7,
     name: "Bakanae Disease",
-    image: "/diseases/bakanae.jpg",
+    image: "/SheathBlight.jpg",
     description:
       "Seed-borne fungal disease causing abnormal elongation and plant death.",
     page: "/diseases/bakanae",
@@ -58,7 +58,7 @@ export const riceDiseases = [
   {
     id: 8,
     name: "Narrow Brown Leaf Spot",
-    image: "/diseases/narrowbrown.jpg",
+    image: "/SheathBlight.jpg",
     description:
       "Narrow brown streaks on leaves caused by fungal pathogens, common in wet fields.",
     page: "/diseases/narrow-brown-spot",
