@@ -12,14 +12,14 @@ export default function FindOutDisease() {
   const uploadRef = useRef(null);
   const cameraRef = useRef(null);
 
-  /* IMAGE QUALITY CHECK */
+
   const validateImageQuality = (file) => {
     return new Promise((resolve, reject) => {
       const img = new Image();
       img.src = URL.createObjectURL(file);
 
       img.onload = () => {
-        if (img.width < 800 || img.height < 800) {
+        if (img.width < 100 || img.height < 100) {
           reject("❌ Image resolution too low. Use a clearer image.");
         } else {
           resolve();
@@ -28,7 +28,7 @@ export default function FindOutDisease() {
     });
   };
 
-  /* HANDLE IMAGE */
+
   const processFile = async (file) => {
     if (!file) return;
 
@@ -55,14 +55,14 @@ export default function FindOutDisease() {
     }
   };
 
-  /* DRAG & DROP */
+
   const handleDrop = (e) => {
     e.preventDefault();
     setDragActive(false);
     processFile(e.dataTransfer.files[0]);
   };
 
-  /* ML API */
+
   const predictDisease = async () => {
     if (!image) return;
 
@@ -73,10 +73,14 @@ export default function FindOutDisease() {
       const formData = new FormData();
       formData.append("image", image);
 
-      const res = await fetch("http://127.0.0.1:8000/api/detect/", {
-        method: "POST",
-        body: formData,
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_DISEASE_DETECT_BACKEND_URL}/api/detect/`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
 
       if (!res.ok) throw new Error();
 
