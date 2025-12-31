@@ -37,7 +37,7 @@ export default function FindOutDisease() {
       return;
     }
 
-    if (file.size > 200 * 1024) {
+    if (file.size < 1 * 1024) {
       alert("❌ Image quality too low (min 400KB)");
       return;
     }
