@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌾 Rice Leaf Disease Detection – Frontend
 
-## Getting Started
+A modern and responsive **Frontend Web Application** built using **Next.js and React** for detecting **rice leaf diseases**.  
+The application allows users to upload rice leaf images and view disease predictions along with **recommended medicines**, powered by a Django backend.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Live Website
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+🌐 **Frontend URL:**  
+👉 https://kbtechagre.vercel.app
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+🔗 **Backend API:**  
+👉 https://cropdisesbackend-1.onrender.com
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🧠 Frontend Overview
 
-To learn more about Next.js, take a look at the following resources:
+This frontend provides a **user-friendly interface** for farmers, students, and researchers to:
+- Upload rice leaf images
+- Send images to the backend API
+- View detected disease name
+- See prediction confidence
+- Get medicine recommendations instantly
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Designed with simplicity and accessibility in mind.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel   >> https://kbtechagre.vercel.app
+## 🖼️ Key Features
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- 📤 Image upload support (Rice leaf images)
+- ⚡ Fast API communication with Django backend
+- 📊 Disease prediction with confidence score
+- 💊 Medicine recommendations for each disease
+- 📱 Fully responsive design (Mobile & Desktop)
+- 🎨 Clean and simple UI using React components
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 🦠 Diseases Displayed on Frontend
+
+The frontend displays results for the following rice leaf conditions:
+
+- **Brown Spot**
+- **Narrow Brown Leaf Spot**
+- **Leaf Blast**
+- **Healthy Leaf**
+
+Each result includes:
+- Disease name
+- Confidence percentage
+- Suggested medicines (if disease detected)
+
+---
+
+## 🏗️ Tech Stack
+
+- **Next.js**
+- **React**
+- **JavaScript (ES6+)**
+- **CSS / Tailwind / Custom Styling**
+- **Fetch API**
+
+---
+
+## 🔄 Application Flow
+
+1. User uploads a rice leaf image
+2. Image is sent to backend API using POST request
+3. Backend returns prediction data
+4. Frontend displays:
+   - Disease name
+   - Confidence score
+   - Medicine suggestions
+
+---
+
+## ⚙️ Environment Configuration
+
+Create a `.env.local` file in the root directory:
+
+```env
+NEXT_PUBLIC_BACKEND_URL=https://cropdisesbackend-1.onrender.com
