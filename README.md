@@ -11,7 +11,7 @@ The application allows users to upload rice leaf images and view disease predict
 👉 https://kbtechagre.vercel.app
 
 🔗 **Backend API:**  
-👉 https://cropdisesbackend-1.onrender.com
+👉 https://cropdisesbackend-2.onrender.com
 
 ---
 
